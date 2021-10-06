@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
-import 'package:fuel_sale_app/screens/login.dart';
+import 'package:fuel_sale_app/screens/homepage.dart';
+import 'package:fuel_sale_app/screens/reset_password_otp.dart';
+import 'package:fuel_sale_app/screens/sign_up.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/custom_formfield.dart';
 
-class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,29 +28,6 @@ class SignUpScreen extends StatelessWidget {
                       fit: BoxFit.cover,
                     )
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 35.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 60,),
-                      Container(
-                        height: MediaQuery.of(context).size.width / 10,
-                        width: MediaQuery.of(context).size.width / 10,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/logo.png')
-                          )
-                        ),
-                      ),
-                      SizedBox(height: 70,),
-                      Text('Welcome', style: TextStyle(fontWeight: FontWeight.w700,fontSize: 24, fontFamily: 'Lato', color: AppTheme.white),),
-                      SizedBox(height: 18,),
-                      Text('Complete your registration', style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16, fontFamily: 'Lato', color: AppTheme.white),),
-                    ],
-                  ),
-                ),
               ),
               Align(
                 alignment: Alignment.bottomCenter,
@@ -67,56 +46,44 @@ class SignUpScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         CustomFormField(
-                            validator: (value){},
-                          labelText: 'Full name',
-                          focusedBorderColor: AppTheme.white,
-                          enabledBorderColor: AppTheme.white,
-                        ),
-                        SizedBox(height: 16,),
-                        CustomFormField(
                           validator: (value){},
                           labelText: 'Email',
                           focusedBorderColor: AppTheme.white,
                           enabledBorderColor: AppTheme.white,
                         ),
-                        SizedBox(height: 16,),
-                        CustomFormField(
-                          validator: (value){},
-                          labelText: '+234',
-                          focusedBorderColor: AppTheme.white,
-                          enabledBorderColor: AppTheme.white,
-                        ),
-                        SizedBox(height: 16,),
+                        SizedBox(height: 22,),
                         CustomPasswordFormField(
                           validator: (value){},
                           labelText: 'Password',
                           focusedBorderColor: AppTheme.white,
                           enabledBorderColor: AppTheme.white,
                         ),
-                        SizedBox(height: 28,),
+                        SizedBox(height: 30,),
                         CustomButton(
                           buttonRadius: 14,
                           onPressed: (){
-                            changeScreen(context, LoginScreen());
+                            changeScreen(context, HomePage());
                           },
-                          buttonText: 'Sign Up',
+                          buttonText: 'Log In',
                           buttonHeight: 54,
                           decorationColor: AppTheme.blue,
                           borderColor: AppTheme.blue,
                         ),
-                        SizedBox(height: 7),
+                        SizedBox(height: 22),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('Already have an account?',
+                            Text('Forget password? ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 17,
                                     fontFamily: 'Lato',
-                                    color: AppTheme.blue)),
+                                    color: AppTheme.grey)),
                             InkWell(
-                              onTap: () {},
-                              child: Text(' Login in',
+                              onTap: () {
+                                changeScreen(context, ResetPasswordOtp());
+                              },
+                              child: Text('Click here',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 17,
@@ -126,6 +93,31 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+                        Spacer(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Not registered yet? ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 17,
+                                    fontFamily: 'Lato',
+                                    color: AppTheme.grey)),
+                            InkWell(
+                              onTap: () {
+                                changeScreen(context, SignUpScreen());
+                              },
+                              child: Text('Create Account',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 17,
+                                    fontFamily: 'Lato',
+                                    color: AppTheme.blue,
+                                  )),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height:  81,),
                       ],
                     ),
                   ),
@@ -133,7 +125,7 @@ class SignUpScreen extends StatelessWidget {
               )
             ],
           ),
-        ),
+        )
     );
   }
 }

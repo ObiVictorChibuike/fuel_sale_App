@@ -44,7 +44,7 @@ class CustomFormField extends StatelessWidget {
             contentPadding: EdgeInsets.all(15),
             labelText: labelText,
             labelStyle:
-            TextStyle(color: textColor ?? AppTheme.black, fontSize: 12, fontFamily: 'Lato', fontWeight: FontWeight.w400)),
+            TextStyle(color: textColor ?? AppTheme.grey, fontSize: 12, fontFamily: 'Lato', fontWeight: FontWeight.w400)),
         cursorColor: cursorColor ?? AppTheme.black,
         validator: validator,
       ),
@@ -109,7 +109,7 @@ class _CustomPasswordFormFieldState extends State<CustomPasswordFormField> {
             contentPadding: EdgeInsets.all(15),
             labelText: widget.labelText,
             labelStyle:
-            TextStyle(color: widget.textColor ?? AppTheme.black, fontSize: 12, fontFamily: 'Lato', fontWeight: FontWeight.w400)),
+            TextStyle(color: widget.textColor ?? AppTheme.grey, fontSize: 12, fontFamily: 'Lato', fontWeight: FontWeight.w400)),
         cursorColor: widget.cursorColor ?? AppTheme.black,
         validator: widget.validator,
       ),
