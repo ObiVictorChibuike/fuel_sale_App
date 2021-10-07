@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   flutter_svg: ^0.22.0
   pin_code_fields: ^7.3.0
+  unicons: ^2.0.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -68,9 +69,9 @@ flutter:
     - family: PermanentMarker
       fonts:
         - asset: fonts/PermanentMarker-Regular.ttf
-    - family: Mulish
+    - family: Nunito
       fonts:
-        - asset: fonts/Mulish-Regular.ttf
+        - asset: fonts/Nunito-Regular.ttf
     - family: Lato
       fonts:
         - asset: fonts/Lato-Regular.ttf

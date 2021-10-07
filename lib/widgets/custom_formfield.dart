@@ -15,16 +15,20 @@ class CustomFormField extends StatelessWidget {
   final double? cursorHeight;
   final TextEditingController? controller;
   final TextInputAction? textInputAction;
-  const CustomFormField({Key? key, this.labelText, this.textColor, this.focusedBorderColor, this.enabledBorderColor, @required this.validator, this.cursorColor, this.prefixIcon, this.suffixIcon, this.keyboardType, this.textInputAction, this.cursorHeight, this.controller}) : super(key: key);
+  final double? height;
+  final Color? backgroundColor;
+  final double? width;
+  const CustomFormField({Key? key, this.labelText, this.textColor, this.focusedBorderColor, this.enabledBorderColor, @required this.validator, this.cursorColor, this.prefixIcon, this.suffixIcon, this.keyboardType, this.textInputAction, this.cursorHeight, this.controller, this.height, this.backgroundColor, this.width}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: AppTheme.white,
+        color: backgroundColor ?? AppTheme.white,
       ),
-      height: 66,
+      width: width ?? double.maxFinite,
+      height: height ?? 66,
       child: TextFormField(
         controller: controller,
         textCapitalization: TextCapitalization.words,
@@ -65,7 +69,10 @@ class CustomPasswordFormField extends StatefulWidget {
   final double? cursorHeight;
   final TextEditingController? controller;
   final TextInputAction? textInputAction;
-  const CustomPasswordFormField({Key? key, this.labelText, this.textColor, this.focusedBorderColor, this.enabledBorderColor, @required this.validator, this.cursorColor, this.prefixIcon, this.keyboardType, this.textInputAction, this.cursorHeight, this.controller}) : super(key: key);
+  final double? width;
+  final double? height;
+  final Color? backgroundColor;
+  const CustomPasswordFormField({Key? key, this.labelText, this.textColor, this.focusedBorderColor, this.enabledBorderColor, @required this.validator, this.cursorColor, this.prefixIcon, this.keyboardType, this.textInputAction, this.cursorHeight, this.controller, this.width, this.height, this.backgroundColor}) : super(key: key);
 
   @override
   _CustomPasswordFormFieldState createState() => _CustomPasswordFormFieldState();
@@ -78,9 +85,10 @@ class _CustomPasswordFormFieldState extends State<CustomPasswordFormField> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: AppTheme.white,
+        color: widget.backgroundColor ?? AppTheme.white,
       ),
-      height: 66,
+      height: widget.height ?? 66,
+      width: widget.width ?? double.maxFinite,
       child: TextFormField(
         controller: widget.controller,
         textCapitalization: TextCapitalization.words,
@@ -105,6 +113,66 @@ class _CustomPasswordFormFieldState extends State<CustomPasswordFormField> {
               icon: Icon(
                 isObscured ? Icons.visibility_off : Icons.visibility, size: 20, color: AppTheme.grey,),
             ),
+            isDense: true,
+            contentPadding: EdgeInsets.all(15),
+            labelText: widget.labelText,
+            labelStyle:
+            TextStyle(color: widget.textColor ?? AppTheme.grey, fontSize: 12, fontFamily: 'Lato', fontWeight: FontWeight.w400)),
+        cursorColor: widget.cursorColor ?? AppTheme.black,
+        validator: widget.validator,
+      ),
+    );
+  }
+}
+
+//Password FormField
+class CustomCV2PasswordFormField extends StatefulWidget {
+  final String? labelText;
+  final Color? textColor;
+  final Color? focusedBorderColor;
+  final Color? enabledBorderColor;
+  final Color? cursorColor;
+  final String? Function(String?)? validator;
+  final Widget? prefixIcon;
+  final TextInputType? keyboardType;
+  final double? cursorHeight;
+  final TextEditingController? controller;
+  final TextInputAction? textInputAction;
+  final double? width;
+  final double? height;
+  final Color? backgroundColor;
+  const CustomCV2PasswordFormField({Key? key, this.labelText, this.textColor, this.focusedBorderColor, this.enabledBorderColor, @required this.validator, this.cursorColor, this.prefixIcon, this.keyboardType, this.textInputAction, this.cursorHeight, this.controller, this.width, this.height, this.backgroundColor}) : super(key: key);
+
+  @override
+  _CustomCV2PasswordFormFieldState createState() => _CustomCV2PasswordFormFieldState();
+}
+
+class _CustomCV2PasswordFormFieldState extends State<CustomCV2PasswordFormField> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: widget.backgroundColor ?? AppTheme.white,
+      ),
+      height: widget.height ?? 66,
+      width: widget.width ?? double.maxFinite,
+      child: TextFormField(
+        controller: widget.controller,
+        textCapitalization: TextCapitalization.words,
+        obscureText: true,
+        cursorHeight: widget.cursorHeight ?? 22.0,
+        textInputAction: TextInputAction.next,
+        keyboardType: widget.keyboardType,
+        decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: widget.enabledBorderColor ?? AppTheme.black, width: 0.7)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: widget.focusedBorderColor ?? AppTheme.black, width: 0.7)),
+            prefixIcon: widget.prefixIcon,
+            suffixIcon: Icon(Icons.error, color: AppTheme.dark_blue,),
             isDense: true,
             contentPadding: EdgeInsets.all(15),
             labelText: widget.labelText,

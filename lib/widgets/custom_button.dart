@@ -7,13 +7,16 @@ class CustomButton extends StatelessWidget {
   final String ? buttonText;
   final double? buttonRadius;
   final double? buttonHeight;
-  const CustomButton({Key? key, this.decorationColor, this.borderColor, this.textColor, @required this.onPressed, this.buttonText, this.buttonRadius, this.buttonHeight}) : super(key: key);
+  final double? labelFontSize;
+  final Color? buttonTextColor;
+  final double? buttonWidth;
+  const CustomButton({Key? key, this.decorationColor, this.borderColor, this.textColor, @required this.onPressed, this.buttonText, this.buttonRadius, this.buttonHeight, this.labelFontSize, this.buttonTextColor, this.buttonWidth}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: buttonHeight ?? 45,
-      width: double.maxFinite,
+      width: buttonWidth ?? double.maxFinite,
       decoration: BoxDecoration(
           color: decorationColor ?? AppTheme.white,
           borderRadius: BorderRadius.all(Radius.circular(buttonRadius ?? 24.0)),
@@ -24,15 +27,11 @@ class CustomButton extends StatelessWidget {
           splashColor: Colors.white24,
           borderRadius:  BorderRadius.all(Radius.circular( buttonRadius?? 24.0)),
           onTap: onPressed,
-          child: Padding(
-            padding: const EdgeInsets.only(
-                top: 12, bottom: 12, left: 18, right: 18),
-            child: Center(
-              child: Text(
-                  buttonText?? '',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w600, color: AppTheme.white),
-              ),
+          child: Center(
+            child: Text(
+                buttonText?? '',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontFamily: 'Lato', fontSize: labelFontSize ?? 16, fontWeight: FontWeight.w600, color: buttonTextColor ?? AppTheme.white),
             ),
           ),
         ),
