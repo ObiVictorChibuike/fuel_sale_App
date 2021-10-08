@@ -125,7 +125,7 @@ class _CustomPasswordFormFieldState extends State<CustomPasswordFormField> {
   }
 }
 
-//Password FormField
+//Bank CV2 Password FormField
 class CustomCV2PasswordFormField extends StatefulWidget {
   final String? labelText;
   final Color? textColor;
@@ -172,7 +172,10 @@ class _CustomCV2PasswordFormFieldState extends State<CustomCV2PasswordFormField>
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 borderSide: BorderSide(color: widget.focusedBorderColor ?? AppTheme.black, width: 0.7)),
             prefixIcon: widget.prefixIcon,
-            suffixIcon: Icon(Icons.error, color: AppTheme.dark_blue,),
+            suffixIcon: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(decoration: BoxDecoration( color: AppTheme.dark_blue.withOpacity(0.1), borderRadius: BorderRadius.circular(6)),child: Icon(Icons.error, color: AppTheme.dark_blue,)),
+            ),
             isDense: true,
             contentPadding: EdgeInsets.all(15),
             labelText: widget.labelText,
@@ -180,6 +183,64 @@ class _CustomCV2PasswordFormFieldState extends State<CustomCV2PasswordFormField>
             TextStyle(color: widget.textColor ?? AppTheme.grey, fontSize: 12, fontFamily: 'Lato', fontWeight: FontWeight.w400)),
         cursorColor: widget.cursorColor ?? AppTheme.black,
         validator: widget.validator,
+      ),
+    );
+  }
+}
+
+//Custom ReadOnly FormField
+class CustomReadOnlyFormField extends StatelessWidget {
+  final String? labelText;
+  final Color? textColor;
+  final Color? focusedBorderColor;
+  final Color? enabledBorderColor;
+  final Color? cursorColor;
+  final String? Function(String?)? validator;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final TextInputType? keyboardType;
+  final double? cursorHeight;
+  final TextEditingController? controller;
+  final TextInputAction? textInputAction;
+  final double? height;
+  final Color? backgroundColor;
+  final double? width;
+  final String? initialValue;
+  const CustomReadOnlyFormField({Key? key, this.labelText, this.textColor, this.focusedBorderColor, this.enabledBorderColor, @required this.validator, this.cursorColor, this.prefixIcon, this.suffixIcon, this.keyboardType, this.textInputAction, this.cursorHeight, this.controller, this.height, this.backgroundColor, this.width, this.initialValue}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: backgroundColor ?? AppTheme.white,
+      ),
+      width: width ?? double.maxFinite,
+      height: height ?? 66,
+      child: TextFormField(
+        initialValue: initialValue,
+        readOnly: true,
+        controller: controller,
+        textCapitalization: TextCapitalization.words,
+        cursorHeight: cursorHeight ?? 22.0,
+        textInputAction: TextInputAction.next,
+        keyboardType: keyboardType,
+        decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: enabledBorderColor ?? AppTheme.black, width: 0.7)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: focusedBorderColor ?? AppTheme.black, width: 0.7)),
+            prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon,
+            isDense: true,
+            contentPadding: EdgeInsets.all(15),
+            labelText: labelText,
+            labelStyle:
+            TextStyle(color: textColor ?? AppTheme.grey, fontSize: 12, fontFamily: 'Lato', fontWeight: FontWeight.w400)),
+        cursorColor: cursorColor ?? AppTheme.black,
+        validator: validator,
       ),
     );
   }

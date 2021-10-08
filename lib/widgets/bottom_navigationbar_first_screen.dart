@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
+import 'package:fuel_sale_app/model/dummy_card_details.dart';
+import 'package:fuel_sale_app/screens/card_details.dart';
+import 'package:fuel_sale_app/screens/deposit.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/record_list_view.dart';
 class BottomNavigationBarFirstScreen extends StatefulWidget {
@@ -10,6 +15,25 @@ class BottomNavigationBarFirstScreen extends StatefulWidget {
 }
 
 class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirstScreen> {
+
+  static List<CardDetail> cardData = [
+    CardDetail(
+      title: 'Total Card Balance',
+      content: 'N5,400,000.50',
+    ),
+    CardDetail(
+      title: 'Loyalty Point Balance',
+      content: '300p',
+    ),
+    CardDetail(
+      title: 'Total Expenses',
+      content: 'N5,400,000.50',
+    ),
+    CardDetail(
+      title: 'Loyalty Point Balance',
+      content: 'N8,990,223.50',
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -72,35 +96,35 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
                       ],
                     ),
                   ),
-                  Container(
-                    height: 56,
-                    width: double.maxFinite,
-                    color: AppTheme.grey.withOpacity(0.1),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 10,),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text('N5,400,000.05', style: TextStyle(fontSize: 14, fontFamily: 'Lato', fontWeight: FontWeight.w400, color: AppTheme.grey.withOpacity(0.5)),),
-                            Text('300p', style: TextStyle(fontSize: 14, fontFamily: 'Lato', fontWeight: FontWeight.w400, color: AppTheme.grey.withOpacity(0.5)),),
-                            Text('300,000', style: TextStyle(fontSize: 14, fontFamily: 'Lato', fontWeight: FontWeight.w400, color: AppTheme.grey.withOpacity(0.5)),),
-                          ],
-                        ),
-                        SizedBox(height: 3,),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text('Card Balance', style: TextStyle(fontSize: 12.16, fontFamily: 'Lato', fontWeight: FontWeight.w400, color: AppTheme.dark_blue),),
-                            Text('Point Balance', style: TextStyle(fontSize: 12.16, fontFamily: 'Lato', fontWeight: FontWeight.w400, color: AppTheme.dark_blue),),
-                            Text('Expenses', style: TextStyle(fontSize: 12.16, fontFamily: 'Lato', fontWeight: FontWeight.w400, color: AppTheme.dark_blue),),
-                          ],
-                        ),
-                        SizedBox(height: 10,),
-                      ],
+                  GestureDetector(
+                    onTap: (){
+                      changeScreen(context, CardDetails());
+                    },
+                    child: Container(
+                      height: 56,
+                      width: double.maxFinite,
+                      color: AppTheme.grey.withOpacity(0.1),
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: cardData.length,
+                          itemBuilder: (BuildContext context, int index)=>
+                              Column(
+                                children: [
+                                  SizedBox(height: 10,),
+                                  Row(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [Padding(padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: Text(cardData[index].content!, style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 14, color: AppTheme.grey.withOpacity(0.5)), ),),
+                                    ],
+                                  ),
+                                  SizedBox(height: 3,),
+                                  Row(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [Padding(padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: Text(cardData[index].title!, style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 12.16, color: AppTheme.dark_blue), ),),
+                                    ],
+                                  ),
+                                ],
+                              )
+                      ),
                     ),
                   ),
                   Container(
@@ -109,66 +133,22 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
                     child: Center(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 90.0),
-                        child: CustomButton(
-                          decorationColor: AppTheme.dark_blue,
-                          onPressed: (){},
-                          buttonHeight: 31,
-                          buttonText: 'Deposit',
-                          labelFontSize: 10,
-                        ),
-                      ),
-                    ),
-                  ),
+                        child: CustomButton(decorationColor: AppTheme.dark_blue, onPressed: (){changeScreen(context, Deposit());}, buttonHeight: 31, buttonText: 'Deposit', labelFontSize: 10,),),),),
                 ],
               ),
             ),
             SizedBox(height: 26,),
             Row(
               children: [
-                CustomButton(
-                  buttonWidth: MediaQuery.of(context).size.width / 4,
-                  decorationColor: AppTheme.white,
-                  buttonHeight: 32,
-                  onPressed: (){},
-                  buttonText: 'This Week',
-                  buttonTextColor: AppTheme.dark_blue,
-                  labelFontSize: 13,
-                ),
+                CustomButton(buttonWidth: MediaQuery.of(context).size.width / 4, decorationColor: AppTheme.white, buttonHeight: 32, onPressed: (){}, buttonText: 'This Week', buttonTextColor: AppTheme.dark_blue, labelFontSize: 13,),
                 Spacer(),
-                CustomButton(
-                  labelFontSize: 13,
-                  buttonWidth: MediaQuery.of(context).size.width / 4,
-                  decorationColor: AppTheme.white,
-                  buttonHeight: 32,
-                  buttonText: 'Export as PDF',
-                  buttonTextColor: AppTheme.dark_blue,
-                  onPressed: (){},
-                ),
+                CustomButton(labelFontSize: 13, buttonWidth: MediaQuery.of(context).size.width / 4, decorationColor: AppTheme.white, buttonHeight: 32, buttonText: 'Export as PDF', buttonTextColor: AppTheme.dark_blue, onPressed: (){},),
               ],
             ),
             SizedBox(height: 20,),
+            //ButtonFilter(),
             Container(
-              height: 654,
-              width: double.maxFinite,
-              decoration: BoxDecoration(
-                color: AppTheme.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              //   child: ListView.builder(
-              //     shrinkWrap: true,
-              //     padding: const EdgeInsets.symmetric(horizontal: 10),
-              //     itemCount: ButtonText.buttonTextLabel.length,
-              //       scrollDirection: Axis.horizontal,
-              //       itemBuilder: (BuildContext context, int index) {
-              //         return CustomButton(
-              //           decorationColor: AppTheme.dark_blue,
-              //           textColor: AppTheme.dark_blue,
-              //             buttonHeight: 32,
-              //             buttonText: ButtonText.buttonTextLabel[index].buttonText!,
-              //             onPressed: (){}
-              //         );
-              //       }
-              //   ),
+              height: 654, width: double.maxFinite, decoration: BoxDecoration(color: AppTheme.white, borderRadius: BorderRadius.circular(10),),
               child: RecordListView(),
             ),
           ],

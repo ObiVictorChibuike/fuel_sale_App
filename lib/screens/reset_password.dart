@@ -52,14 +52,14 @@ class ResetPassword extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 40.0,right: 37, top: 40),
                     child: Column(
                       children: [
-                        CustomFormField(
+                        CustomReadOnlyFormField(
                           validator: (value){},
                           labelText: 'New Password',
                           focusedBorderColor: AppTheme.white,
                           enabledBorderColor: AppTheme.white,
                         ),
                         SizedBox(height: 22,),
-                        CustomFormField(
+                        CustomReadOnlyFormField(
                           validator: (value){},
                           labelText: 'Repeat Password',
                           focusedBorderColor: AppTheme.white,
