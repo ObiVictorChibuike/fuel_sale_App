@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/widgets/bottom_naviagtionbar_second_screen.dart';
 import 'package:fuel_sale_app/widgets/bottom_navigationbar_first_screen.dart';
+import 'package:fuel_sale_app/widgets/bottom_navigationbar_third_screen.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/record_list_view.dart';
 
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
       return BottomNavigationBarSecondScreen();
     }
     if (_currentIndex == 2) {
-      return BottomNavigationBarFirstScreen();
+      return BottomNavigationBarThirdScreen();
     }
     if (_currentIndex == 3) {
       return BottomNavigationBarFirstScreen();

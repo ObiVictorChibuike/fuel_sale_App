@@ -4,15 +4,7 @@ import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/widgets/custom_formfield.dart';
 
 class CardDetails extends StatefulWidget {
-  final String? cardDetail1;
-  final String? cardContent1;
-  final String? cardDetail2;
-  final String? cardContent2;
-  final String? cardDetail3;
-  final String? cardContent3;
-  final String? cardDetail4;
-  final String? cardContent4;
-  const CardDetails({Key? key, this.cardDetail1, this.cardContent1, this.cardDetail2, this.cardContent2, this.cardDetail3, this.cardContent3, this.cardDetail4, this.cardContent4}) : super(key: key);
+  const CardDetails({Key? key}) : super(key: key);
 
   @override
   _CardDetailsState createState() => _CardDetailsState();
