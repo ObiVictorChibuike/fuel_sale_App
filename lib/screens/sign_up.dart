@@ -66,21 +66,21 @@ class SignUpScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 40.0,right: 37, top: 40),
                     child: Column(
                       children: [
-                        CustomReadOnlyFormField(
+                        CustomFormField(
                             validator: (value){},
                           labelText: 'Full name',
                           focusedBorderColor: AppTheme.white,
                           enabledBorderColor: AppTheme.white,
                         ),
                         SizedBox(height: 16,),
-                        CustomReadOnlyFormField(
+                        CustomFormField(
                           validator: (value){},
                           labelText: 'Email',
                           focusedBorderColor: AppTheme.white,
                           enabledBorderColor: AppTheme.white,
                         ),
                         SizedBox(height: 16,),
-                        CustomReadOnlyFormField(
+                        CustomFormField(
                           validator: (value){},
                           labelText: '+234',
                           focusedBorderColor: AppTheme.white,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/model/previous_order_dummy_model.dart';
+import 'package:fuel_sale_app/screens/place_your_order.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/custom_formfield.dart';
 class PreviousOrder extends StatefulWidget {
@@ -193,7 +195,7 @@ class _PreviousOrderState extends State<PreviousOrder> {
     ),
   ];
 
-  Widget confirmationDialog( String? title, String? product, String? quantity, String? address){
+  Widget confirmationDialog(BuildContext context, String? title, String? product, String? quantity, String? address){
     return Dialog(
       elevation: 10,
       child: Container(
@@ -248,7 +250,7 @@ class _PreviousOrderState extends State<PreviousOrder> {
     );
   }
 
-  Widget previousOrderListView(){
+  Widget previousOrderListView() {
     return Container(
         height: MediaQuery.of(context).size.height,
         child: ListView.builder(
@@ -257,7 +259,8 @@ class _PreviousOrderState extends State<PreviousOrder> {
           itemBuilder: (BuildContext context, int index) =>
               InkWell(
                 onTap: (){
-                  confirmationDialog(previousOrderData[index].title!, previousOrderData[index].product!, previousOrderData[index].quantity!, previousOrderData[index].address!);
+                  changeScreen(context, PlaceYourOrder(address: previousOrderData[index].address!, title: previousOrderData[index].title!, product: previousOrderData[index].product!,quantity: previousOrderData[index].quantity!,));
+                  //confirmationDialog(previousOrderData[index].title!, previousOrderData[index].product!, previousOrderData[index].quantity!, previousOrderData[index].address!);
                 },
                 child: Container(
                   child: Column(

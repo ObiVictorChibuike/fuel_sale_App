@@ -24,6 +24,14 @@ class CustomFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.grey.withOpacity(0.2),
+            spreadRadius: .5,
+            blurRadius: 1,
+            offset: Offset(2, 2),
+          ),
+        ],
         borderRadius: BorderRadius.circular(12),
         color: backgroundColor ?? AppTheme.white,
       ),
@@ -84,6 +92,14 @@ class _CustomPasswordFormFieldState extends State<CustomPasswordFormField> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.grey.withOpacity(0.2),
+            spreadRadius: .5,
+            blurRadius: 1,
+            offset: Offset(2, 2),
+          ),
+        ],
         borderRadius: BorderRadius.circular(12),
         color: widget.backgroundColor ?? AppTheme.white,
       ),
@@ -152,6 +168,14 @@ class _CustomCV2PasswordFormFieldState extends State<CustomCV2PasswordFormField>
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.grey.withOpacity(0.2),
+            spreadRadius: .5,
+            blurRadius: 1,
+            offset: Offset(2, 2),
+          ),
+        ],
         borderRadius: BorderRadius.circular(12),
         color: widget.backgroundColor ?? AppTheme.white,
       ),
@@ -212,6 +236,14 @@ class CustomReadOnlyFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.grey.withOpacity(0.2),
+            spreadRadius: .5,
+            blurRadius: 1,
+            offset: Offset(2, 2),
+          ),
+        ],
         borderRadius: BorderRadius.circular(12),
         color: backgroundColor ?? AppTheme.white,
       ),
@@ -238,7 +270,7 @@ class CustomReadOnlyFormField extends StatelessWidget {
             contentPadding: EdgeInsets.all(15),
             labelText: labelText,
             labelStyle:
-            TextStyle(color: textColor ?? AppTheme.grey, fontSize: 12, fontFamily: 'Lato', fontWeight: FontWeight.w400)),
+            TextStyle(color: textColor ?? AppTheme.grey.withOpacity(0.2), fontSize: 12, fontFamily: 'Lato', fontWeight: FontWeight.w400)),
         cursorColor: cursorColor ?? AppTheme.black,
         validator: validator,
       ),

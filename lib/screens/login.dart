@@ -45,7 +45,7 @@ class LoginScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 40.0,right: 37, top: 40),
                     child: Column(
                       children: [
-                        CustomReadOnlyFormField(
+                        CustomFormField(
                           validator: (value){},
                           labelText: 'Email',
                           focusedBorderColor: AppTheme.white,

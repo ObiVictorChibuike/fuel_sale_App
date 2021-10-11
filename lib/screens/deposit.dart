@@ -36,8 +36,12 @@ class _DepositState extends State<Deposit> {
                 });
               },
               icon: Padding(
-                padding: const EdgeInsets.only(left: 170.0,right: 5.0),
-                child: Icon(Icons.arrow_drop_down_outlined),
+                padding: const EdgeInsets.only(left: 150.0),
+                child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width / 4
+                    ),
+                    child: Icon(Icons.arrow_drop_down_outlined)),
               ),
               items: banks.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
@@ -50,12 +54,12 @@ class _DepositState extends State<Deposit> {
           Text('Preferred Display Name', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 12, color: AppTheme.dark_blue),),
           SizedBox(height: 3,),
           CustomFormField(
-            backgroundColor: Colors.transparent,
+            backgroundColor: AppTheme.white,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.name,
             enabledBorderColor: AppTheme.grey.withOpacity(0.4),
             focusedBorderColor: AppTheme.grey.withOpacity(0.4),
-            height: 50,
+            height: 46,
             textColor: AppTheme.grey.withOpacity(0.4),
             validator: (value){},
           ),
@@ -63,12 +67,12 @@ class _DepositState extends State<Deposit> {
           Text('Card Number', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 12, color: AppTheme.dark_blue),),
           SizedBox(height: 3,),
           CustomFormField(
-            backgroundColor: Colors.transparent,
+            backgroundColor: AppTheme.white,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.name,
             enabledBorderColor: AppTheme.grey.withOpacity(0.4),
             focusedBorderColor: AppTheme.grey.withOpacity(0.4),
-            height: 50,
+            height: 48,
             labelText: '4287 8874 9511 3263',
             textColor: AppTheme.grey.withOpacity(0.4),
             validator: (value){},
@@ -93,12 +97,12 @@ class _DepositState extends State<Deposit> {
                   SizedBox(height: 3,),
                   CustomFormField(
                     width: MediaQuery.of(context).size.width/ 3,
-                    backgroundColor: Colors.transparent,
+                    backgroundColor: AppTheme.white,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.name,
                     enabledBorderColor: AppTheme.grey.withOpacity(0.4),
                     focusedBorderColor: AppTheme.grey.withOpacity(0.4),
-                    height: 50,
+                    height: 46,
                     labelText: 'MM / YY',
                     textColor: AppTheme.grey.withOpacity(0.4),
                     validator: (value){},
@@ -113,12 +117,12 @@ class _DepositState extends State<Deposit> {
                   SizedBox(height: 3,),
                   CustomCV2PasswordFormField(
                     width: MediaQuery.of(context).size.width/ 3,
-                    backgroundColor: Colors.transparent,
+                    backgroundColor: AppTheme.white,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.name,
                     enabledBorderColor: AppTheme.grey.withOpacity(0.4),
                     focusedBorderColor: AppTheme.grey.withOpacity(0.4),
-                    height: 50,
+                    height: 46,
                     labelText: '***',
                     textColor: AppTheme.grey.withOpacity(0.4),
                     validator: (value){},
