@@ -229,8 +229,9 @@ class CustomReadOnlyFormField extends StatelessWidget {
   final double? height;
   final Color? backgroundColor;
   final double? width;
+  final Color? shadowColor;
   final String? initialValue;
-  const CustomReadOnlyFormField({Key? key, this.labelText, this.textColor, this.focusedBorderColor, this.enabledBorderColor, @required this.validator, this.cursorColor, this.prefixIcon, this.suffixIcon, this.keyboardType, this.textInputAction, this.cursorHeight, this.controller, this.height, this.backgroundColor, this.width, this.initialValue}) : super(key: key);
+  const CustomReadOnlyFormField({Key? key, this.labelText, this.textColor, this.focusedBorderColor, this.enabledBorderColor, @required this.validator, this.cursorColor, this.prefixIcon, this.suffixIcon, this.keyboardType, this.textInputAction, this.cursorHeight, this.controller, this.height, this.backgroundColor, this.width, this.initialValue, this.shadowColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -238,14 +239,14 @@ class CustomReadOnlyFormField extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: AppTheme.grey.withOpacity(0.2),
+            color: shadowColor ?? AppTheme.grey.withOpacity(0.1),
             spreadRadius: .5,
             blurRadius: 1,
             offset: Offset(2, 2),
           ),
         ],
         borderRadius: BorderRadius.circular(12),
-        color: backgroundColor ?? AppTheme.white,
+        color: backgroundColor ?? AppTheme.backGround,
       ),
       width: width ?? double.maxFinite,
       height: height ?? 66,
@@ -259,10 +260,10 @@ class CustomReadOnlyFormField extends StatelessWidget {
         keyboardType: keyboardType,
         decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
                 borderSide: BorderSide(color: enabledBorderColor ?? AppTheme.black, width: 0.7)),
             focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
                 borderSide: BorderSide(color: focusedBorderColor ?? AppTheme.black, width: 0.7)),
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,

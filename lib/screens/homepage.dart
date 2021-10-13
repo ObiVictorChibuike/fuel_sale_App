@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
-import 'package:fuel_sale_app/widgets/bottom_naviagtionbar_second_screen.dart';
+import 'package:fuel_sale_app/widgets/bottom_navigationbar_fifth_screen.dart';
+import 'package:fuel_sale_app/widgets/bottom_navigationbar_second_screen.dart';
 import 'package:fuel_sale_app/widgets/bottom_navigationbar_first_screen.dart';
 import 'package:fuel_sale_app/widgets/bottom_navigationbar_fourth_screen.dart';
 import 'package:fuel_sale_app/widgets/bottom_navigationbar_third_screen.dart';
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
       return BottomNavigationBarFourthScreen();
     }
     if (_currentIndex == 4) {
-      return BottomNavigationBarFirstScreen();
+      return BottomNavigationBarFifthScreen();
     }
   }
 

@@ -75,9 +75,6 @@ flutter:
     - family: Lato
       fonts:
         - asset: fonts/Lato-Regular.ttf
-    - family: FilterIcon
-      fonts:
-        - asset: fonts/FilterIcon.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

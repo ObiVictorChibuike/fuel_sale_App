@@ -1,0 +1,199 @@
+import 'package:flutter/material.dart';
+import 'package:fuel_sale_app/constant/app_navigation.dart';
+import 'package:fuel_sale_app/constant/color_palettes.dart';
+import 'package:fuel_sale_app/screens/help.dart';
+import 'package:fuel_sale_app/screens/legal.dart';
+import 'package:fuel_sale_app/screens/settings.dart';
+class BottomNavigationBarFifthScreen extends StatefulWidget {
+  const BottomNavigationBarFifthScreen({Key? key}) : super(key: key);
+
+  @override
+  _BottomNavigationBarFifthScreenState createState() => _BottomNavigationBarFifthScreenState();
+}
+
+class _BottomNavigationBarFifthScreenState extends State<BottomNavigationBarFifthScreen> {
+
+  _showModalBottomSheet() {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return Container(
+            width: double.infinity,
+          height: MediaQuery.of(context).size.height / 2,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+            color: Colors.grey.shade200,
+          ),
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 50.0),
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: (){
+                    changeScreen(context, Legal());
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.gavel, size: 30, color: AppTheme.grey.withOpacity(0.5),
+                      ),
+                      SizedBox(width: 15,),
+                      Text('Legal', style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w600,),)
+                    ],
+                  ),
+                ),
+                SizedBox(height: 18,),
+                GestureDetector(
+                  onTap: (){
+                    changeScreen(context, Help());
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                          Icons.help_center_outlined, size: 30, color: AppTheme.grey.withOpacity(0.5),
+                      ),
+                      SizedBox(width: 15,),
+                      Text('Help', style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w600,),)
+                    ],
+                  ),
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: (){
+                    changeScreen(context, Settings());
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.settings_outlined,size: 30, color: AppTheme.grey.withOpacity(0.5),
+                      ),
+                      SizedBox(width: 15,),
+                      Text('Settings', style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w600,),)
+                    ],
+                  ),
+                ),
+                SizedBox(height: 50,),
+              ],
+            ),
+          )
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      top: false,
+        bottom: false,
+        child: Scaffold(
+          backgroundColor: AppTheme.backGround,
+          appBar: AppBar(
+            backgroundColor: AppTheme.backGround,
+            elevation: 0.0,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios, color: AppTheme.dark_blue,),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            ),
+            actions: [
+              IconButton(onPressed: (){_showModalBottomSheet();}, icon: Icon(Icons.menu, color: AppTheme.dark_blue,)),
+            ],
+          ),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 26.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 30,),
+                Container(
+                  height: 85,
+                  width: 85,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppTheme.blue, width: 5.0),
+                    shape: BoxShape.circle,
+                  ),
+                  child: CircleAvatar(
+                    radius: 40.25,
+                    backgroundImage: AssetImage('assets/userImage.png'),
+                  ),
+                ),
+                SizedBox(height: 15,),
+                Text('James Chuks', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 22, fontFamily: 'Lato', color: AppTheme.dark_blue),),
+                SizedBox(height: 3,),
+                Text('@Jchuks', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 18, fontFamily: 'Lato', color: AppTheme.dark_blue),),
+                SizedBox(height: 35,),
+                Text('JChuks20@gmail.com', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16, fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),),
+                SizedBox(height: 3,),
+                Text('070 343 054 66', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16, fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),),
+                SizedBox(height: 15,),
+                GestureDetector(
+                  onTap: (){
+
+                  },
+                  child: Container(
+                    height: 46,
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: AppTheme.blue,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text('Number of transactions', style: TextStyle(fontFamily: 'Lato', fontSize: 15.5, fontWeight: FontWeight.w400, color: AppTheme.white),),
+                          Spacer(),
+                          Text('32', style: TextStyle(fontFamily: 'Lato', fontSize: 15.5, fontWeight: FontWeight.w400, color: AppTheme.white),),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 61,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Country', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15.5,fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),),
+                          SizedBox(height: 20,),
+                          Text('Language', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15.5,fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),),
+                          SizedBox(height: 20,),
+                          Text('Company', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15.5,fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 40,),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text('Nigeria', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15.5,fontFamily: 'Lato', color: AppTheme.dark_blue),),
+                          SizedBox(height: 20,),
+                          Text('English,German', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15.5,fontFamily: 'Lato', color: AppTheme.dark_blue),),
+                          SizedBox(height: 20,),
+                          Text('Zaco oil', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15.5,fontFamily: 'Lato', color: AppTheme.dark_blue),),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+    );
+  }
+}
