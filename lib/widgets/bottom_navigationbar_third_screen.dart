@@ -6,16 +6,14 @@ import 'package:fuel_sale_app/screens/previous-order.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class BottomNavigationBarThirdScreen extends StatefulWidget {
-  final bool? isDelivery;
-  const BottomNavigationBarThirdScreen({Key? key, this.isDelivery}) : super(key: key);
+  late final bool? isDelivery;
+  BottomNavigationBarThirdScreen({Key? key, this.isDelivery}) : super(key: key);
 
   @override
   _BottomNavigationBarThirdScreenState createState() => _BottomNavigationBarThirdScreenState();
 }
 
 class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThirdScreen> {
-
-
 
   static final LatLng _kMapCenter = LatLng(19.018255973653343, 72.84793849278007);
   static final CameraPosition _kInitialPosition = CameraPosition(target: _kMapCenter, zoom: 11.0, tilt: 0, bearing: 0);
@@ -198,9 +196,11 @@ class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThir
           appBar: AppBar(
             backgroundColor: AppTheme.backGround,
             elevation: 0.0,
-            leading: widget.isDelivery == true ? Icon(Icons.menu, color: AppTheme.dark_blue,) : IconButton(onPressed: (){Navigator.of(context).pop();}, icon: Icon(Icons.arrow_back_ios, color: AppTheme.dark_blue,)),
+            leading: widget.isDelivery == true ? IconButton(onPressed: (){Navigator.of(context).pop(); setState(() {
+              widget.isDelivery = false;
+            });}, icon: Icon(Icons.arrow_back_ios, color: AppTheme.dark_blue,)): Icon(Icons.menu, color: AppTheme.dark_blue,)
           ),
-          body: isDeliveryTrueUI(),
+          body: widget.isDelivery == true ? isDeliveryTrueUI() : isDeliveryFalseUI(),
         )
     );
   }

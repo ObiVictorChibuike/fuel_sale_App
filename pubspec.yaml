@@ -26,6 +26,7 @@ dependencies:
   flutter_svg: ^0.22.0
   pin_code_fields: ^7.3.0
   google_maps_flutter: ^2.0.1
+  intl: ^0.17.0
 
 
   # The following adds the Cupertino Icons font to your application.

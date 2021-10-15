@@ -68,7 +68,7 @@ class AccountSettings extends StatelessWidget {
                         shadowColor: AppTheme.backGround,
                       focusedBorderColor: AppTheme.grey.withOpacity(0.5),
                       enabledBorderColor: AppTheme.grey.withOpacity(0.5),
-                      backgroundColor: AppTheme.backGround,
+                      backgroundColor: AppTheme.white,
                       height: 50,
                       initialValue: 'James Chukwu',
                         validator: (value){
@@ -80,7 +80,7 @@ class AccountSettings extends StatelessWidget {
                       shadowColor: AppTheme.backGround,
                         focusedBorderColor: AppTheme.grey.withOpacity(0.5),
                         enabledBorderColor: AppTheme.grey.withOpacity(0.5),
-                        backgroundColor: AppTheme.backGround,
+                        backgroundColor: AppTheme.white,
                         height: 50,
                         initialValue: 'JayVictor999@gmail.com',
                         validator: (value){
@@ -92,7 +92,7 @@ class AccountSettings extends StatelessWidget {
                         shadowColor: AppTheme.backGround,
                         focusedBorderColor: AppTheme.grey.withOpacity(0.5),
                         enabledBorderColor: AppTheme.grey.withOpacity(0.5),
-                        backgroundColor: AppTheme.backGround,
+                        backgroundColor: AppTheme.white,
                         height: 50,
                         initialValue: '07045367876',
                         validator: (value){
@@ -104,7 +104,7 @@ class AccountSettings extends StatelessWidget {
                         shadowColor: AppTheme.backGround,
                         focusedBorderColor: AppTheme.grey.withOpacity(0.5),
                         enabledBorderColor: AppTheme.grey.withOpacity(0.5),
-                        backgroundColor: AppTheme.backGround,
+                        backgroundColor: AppTheme.white,
                         height: 50,
                         initialValue: 'German,English',
                         validator: (value){

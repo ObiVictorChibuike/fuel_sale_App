@@ -1,12 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/model/dummy_card_details.dart';
+import 'package:fuel_sale_app/model/dummy_record_model.dart';
 import 'package:fuel_sale_app/screens/card_details.dart';
 import 'package:fuel_sale_app/screens/deposit.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/record_list_view.dart';
+
 class BottomNavigationBarFirstScreen extends StatefulWidget {
   const BottomNavigationBarFirstScreen({Key? key}) : super(key: key);
 
@@ -15,6 +16,68 @@ class BottomNavigationBarFirstScreen extends StatefulWidget {
 }
 
 class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirstScreen> {
+  String? text;
+  int? selectedIndex = 0;
+
+  List<String> filters = [
+    'All',
+    'Expenses',
+    'Credit',
+  ];
+
+  List<String> thisWeek = <String>[
+    'This week',
+    'This month',
+    'Last week',
+    'Last month',
+    'Half year',
+    'Year'
+  ];
+
+  _buildDialog(BuildContext context) => showDialog(context: context, builder: (BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 38.0),
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Container(
+          height: MediaQuery.of(context).size.height / 3,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: ListView.builder(itemCount: thisWeek.length,itemBuilder: (context, int index) =>
+              GestureDetector(
+                onTap: (){
+                  setState(() {
+                    text = thisWeek[index];
+                    Navigator.of(context).pop();
+                    selectedIndex = index;
+                  });
+                },
+                child: Container(
+                  height: 55,
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 15,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          selectedIndex == index ? Icon(Icons.check, color: AppTheme.dark_blue, size: 18,) : Container(),
+                          Text(thisWeek[index], style: TextStyle(fontFamily: 'Lato', fontWeight: FontWeight.w700, fontSize: 16, color: AppTheme.dark_blue),),
+                        ],
+                      ),
+                      Divider(),
+                    ],
+                  ),
+                ),
+              )
+          ),
+        ),
+      ),
+    );}
+  );
 
   static List<CardDetail> cardData = [
     CardDetail(
@@ -140,16 +203,49 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
             SizedBox(height: 26,),
             Row(
               children: [
-                CustomButton(buttonWidth: MediaQuery.of(context).size.width / 4, decorationColor: AppTheme.white, buttonHeight: 32, onPressed: (){}, buttonText: 'This Week', buttonTextColor: AppTheme.dark_blue, labelFontSize: 13,),
+                CustomButton( buttonWidth: MediaQuery.of(context).size.width / 4, decorationColor: AppTheme.white, buttonHeight: 32, onPressed: (){_buildDialog(context );}, buttonText: text, buttonTextColor: AppTheme.dark_blue, labelFontSize: 13,),
                 Spacer(),
                 CustomButton(labelFontSize: 13, buttonWidth: MediaQuery.of(context).size.width / 4, decorationColor: AppTheme.white, buttonHeight: 32, buttonText: 'Export as PDF', buttonTextColor: AppTheme.dark_blue, onPressed: (){},),
               ],
             ),
-            SizedBox(height: 20,),
-            //ButtonFilter(),
-            Container(
-              height: 654, width: double.maxFinite, decoration: BoxDecoration(color: AppTheme.white, borderRadius: BorderRadius.circular(10),),
-              child: RecordListView(),
+            ButtonFilter(),
+            ...List.generate(Record.records.length, (index) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: AppTheme.grey.withOpacity(0.2),
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(height: 9,),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(Record.records[index].title.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 14, color: Record.records[index].titleColor),),
+                          SizedBox(height: 3,),
+                          Row(
+                            children: [
+                              Text(Record.records[index].date.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 11, color: AppTheme.grey),),
+                              Text(Record.records[index].time.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 11, color: AppTheme.grey),),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(Record.records[index].amount.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 14, color: Record.records[index].amountColor),),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             ),
           ],
         ),

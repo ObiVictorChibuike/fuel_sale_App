@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,7 +19,7 @@ class BottomNavigationBarFourthScreen extends StatefulWidget {
 
 class _BottomNavigationBarFourthScreenState extends State<BottomNavigationBarFourthScreen> {
   late bool? isMessageSelected = true;
-  late bool? isChatSelected = false;
+  final _random = Random();
 
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 50));
@@ -67,7 +68,7 @@ class _BottomNavigationBarFourthScreenState extends State<BottomNavigationBarFou
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('Later than 30days', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16, fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),), Spacer(), Icon(FilterIcon.sliders, color: AppTheme.grey.withOpacity(0.5),),
+                      Text('Later than 30days', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16, fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),), Spacer(), Icon(Icons.menu, color: AppTheme.grey.withOpacity(0.5),),
                     ],
                   ),
                 ),
@@ -153,79 +154,84 @@ class _BottomNavigationBarFourthScreenState extends State<BottomNavigationBarFou
                             itemBuilder: (BuildContext context, int index){
                               return Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 19.0, vertical: 19.0),
-                                child: Card(
-                                  elevation: 0.0,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: AppTheme.grey.withOpacity(0.2),
-                                          spreadRadius: .5,
-                                          blurRadius: 1,
-                                          offset: Offset(2, 2),
-                                        ),
-                                      ],
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  height: 98,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 5.0, top: 5.0),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              height: 5,
-                                              width: 5,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: AppTheme.red
-                                              ),
-                                            ),
-                                            SizedBox(width: 5,),
-                                            Text(MessageCenter.messageCenterModel[index].title!, textAlign: TextAlign.start, style: TextStyle(fontFamily: 'Lato', fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.dark_blue),),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 8,),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 15.0),
-                                        child: ConstrainedBox(
-                                            constraints: BoxConstraints(
-                                                maxWidth: MediaQuery.of(context).size.width
-                                            ),
-                                            child: Text(MessageCenter.messageCenterModel[index].deliveryStatus!, textAlign: TextAlign.start, style: TextStyle(fontFamily: 'Lato', fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.dark_blue),),),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 3),
-                                            child: Text(MessageCenter.messageCenterModel[index].deliveryTime!, style: TextStyle(fontFamily: 'Lato', fontSize: 14, fontWeight: FontWeight.w100, color: AppTheme.dark_blue),),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    changeScreen(context, MessageCenterDetails());
+                                  },
+                                  child: Card(
+                                    elevation: 0.0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: AppTheme.grey.withOpacity(0.2),
+                                            spreadRadius: .5,
+                                            blurRadius: 1,
+                                            offset: Offset(2, 2),
                                           ),
                                         ],
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                      Divider(),
-                                      GestureDetector(
-                                        onTap: (){
-                                          changeScreen(context, MessageCenterDetails());
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 1.0),
+                                    height: 98,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 5.0, top: 5.0),
                                           child: Row(
                                             children: [
-                                              Text('See Details', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14, fontFamily: 'Lato', color: AppTheme.blue),),
-                                              Spacer(),
-                                              Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.grey.withOpacity(0.3),),
+                                              Container(
+                                                height: 5,
+                                                width: 5,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: AppTheme.red
+                                                ),
+                                              ),
+                                              SizedBox(width: 5,),
+                                              Text(MessageCenter.messageCenterModel[index].title!, textAlign: TextAlign.start, style: TextStyle(fontFamily: 'Lato', fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.dark_blue),),
                                             ],
                                           ),
                                         ),
-                                      )
-                                    ],
-                                  ),
+                                        SizedBox(height: 8,),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 15.0),
+                                          child: ConstrainedBox(
+                                              constraints: BoxConstraints(
+                                                  maxWidth: MediaQuery.of(context).size.width
+                                              ),
+                                              child: Text(MessageCenter.messageCenterModel[index].deliveryStatus!, textAlign: TextAlign.start, style: TextStyle(fontFamily: 'Lato', fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.dark_blue),),),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 3),
+                                              child: Text(MessageCenter.messageCenterModel[index].deliveryTime!, style: TextStyle(fontFamily: 'Lato', fontSize: 14, fontWeight: FontWeight.w100, color: AppTheme.dark_blue),),
+                                            ),
+                                          ],
+                                        ),
+                                        Divider(),
+                                        GestureDetector(
+                                          onTap: (){
+                                            changeScreen(context, MessageCenterDetails());
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 1.0),
+                                            child: Row(
+                                              children: [
+                                                Text('See Details', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14, fontFamily: 'Lato', color: AppTheme.blue),),
+                                                Spacer(),
+                                                Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.grey.withOpacity(0.3),),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    ),
                                   ),
                                 ),
                               );
@@ -239,23 +245,24 @@ class _BottomNavigationBarFourthScreenState extends State<BottomNavigationBarFou
                   shrinkWrap: true,
                   itemCount: ChatModel.chatModel.length,
                     itemBuilder: (BuildContext context, int index){
-                       return Container(
-                         height: 90,
+                       return Container(height: 90,
                          child: Padding(
                            padding: const EdgeInsets.symmetric(horizontal: 18.0),
                            child: Row(
                              mainAxisAlignment: MainAxisAlignment.start,
                              children: [
                                CircleAvatar(
-                                 backgroundColor: AppTheme.dark_blue.withOpacity(0.5),
-                                 radius: 30,
+                                 backgroundColor: Colors.primaries[_random.nextInt(RandomColors.randomColors.length)],
+                                 //[_random.nextInt(9) * 100],
+                                 radius: 25,
                                    child: Text(ChatModel.chatModel[index].avatar!.substring(0,1), style: TextStyle(fontFamily: 'Lato', fontSize: 30, fontWeight: FontWeight.bold, color: AppTheme.white),),
                                ),
-                               SizedBox(width: 60,),
+                               SizedBox(width: 27,),
                                Column(
+                                 crossAxisAlignment: CrossAxisAlignment.start,
                                  children: [
                                    SizedBox(height: 30,),
-                                   Text(ChatModel.chatModel[index].name!, style: TextStyle(fontFamily: 'Lato', fontSize: 18, fontWeight: FontWeight.w400, color: AppTheme.grey.withOpacity(0.3)),),
+                                   Text(ChatModel.chatModel[index].name!, style: TextStyle(fontFamily: 'Lato', fontSize: 18, fontWeight: FontWeight.w400, color: AppTheme.grey.withOpacity(0.8)),),
                                    Text(ChatModel.chatModel[index].msg!, style: TextStyle(fontFamily: 'Lato', fontSize: 14, fontWeight: FontWeight.w400, color: AppTheme.grey.withOpacity(0.3)),),
                                  ],
                                )
