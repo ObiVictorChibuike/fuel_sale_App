@@ -5,6 +5,8 @@ import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/screens/previous-order.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'custom_button.dart';
+
 class BottomNavigationBarThirdScreen extends StatefulWidget {
   late final bool? isDelivery;
   BottomNavigationBarThirdScreen({Key? key, this.isDelivery}) : super(key: key);
@@ -14,6 +16,76 @@ class BottomNavigationBarThirdScreen extends StatefulWidget {
 }
 
 class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThirdScreen> {
+
+  _buildDialog (BuildContext context) => showDialog(context: context, builder: (BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 38.0),
+      child: Dialog(
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(15),
+        // ),
+        child: Container(
+            height: MediaQuery.of(context).size.height / 3.8,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  color: AppTheme.grey.withOpacity(0.1),
+                ),
+                Container(
+                  height: 1,
+                  width: MediaQuery.of(context).size.width,
+                  color: AppTheme.grey.withOpacity(0.3),
+                ),
+                Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(child: Text('Fri, Sept 2021', style: TextStyle(fontSize: 18.5, fontWeight: FontWeight.w400, fontFamily: 'Lato', color: AppTheme.dark_blue),)),
+                ),
+                Container(
+                  height: 1,
+                  width: MediaQuery.of(context).size.width,
+                  color: AppTheme.grey.withOpacity(0.3),
+                ),
+                Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(child: Text('09:00AM - 12:00AM', style: TextStyle(fontSize: 18.5, fontWeight: FontWeight.w400, fontFamily: 'Lato', color: AppTheme.dark_blue),)),
+                ),
+                Container(
+                  height: 1,
+                  width: MediaQuery.of(context).size.width,
+                  color: AppTheme.grey.withOpacity(0.3),
+                ),
+                Container(
+                  height: 50,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      child: CustomButton(
+                        borderColor: AppTheme.dark_blue,
+                        labelFontSize: 12,
+                          buttonWidth: MediaQuery.of(context).size.width,
+                          buttonHeight: 32,
+                          decorationColor: AppTheme.dark_blue,
+                          buttonRadius: 20,
+                          textColor: AppTheme.white,
+                          buttonText: 'Set delivery time',
+                          onPressed: (){}
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )
+        ),
+      ),
+    );}
+  );
 
   static final LatLng _kMapCenter = LatLng(19.018255973653343, 72.84793849278007);
   static final CameraPosition _kInitialPosition = CameraPosition(target: _kMapCenter, zoom: 11.0, tilt: 0, bearing: 0);
@@ -45,11 +117,15 @@ class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThir
                 ),
                 SizedBox(width: 20,),
                 Chip(
+                  labelStyle: TextStyle(fontFamily: 'Lato', fontWeight: FontWeight.w400, fontSize: 15, color: AppTheme.white),
                   backgroundColor: AppTheme.dark_blue.withOpacity(0.5),
                   label: Text('Now'),
-                  avatar: Icon(Icons.access_time),
-                  deleteIcon: Icon(Icons.arrow_drop_down_outlined),
+                  avatar: Icon(Icons.access_time, color: AppTheme.white,),
+                  deleteIcon: Icon(Icons.arrow_drop_down_outlined,),
                   deleteIconColor: AppTheme.white,
+                  onDeleted: (){
+                    _buildDialog(context);
+                  },
                 )
               ],
             ),

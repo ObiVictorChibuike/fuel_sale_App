@@ -12,6 +12,7 @@ class BottomNavigationBarSecondScreen extends StatefulWidget {
 }
 
 class _BottomNavigationBarSecondScreenState extends State<BottomNavigationBarSecondScreen> {
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

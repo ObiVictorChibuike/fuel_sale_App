@@ -62,7 +62,6 @@ class _AddCardState extends State<AddCard> {
             height: 46,
             labelText: 'JOHN JAMES JOB',
             textColor: AppTheme.grey.withOpacity(0.4),
-            validator: (value){},
           ),
           SizedBox(height: 40,),
           Text('Preferred Display Name', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 12, color: AppTheme.dark_blue),),
@@ -76,7 +75,6 @@ class _AddCardState extends State<AddCard> {
             height: 46,
             labelText: 'Platinum Card',
             textColor: AppTheme.grey.withOpacity(0.4),
-            validator: (value){},
           ),
           SizedBox(height: 40,),
           Text('Card Number', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 12, color: AppTheme.dark_blue),),
@@ -90,7 +88,6 @@ class _AddCardState extends State<AddCard> {
             height: 46,
             labelText: '4287 8874 9511 3263',
             textColor: AppTheme.grey.withOpacity(0.4),
-            validator: (value){},
             suffixIcon:  Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -120,7 +117,6 @@ class _AddCardState extends State<AddCard> {
                     height: 46,
                     labelText: 'MM / YY',
                     textColor: AppTheme.grey.withOpacity(0.4),
-                    validator: (value){},
                   ),
                 ],
               ),

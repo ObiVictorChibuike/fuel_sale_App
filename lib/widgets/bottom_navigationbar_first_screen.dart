@@ -18,6 +18,8 @@ class BottomNavigationBarFirstScreen extends StatefulWidget {
 class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirstScreen> {
   String? text;
   int? selectedIndex = 0;
+  Color? textColor = AppTheme.dark_blue;
+  Color? indexColor = AppTheme.blue;
 
   List<String> filters = [
     'All',
@@ -49,11 +51,19 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
           child: ListView.builder(itemCount: thisWeek.length,itemBuilder: (context, int index) =>
               GestureDetector(
                 onTap: (){
-                  setState(() {
-                    text = thisWeek[index];
-                    Navigator.of(context).pop();
-                    selectedIndex = index;
-                  });
+                  //if (text != thisWeek[index]) {
+                    setState(() {
+                      textColor = AppTheme.dark_blue;
+                      text = thisWeek[index];
+                      Navigator.of(context).pop();
+                      selectedIndex = index;
+                    });
+                  // }else{
+                  //   setState(() {
+                  //     textColor = Colors.blue;
+                  //   });
+                  // }
+
                 },
                 child: Container(
                   height: 55,
@@ -65,7 +75,7 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           selectedIndex == index ? Icon(Icons.check, color: AppTheme.dark_blue, size: 18,) : Container(),
-                          Text(thisWeek[index], style: TextStyle(fontFamily: 'Lato', fontWeight: FontWeight.w700, fontSize: 16, color: AppTheme.dark_blue),),
+                          Text(thisWeek[index], style: TextStyle(fontFamily: 'Lato', fontWeight: FontWeight.w700, fontSize: 16, color: indexColor!),),
                         ],
                       ),
                       Divider(),
@@ -203,49 +213,60 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
             SizedBox(height: 26,),
             Row(
               children: [
-                CustomButton( buttonWidth: MediaQuery.of(context).size.width / 4, decorationColor: AppTheme.white, buttonHeight: 32, onPressed: (){_buildDialog(context );}, buttonText: text, buttonTextColor: AppTheme.dark_blue, labelFontSize: 13,),
+                CustomButton( buttonWidth: MediaQuery.of(context).size.width / 4, decorationColor: AppTheme.white, buttonHeight: 32, onPressed: (){_buildDialog(context );}, buttonText: text ?? 'This week', buttonTextColor: textColor!, labelFontSize: 13,),
                 Spacer(),
                 CustomButton(labelFontSize: 13, buttonWidth: MediaQuery.of(context).size.width / 4, decorationColor: AppTheme.white, buttonHeight: 32, buttonText: 'Export as PDF', buttonTextColor: AppTheme.dark_blue, onPressed: (){},),
               ],
             ),
-            ButtonFilter(),
-            ...List.generate(Record.records.length, (index) => Padding(
-              padding: const EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.only(top: 18.0),
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: AppTheme.grey.withOpacity(0.2),
-                ),
-                child: Row(
+                color: AppTheme.white,
+                child: Column(
                   children: [
-                    SizedBox(height: 9,),
-                    Padding(
+                    ButtonFilter(),
+                    ...List.generate(Record.records.length, (index) => Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(Record.records[index].title.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 14, color: Record.records[index].titleColor),),
-                          SizedBox(height: 3,),
-                          Row(
-                            children: [
-                              Text(Record.records[index].date.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 11, color: AppTheme.grey),),
-                              Text(Record.records[index].time.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 11, color: AppTheme.grey),),
-                            ],
-                          ),
-                        ],
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: AppTheme.grey.withOpacity(0.1),
+                        ),
+                        child: Row(
+                          children: [
+                            SizedBox(height: 9,),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(Record.records[index].title.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 14, color: Record.records[index].titleColor),),
+                                  SizedBox(height: 3,),
+                                  Row(
+                                    children: [
+                                      Text(Record.records[index].date.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 11, color: AppTheme.grey),),
+                                      Text(Record.records[index].time.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 11, color: AppTheme.grey),),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Spacer(),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(Record.records[index].amount.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 14, color: Record.records[index].amountColor),),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(Record.records[index].amount.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 14, color: Record.records[index].amountColor),),
                     ),
                   ],
                 ),
               ),
-            ),
             ),
           ],
         ),

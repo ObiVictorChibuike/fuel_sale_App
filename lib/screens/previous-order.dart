@@ -14,6 +14,84 @@ class PreviousOrder extends StatefulWidget {
 
 class _PreviousOrderState extends State<PreviousOrder> {
 
+  _buildDialog (BuildContext context, String title, String address, String product, String quantity) => showDialog(context: context, builder: (BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+      child: Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Container(
+            height: MediaQuery.of(context).size.height / 2.6,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 18.0),
+                    child: Container(
+                      height: 30,
+                        child: Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, fontFamily: 'Lato', color: AppTheme.dark_blue),)),
+                  ),
+                 CustomReadOnlyFormField(
+                   initialValue: address,
+                   focusedBorderColor: Colors.transparent,
+                   enabledBorderColor: Colors.transparent,
+                   elevation: 0,
+                   height: 45,
+                     backgroundColor: AppTheme.grey.withOpacity(0.1),
+                     ),
+                  SizedBox(height: 15,),
+                  CustomReadOnlyFormField(
+                    initialValue: product,
+                    focusedBorderColor: Colors.transparent,
+                    enabledBorderColor: Colors.transparent,
+                    elevation: 0,
+                    height: 45,
+                    backgroundColor: AppTheme.grey.withOpacity(0.1),
+                  ),
+                  SizedBox(height: 15,),
+                  CustomReadOnlyFormField(
+                    initialValue: '$quantity',
+                    focusedBorderColor: Colors.transparent,
+                    enabledBorderColor: Colors.transparent,
+                    elevation: 0,
+                    height: 45,
+                    backgroundColor: AppTheme.grey.withOpacity(0.1),
+                  ),
+                  SizedBox(height: 5,),
+                  Container(
+                    height: 45,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: CustomButton(
+                            borderColor: AppTheme.dark_blue,
+                            labelFontSize: 12,
+                            buttonWidth: MediaQuery.of(context).size.width,
+                            buttonHeight: 32,
+                            decorationColor: AppTheme.dark_blue,
+                            buttonRadius: 20,
+                            textColor: AppTheme.white,
+                            buttonText: 'Proceed',
+                            onPressed: (){
+                              changeScreen(context, PlaceYourOrder(title: title, address: address, product: product, quantity: quantity,));
+                            }
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
+        ),
+      ),
+    );}
+  );
+
   Widget _noPreviousDelivery(){
     return Center(
       child: ConstrainedBox(
@@ -195,61 +273,6 @@ class _PreviousOrderState extends State<PreviousOrder> {
     ),
   ];
 
-  Widget confirmationDialog(BuildContext context, String? title, String? product, String? quantity, String? address){
-    return Dialog(
-      elevation: 10,
-      child: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width / 1.3,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 17.0),
-          child: Column(
-            children: [
-              SizedBox(height: 30,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                Text(title!, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),),
-              ],),
-              SizedBox(height: 12,),
-              CustomReadOnlyFormField(
-                height: 48,
-                backgroundColor: AppTheme.grey.withOpacity(0.2),
-                initialValue: product!,
-                  validator: (value){}
-              ),
-              SizedBox(height: 27,),
-              CustomReadOnlyFormField(
-                  height: 48,
-                  backgroundColor: AppTheme.grey.withOpacity(0.2),
-                  initialValue: quantity!,
-                  validator: (value){}
-              ),
-              SizedBox(height: 27,),
-              CustomReadOnlyFormField(
-                  height: 48,
-                  backgroundColor: AppTheme.grey.withOpacity(0.2),
-                  initialValue: address,
-                  validator: (value){}
-              ),
-              SizedBox(height: 27,),
-              CustomButton(
-                decorationColor: AppTheme.dark_blue,
-                buttonRadius: 20,
-                buttonHeight: 37,
-                  onPressed: (){},
-                textColor: AppTheme.white,
-                buttonWidth: 80,
-                buttonText: 'proceed',
-                labelFontSize: 15,
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget previousOrderListView() {
     return Container(
         height: MediaQuery.of(context).size.height,
@@ -259,8 +282,7 @@ class _PreviousOrderState extends State<PreviousOrder> {
           itemBuilder: (BuildContext context, int index) =>
               InkWell(
                 onTap: (){
-                  changeScreen(context, PlaceYourOrder(address: previousOrderData[index].address!, title: previousOrderData[index].title!, product: previousOrderData[index].product!,quantity: previousOrderData[index].quantity!,));
-                  //confirmationDialog(previousOrderData[index].title!, previousOrderData[index].product!, previousOrderData[index].quantity!, previousOrderData[index].address!);
+                  _buildDialog(context, previousOrderData[index].title!, previousOrderData[index].address!, previousOrderData[index].product!, previousOrderData[index].quantity!);
                 },
                 child: Container(
                   child: Column(

@@ -71,9 +71,6 @@ class AccountSettings extends StatelessWidget {
                       backgroundColor: AppTheme.white,
                       height: 50,
                       initialValue: 'James Chukwu',
-                        validator: (value){
-
-                        },
                     ),
                     SizedBox(height: 27,),
                     CustomReadOnlyFormField(
@@ -83,9 +80,6 @@ class AccountSettings extends StatelessWidget {
                         backgroundColor: AppTheme.white,
                         height: 50,
                         initialValue: 'JayVictor999@gmail.com',
-                        validator: (value){
-
-                        }
                     ),
                     SizedBox(height: 27,),
                     CustomReadOnlyFormField(
@@ -95,9 +89,6 @@ class AccountSettings extends StatelessWidget {
                         backgroundColor: AppTheme.white,
                         height: 50,
                         initialValue: '07045367876',
-                        validator: (value){
-
-                        }
                     ),
                     SizedBox(height: 27,),
                     CustomReadOnlyFormField(
@@ -107,9 +98,6 @@ class AccountSettings extends StatelessWidget {
                         backgroundColor: AppTheme.white,
                         height: 50,
                         initialValue: 'German,English',
-                        validator: (value){
-
-                        }
                     ),
                     SizedBox(height: 27,),
                     Padding(

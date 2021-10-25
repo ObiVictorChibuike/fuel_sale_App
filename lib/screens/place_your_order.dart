@@ -59,7 +59,6 @@ class _PlaceYourOrderState extends State<PlaceYourOrder> {
             focusedBorderColor: AppTheme.white,
             height: 50,
             textColor: AppTheme.grey.withOpacity(0.4),
-            validator: (value){},
           ),
           SizedBox(height: 49,),
           CustomReadOnlyFormField(
@@ -69,7 +68,6 @@ class _PlaceYourOrderState extends State<PlaceYourOrder> {
             focusedBorderColor: AppTheme.white,
             height: 50,
             textColor: AppTheme.grey.withOpacity(0.4),
-            validator: (value){},
           ),
           SizedBox(height: 49,),
           CustomDropDownButton(
