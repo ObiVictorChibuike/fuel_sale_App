@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart'show kIsWeb;
+import 'package:fuel_sale_app/constant/app_navigation.dart';
+import 'package:fuel_sale_app/repository/cached_data.dart';
+import 'package:fuel_sale_app/screens/homepage.dart';
 import 'dart:io';
 
 import 'package:fuel_sale_app/screens/landing_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +17,12 @@ void main() async{
   ]).then((_) => runApp(MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -32,5 +41,24 @@ class MyApp extends StatelessWidget {
       ),
       home: LandingPage(),
     );
+  }
+
+  Future checkLoginStatus() async {
+    prefs = await SharedPreferences.getInstance();
+    _userdata = (prefs.getBool('isLoggedIn') ?? false);
+    if (_userdata==true) {
+      replaceScreen(context, HomePage());
+    }else{
+     changeScreen(context, LandingPage());
+    }
+  }
+
+  bool? _userdata;
+
+  late SharedPreferences prefs;
+  @override
+  void initState() {
+    checkLoginStatus();
+    super.initState();
   }
 }

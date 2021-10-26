@@ -30,14 +30,14 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
         width: widget.width ?? MediaQuery.of(context).size.width / 3,
         height: widget.height ?? 50,
         decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: AppTheme.grey.withOpacity(0.2),
-                spreadRadius: .5,
-                blurRadius: 1,
-                offset: Offset(2, 2),
-              ),
-            ],
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: AppTheme.grey.withOpacity(0.2),
+            //     spreadRadius: .5,
+            //     blurRadius: 1,
+            //     offset: Offset(2, 2),
+            //   ),
+            // ],
           color: AppTheme.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: AppTheme.white)

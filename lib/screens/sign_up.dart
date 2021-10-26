@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/Services/http_client.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
@@ -12,6 +13,7 @@ import 'package:fuel_sale_app/utils/custom_alert_bar.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/custom_dropdown_field.dart';
 import 'package:fuel_sale_app/widgets/custom_formfield.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -25,6 +27,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final List<String> sex = ['Male','Female'];
   String sexInitialValue = "Male";
 
+  final _formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   TextEditingController _firstName = TextEditingController();
   TextEditingController _lastName = TextEditingController();
   TextEditingController _phoneNumber = TextEditingController();
@@ -33,28 +38,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _password = TextEditingController();
   TextEditingController _confirmPassword = TextEditingController();
 
+  final _passwordValidator = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+  final _emailValidator = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  final _phoneValidator = RegExp(r'(^(?:[+0]9)?[0-9]{11,14}$)');
+
+  void checkSignUpConnectivity(BuildContext context) async{
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (!(connectivityResult == ConnectivityResult.none)) {
+      signUpNow(context);
+    } else {
+      alertBar(context, "No Internet Connection", AppTheme.red);
+    }
+  }
+
+  void signUpNow(BuildContext context){
+    if (_formKey.currentState!.validate()){
+      _formKey.currentState!.save();
+      signUP(context);
+    }
+  }
+
   void signUP(BuildContext context) async{
     CustomProgressDialog().showCustomAlertDialog(context, "Please wait...");
     await HttpService().userSignUp(_firstName.text.trim(), _lastName.text.trim(), _phoneNumber.text.trim(), _email.text.trim(), sexInitialValue.toString(), _dob.text.trim(), _password.text.trim(), _confirmPassword.text.trim()).then((value) {
       var result = jsonDecode(value.body);
       if (value.statusCode == 200 || value.statusCode == 201) {
-        print("successful");
         CustomProgressDialog().popCustomProgressDialogDialog(context);
         final response = signUpResponseFromJson(value.body);
-        CachedData().saveUserdata(response);
+        RepositoryService().saveUserdata(response);
         changeScreen(context, EmailVerificationScreen());
-        print(response);
-        print(value.statusCode);
       }
       else {
-        print("error");
         print(value.statusCode);
         CustomProgressDialog().popCustomProgressDialogDialog(context);
-        //var errorMsg = result["errors"]["email"][0];
-        var errorMsg = result["message"];
-        alertBar(context, errorMsg, AppTheme.red);
-        print(errorMsg);
-
+        var errorMsg = result["errors"]["email"][0];
+        alertBar(context, "$errorMsg Try changing the email and the phone number", AppTheme.red);
       }
     }).timeout(Duration(seconds: 20), onTimeout: (){
       CustomProgressDialog().popCustomProgressDialogDialog(context);
@@ -69,6 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       top: false,
         bottom: false,
         child: Scaffold(
+          key: scaffoldKey,
           extendBodyBehindAppBar: false,
           resizeToAvoidBottomInset: false,
           body: Stack(
@@ -122,140 +141,182 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     physics: BouncingScrollPhysics(),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 40.0,right: 37, top: 40),
-                      child: Column(
-                        children: [
-                          CustomFormField(
-                            controller: _firstName,
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            CustomFormField(
+                              controller: _firstName,
+                                validator: (value){
+                                  if (value!.isEmpty){
+                                    return 'First name form cannot be empty';
+                                  }else {
+                                    return null;
+                                  }
+                                },
+                              labelText: 'First Name',
+                              focusedBorderColor: AppTheme.white,
+                              enabledBorderColor: AppTheme.white,
+                            ),
+                            SizedBox(height: 16,),
+                            CustomFormField(
+                              controller: _lastName,
                               validator: (value){
                                 if (value!.isEmpty){
-                                  return 'Please, your first name is required';
+                                  return 'Last name form cannot be empty';
                                 }else {
                                   return null;
                                 }
                               },
-                            labelText: 'First Name',
-                            focusedBorderColor: AppTheme.white,
-                            enabledBorderColor: AppTheme.white,
-                          ),
-                          SizedBox(height: 16,),
-                          CustomFormField(
-                            controller: _lastName,
-                            validator: (value){},
-                            labelText: 'Last Name',
-                            focusedBorderColor: AppTheme.white,
-                            enabledBorderColor: AppTheme.white,
-                          ),
-                          SizedBox(height: 16,),
-                          CustomFormField(
-                            controller: _email,
-                            validator: (value){},
-                            labelText: 'Email',
-                            focusedBorderColor: AppTheme.white,
-                            enabledBorderColor: AppTheme.white,
-                          ),
-                          SizedBox(height: 16,),
-                          CustomFormField(
-                            controller: _phoneNumber,
-                            validator: (value){},
-                            labelText: '+234',
-                            focusedBorderColor: AppTheme.white,
-                            enabledBorderColor: AppTheme.white,
-                          ),
-                          SizedBox(height: 16,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              CustomDropDownButton(
-                                height: 66,
-                                  hint: Text('Gender', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
-                                  underline: Container(),
-                                  value: sexInitialValue,
-                                  onChanged: (newValue){
-                                    setState(() {
-                                      sexInitialValue = newValue;
-                                    });
+                              labelText: 'Last Name',
+                              focusedBorderColor: AppTheme.white,
+                              enabledBorderColor: AppTheme.white,
+                            ),
+                            SizedBox(height: 16,),
+                            CustomFormField(
+                              controller: _email,
+                              validator: (value){
+                                if (value!.isEmpty){
+                                  return 'Email form cannot be empty';
+                                } else if (!_emailValidator.hasMatch(value)){
+                                  return 'Please, provide a valid email';
+                                } else {
+                                  return null;
+                                }
+                              },
+                              labelText: 'Email',
+                              focusedBorderColor: AppTheme.white,
+                              enabledBorderColor: AppTheme.white,
+                            ),
+                            SizedBox(height: 16,),
+                            CustomFormField(
+                              controller: _phoneNumber,
+                              validator: (value){
+                                if (value!.isEmpty){
+                                  return 'Phone number form cannot be empty';
+                                } else if (!_phoneValidator.hasMatch(value)){
+                                  return "Please, provide a valid phone numb";
+                                }else {
+                                  return null;
+                                }
+                              },
+                              labelText: '+234',
+                              focusedBorderColor: AppTheme.white,
+                              enabledBorderColor: AppTheme.white,
+                            ),
+                            SizedBox(height: 16,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CustomDropDownButton(
+                                  height: 66,
+                                    hint: Text('Gender', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
+                                    underline: Container(),
+                                    value: sexInitialValue,
+                                    onChanged: (newValue){
+                                      setState(() {
+                                        sexInitialValue = newValue;
+                                      });
+                                    },
+                                    icon: Padding(
+                                      padding: const EdgeInsets.only(left: 30.0),
+                                      child: ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                              maxWidth: MediaQuery.of(context).size.width / 4
+                                          ),
+                                          child: Icon(Icons.arrow_drop_down_outlined)),
+                                    ),
+                                    items: sex.map<DropdownMenuItem<String>>((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text('\t\t ${value.toString()}'),
+                                      );
+                                    }).toList(),
+                                ),
+                                Spacer(),
+                                CustomFormatterFormField(
+                                  keyboardType: TextInputType.number,
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  controller: _dob,
+                                    validator: (value){
+                                      if (value!.isEmpty){
+                                        return 'DOB form cannot be empty';
+                                      }else {
+                                        return null;
+                                      }
+                                    },
+                                  labelText: "1990-02-29",
+                                  focusedBorderColor: AppTheme.white,
+                                  enabledBorderColor: AppTheme.white,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16,),
+                            CustomPasswordFormField(
+                              controller: _password,
+                              validator: (value){
+                                if (value!.isEmpty){
+                                  return 'Password cannot be empty';
+                                } else if (!_passwordValidator.hasMatch(value)) {
+                                  return 'Password is weak';
+                                } else {
+                                  return null;
+                                }
+                              },
+                              labelText: 'Password',
+                              focusedBorderColor: AppTheme.white,
+                              enabledBorderColor: AppTheme.white,
+                            ),
+                            SizedBox(height: 16,),
+                            CustomPasswordFormField(
+                              controller: _confirmPassword,
+                              validator: (value){
+                                if (value!.isEmpty) {
+                                  return "Please confirm password";
+                                } else if (value !=
+                                    _password.text) {
+                                  return "Password do not match";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              labelText: 'Password Confirmation',
+                              focusedBorderColor: AppTheme.white,
+                              enabledBorderColor: AppTheme.white,
+                            ),
+                            SizedBox(height: 28,),
+                            CustomButton(
+                              buttonRadius: 14,
+                              onPressed: (){
+                                checkSignUpConnectivity(context);
+                              },
+                              buttonText: 'Sign Up',
+                              buttonHeight: 54,
+                              decorationColor: AppTheme.blue,
+                              borderColor: AppTheme.blue,
+                            ),
+                            SizedBox(height: 7),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Already have an account?', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17, fontFamily: 'Lato', color: AppTheme.blue)),
+                                InkWell(
+                                  onTap: () {
+                                    changeScreen(context, LoginScreen());
                                   },
-                                  icon: Padding(
-                                    padding: const EdgeInsets.only(left: 30.0),
-                                    child: ConstrainedBox(
-                                        constraints: BoxConstraints(
-                                            maxWidth: MediaQuery.of(context).size.width / 4
-                                        ),
-                                        child: Icon(Icons.arrow_drop_down_outlined)),
-                                  ),
-                                  items: sex.map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text('\t\t ${value.toString()}'),
-                                    );
-                                  }).toList(),
-                                elevation: 5,
-                              ),
-                              Spacer(),
-                              CustomFormatterFormField(
-                                keyboardType: TextInputType.number,
-                                width: MediaQuery.of(context).size.width / 3,
-                                controller: _dob,
-                                  validator: (value){},
-                                labelText: "1990-02-29",
-                                focusedBorderColor: AppTheme.white,
-                                enabledBorderColor: AppTheme.white,
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 16,),
-                          CustomPasswordFormField(
-                            controller: _password,
-                            validator: (value){},
-                            labelText: 'Password',
-                            focusedBorderColor: AppTheme.white,
-                            enabledBorderColor: AppTheme.white,
-                          ),
-                          SizedBox(height: 16,),
-                          CustomPasswordFormField(
-                            controller: _confirmPassword,
-                            validator: (value){},
-                            labelText: 'Password Confirmation',
-                            focusedBorderColor: AppTheme.white,
-                            enabledBorderColor: AppTheme.white,
-                          ),
-                          SizedBox(height: 28,),
-                          CustomButton(
-                            buttonRadius: 14,
-                            onPressed: (){
-                              signUP(context);
-                            },
-                            buttonText: 'Sign Up',
-                            buttonHeight: 54,
-                            decorationColor: AppTheme.blue,
-                            borderColor: AppTheme.blue,
-                          ),
-                          SizedBox(height: 7),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Already have an account?',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 17,
-                                      fontFamily: 'Lato',
-                                      color: AppTheme.blue)),
-                              InkWell(
-                                onTap: () {
-                                  changeScreen(context, LoginScreen());
-                                },
-                                child: Text(' Login in',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 17,
-                                      fontFamily: 'Lato',
-                                      color: AppTheme.blue,
-                                    )),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 50,),
-                        ],
+                                  child: Text(' Login in',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 17,
+                                        fontFamily: 'Lato',
+                                        color: AppTheme.blue,
+                                      )),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 100,),
+                          ],
+                        ),
                       ),
                     ),
                   ),

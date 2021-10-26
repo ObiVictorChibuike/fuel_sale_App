@@ -6,6 +6,6 @@ Widget alertBar(BuildContext context, String alertMessage, Color backGroundColor
     message: alertMessage, padding: EdgeInsets.symmetric(horizontal: 20, vertical: 17),
     flushbarPosition: FlushbarPosition.TOP,
     backgroundColor: backGroundColor,
-    duration:  Duration(seconds: 3),
+    duration:  Duration(seconds: 5),
   )..show(context);
 }

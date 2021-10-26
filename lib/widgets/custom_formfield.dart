@@ -298,10 +298,7 @@ class CustomFormatterFormField extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(15))),
       elevation: elevation ?? 3,
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: backgroundColor ?? AppTheme.white,
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: backgroundColor ?? AppTheme.white,),
         width: width ?? MediaQuery.of(context).size.width,
         height: height ?? 66,
         child: TextFormField(

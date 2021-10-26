@@ -1,10 +1,9 @@
 import 'dart:convert';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/Services/http_client.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
-import 'package:fuel_sale_app/model/login_model.dart';
-import 'package:fuel_sale_app/repository/cached_data.dart';
 import 'package:fuel_sale_app/screens/homepage.dart';
 import 'package:fuel_sale_app/screens/reset_password_otp.dart';
 import 'package:fuel_sale_app/screens/sign_up.dart';
@@ -23,47 +22,27 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final passwordValidator = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-  final emailValidator = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
-  // void login_now(String email, String password, BuildContext c) async {
-  //   var uri = Uri.https(baseURL, postLogin);
-  //   var body = {'email': email, 'password' : password};
-  //   final response = await post(
-  //       uri, body: (body));
-  //   CustomProgressDialog().showCustomAlertDialog(context, 'Please wait...');
-  //   // ).timeout(
-  //   //   Duration(seconds: 20),
-  //   //   onTimeout: () {
-  //   //     //pr.hide();
-  //   //     Flushbar(
-  //   //       message:  "Connection timeout, Please try again", padding: EdgeInsets.symmetric(horizontal: 20, vertical: 17),
-  //   //       flushbarPosition: FlushbarPosition.TOP,
-  //   //       backgroundColor: Colors.red,
-  //   //       duration:  Duration(seconds: 3),
-  //   //     )..show(context);
-  //   //
-  //   //   },);
-  //   var result = jsonDecode(response.body);
-  //   if (response.statusCode == 200) {
-  //     print(response.body);
-  //     changeScreen(context, HomePage());
-  //     //final _loginModel = loginResponseFromJson(response.body);
-  //     //saveUserdata(c, _loginModel);
-  //   } else {
-  //     CustomProgressDialog().popCustomProgressDialogDialog(context);
-  //     var msg = result['error'];
-  //     //pr.hide();
-  //     Flushbar(
-  //       message:  msg, padding: EdgeInsets.symmetric(horizontal: 20, vertical: 17),
-  //       flushbarPosition: FlushbarPosition.TOP,
-  //       backgroundColor: Colors.red,
-  //       duration:  Duration(seconds: 3),
-  //     )..show(context);
-  //   }
-  // }
+  final _passwordValidator = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+  final _emailValidator = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+  void checkLoginNowConnectivity(BuildContext context) async{
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (!(connectivityResult == ConnectivityResult.none)) {
+      loginNow(context);
+    } else {
+      alertBar(context, "No Internet Connect", AppTheme.red);
+    }
+  }
+    void loginNow(BuildContext context){
+    if (_formKey.currentState!.validate()){
+      _formKey.currentState!.save();
+      login(context);
+    }
+  }
 
   void login(BuildContext context) async{
     CustomProgressDialog().showCustomAlertDialog(context, "Please wait...");
@@ -71,9 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
       var result = jsonDecode(value.body);
       if (value.statusCode == 200 || value.statusCode == 201) {
         CustomProgressDialog().popCustomProgressDialogDialog(context);
-        final response = loginResponseFromJson(value.body);
-        //CachedData().saveUserdata(response);
-        print(response);
+        //final response = loginResponseFromJson(value.body);
         changeScreen(context, HomePage());
       }
       else {
@@ -124,8 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             controller: _email,
                             validator: (value){
                               if (value!.isEmpty){
-                                return 'Password cannot be empty';
-                              } else if (!emailValidator.hasMatch(value)){
+                                return 'email form cannot be empty';
+                              } else if (!_emailValidator.hasMatch(value)){
                                 return 'Password is weak';
                               } else {
                                 return null;
@@ -140,8 +117,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             controller: _password,
                             validator: (value){
                               if (value!.isEmpty){
-                                return 'Password cannot be empty';
-                              } else if (!passwordValidator.hasMatch(value)){
+                                return 'Password form cannot be empty';
+                              } else if (!_passwordValidator.hasMatch(value)){
                                 return 'Password is weak';
                               } else {
                                 return null;
@@ -155,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           CustomButton(
                             buttonRadius: 14,
                             onPressed: () {
-                              login(context);
+                              checkLoginNowConnectivity(context);
                             },
                             buttonText: 'Log In',
                             buttonHeight: 54,
@@ -166,23 +143,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Forget password? ',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 17,
-                                      fontFamily: 'Lato',
-                                      color: AppTheme.grey)),
+                              Text('Forget password? ',style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17, fontFamily: 'Lato', color: AppTheme.grey)),
                               InkWell(
                                 onTap: () {
                                   changeScreen(context, ResetPasswordOtp());
                                 },
-                                child: Text('Click here',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 17,
-                                      fontFamily: 'Lato',
-                                      color: AppTheme.blue,
-                                    )),
+                                child: Text('Click here', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17, fontFamily: 'Lato', color: AppTheme.blue,)),
                               ),
                             ],
                           ),
@@ -190,23 +156,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Not registered yet? ',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 17,
-                                      fontFamily: 'Lato',
-                                      color: AppTheme.grey)),
+                              Text('Not registered yet? ',style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17, fontFamily: 'Lato', color: AppTheme.grey)),
                               InkWell(
                                 onTap: () {
                                   changeScreen(context, SignUpScreen());
                                 },
-                                child: Text('Create Account',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 17,
-                                      fontFamily: 'Lato',
-                                      color: AppTheme.blue,
-                                    )),
+                                child: Text('Create Account',style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17, fontFamily: 'Lato', color: AppTheme.blue,)),
                               ),
                             ],
                           ),
