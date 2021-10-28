@@ -6,7 +6,7 @@ import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/screens/homepage.dart';
 import 'package:fuel_sale_app/screens/reset_password_otp.dart';
-import 'package:fuel_sale_app/screens/sign_up.dart';
+import 'package:fuel_sale_app/screens/sign_up_screen.dart';
 import 'package:fuel_sale_app/utils/alert_dialog.dart';
 import 'package:fuel_sale_app/utils/custom_alert_bar.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
@@ -102,9 +102,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             validator: (value){
                               if (value!.isEmpty){
                                 return 'email form cannot be empty';
-                              } else if (!_emailValidator.hasMatch(value)){
-                                return 'Password is weak';
-                              } else {
+                              }
+                              else if (!_emailValidator.hasMatch(value)){
+                                return 'Please, provide a valid email';
+                              }
+                              else {
                                 return null;
                               }
                             },
@@ -118,9 +120,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             validator: (value){
                               if (value!.isEmpty){
                                 return 'Password form cannot be empty';
-                              } else if (!_passwordValidator.hasMatch(value)){
-                                return 'Password is weak';
-                              } else {
+                              }
+                              // else if (!_passwordValidator.hasMatch(value)){
+                              //   return 'Password is weak';
+                              // }
+                              else {
                                 return null;
                               }
                             },

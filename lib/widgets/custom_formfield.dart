@@ -106,7 +106,7 @@ class _CustomPasswordFormFieldState extends State<CustomPasswordFormField> {
           textCapitalization: TextCapitalization.words,
           obscureText: isObscured,
           cursorHeight: widget.cursorHeight ?? 22.0,
-          textInputAction: TextInputAction.next,
+          textInputAction: TextInputAction.done,
           keyboardType: widget.keyboardType,
           decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(

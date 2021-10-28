@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
-import 'package:fuel_sale_app/screens/sign_up.dart';
+import 'package:fuel_sale_app/screens/sign_up_screen.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 
 class LandingPage extends StatelessWidget {

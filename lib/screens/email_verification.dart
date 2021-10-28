@@ -1,23 +1,57 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fuel_sale_app/Services/http_client.dart';
+import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
+import 'package:fuel_sale_app/model/userDetailsModel.dart';
+import 'package:fuel_sale_app/repository/cached_data.dart';
+import 'package:fuel_sale_app/screens/verification_successful.dart';
+import 'package:fuel_sale_app/utils/alert_dialog.dart';
+import 'package:fuel_sale_app/utils/custom_alert_bar.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
-  const EmailVerificationScreen({Key? key}) : super(key: key);
+  final String? userEmail;
+  const EmailVerificationScreen({Key? key, this.userEmail}) : super(key: key);
 
   @override
   _EmailVerificationScreenState createState() => _EmailVerificationScreenState();
 }
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
+  var _otp, _userEmail;
 
-  Widget verificationSuccess(){
-    return Center(
-      child: SvgPicture.asset(
-        'assets/verification_success.svg', color: AppTheme.white,
-      ),
-    );
+  void authUser(String value) async{
+    setState(() {value = _otp;});
+    CustomProgressDialog().showCustomAlertDialog(context, "Verifying...");
+    await HttpService().validateOTP(_userEmail, _otp.toString()).then((value) async {
+      var result= jsonDecode(value.body);
+      if (value.statusCode == 200 || value.statusCode == 201) {
+        final response = signUpResponseFromOtpValidationFromJson(value.body);
+        RepositoryService().saveUserdata(response);
+        CustomProgressDialog().popCustomProgressDialogDialog(context);
+        changeScreen(context, VerificationSuccess());
+      }else{
+        var errorMsg = result["message"];
+        alertBar(context, errorMsg, AppTheme.red);
+      }}
+    ).timeout(Duration(seconds: 20), onTimeout: (){
+      alertBar(context, "Network Timeout", AppTheme.red);
+      return null;
+    });
+  }
+
+
+
+
+  @override
+  void initState() {
+    setState(() {
+      _userEmail = widget.userEmail;
+    });
+    super.initState();
   }
 
   Widget emailVerification(){
@@ -31,15 +65,12 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           SizedBox(height: 60,),
           InkWell(
             onTap: (){Navigator.of(context).pop();},
-            child: SvgPicture.asset(
-              assetName, color: AppTheme.white, height: 30,
-            ),
-          ),
+            child: SvgPicture.asset(assetName, color: AppTheme.white, height: 30,),),
           SizedBox(height: 40,),
           Text('Email Verification', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 22, color: AppTheme.white),),
           SizedBox(height: 3,),
           Text('We sent verification code to', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 16, color: AppTheme.white),),
-          Text('your number: Jayvictor999@gmail.com', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 16, color: AppTheme.white),),
+          Text('your email: $_userEmail.', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 16, color: AppTheme.white),),
           SizedBox(height: 67,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 75.0),
@@ -56,15 +87,18 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           SizedBox(height: 80,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40.0),
-            child: optWidget(),
+            child: optWidget(context),
           ),
         ],
       ),
     );
   }
 
-  Widget optWidget(){
+  Widget optWidget(BuildContext context){
     return PinCodeTextField(
+      onCompleted: (String value) {
+        authUser(value);
+      },
       textStyle: TextStyle(color: AppTheme.white),
         pinTheme: PinTheme(
           inactiveFillColor: AppTheme.blue,
@@ -86,13 +120,15 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         errorAnimationDuration: 500,
         cursorHeight: 25,
         cursorColor: AppTheme.blue,
-        textInputAction: TextInputAction.done,
+        textInputAction: TextInputAction.next,
         obscureText: true,
         appContext: context,
         length: 4,
-        onChanged: (value){
-
-        },
+      onChanged: (String value) {
+        setState(() {
+          _otp = value;
+        });
+      },
     );
   }
   @override

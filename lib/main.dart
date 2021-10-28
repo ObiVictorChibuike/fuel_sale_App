@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart'show kIsWeb;
-import 'package:fuel_sale_app/constant/app_navigation.dart';
-import 'package:fuel_sale_app/repository/cached_data.dart';
 import 'package:fuel_sale_app/screens/homepage.dart';
 import 'dart:io';
 
 import 'package:fuel_sale_app/screens/landing_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() async{
+Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  var isLoggedIn = (prefs.getBool("isLoggedIn") ?? false);
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
-  ]).then((_) => runApp(MyApp()));
+  ]).then((_) => runApp(MyApp(isLoggedIn)));
 }
 
 class MyApp extends StatefulWidget {
+  bool? isLoggedIn;
+  MyApp(this.isLoggedIn);
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -39,26 +41,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LandingPage(),
+      home: widget.isLoggedIn == false ? LandingPage() : HomePage(),
     );
-  }
-
-  Future checkLoginStatus() async {
-    prefs = await SharedPreferences.getInstance();
-    _userdata = (prefs.getBool('isLoggedIn') ?? false);
-    if (_userdata==true) {
-      replaceScreen(context, HomePage());
-    }else{
-     changeScreen(context, LandingPage());
-    }
-  }
-
-  bool? _userdata;
-
-  late SharedPreferences prefs;
-  @override
-  void initState() {
-    checkLoginStatus();
-    super.initState();
   }
 }

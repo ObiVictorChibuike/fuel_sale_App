@@ -5,8 +5,10 @@ import 'package:fuel_sale_app/model/dummy_card_details.dart';
 import 'package:fuel_sale_app/model/dummy_record_model.dart';
 import 'package:fuel_sale_app/screens/card_details.dart';
 import 'package:fuel_sale_app/screens/deposit.dart';
+import 'package:fuel_sale_app/screens/sign_up_screen.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/record_list_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BottomNavigationBarFirstScreen extends StatefulWidget {
   const BottomNavigationBarFirstScreen({Key? key}) : super(key: key);
@@ -16,10 +18,28 @@ class BottomNavigationBarFirstScreen extends StatefulWidget {
 }
 
 class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirstScreen> {
+
+  var _firstName, _lastName, _userEmail, _userPhoneNumber, _userDOB, _sex, _token;
+
+  void initUserData() async {
+    final SharedPreferences userdata = await SharedPreferences.getInstance();
+    setState(() {
+      _firstName = (userdata.getString("firstName"));
+      _lastName = (userdata.getString("lastName"));
+      _userEmail = (userdata.getString("userEmail"));
+      _userPhoneNumber = (userdata.getString("userPhoneNumber"));
+      _userDOB = (userdata.getString("userDOB"));
+      _token = (userdata.getString("token"));
+      _sex = (userdata.getString("userSex"));
+    });
+  }
+
+
   String? text;
   int? selectedIndex = 0;
   Color? textColor = AppTheme.dark_blue;
   Color? indexColor = AppTheme.blue;
+  late SharedPreferences prefs;
 
   List<String> filters = [
     'All',
@@ -121,7 +141,7 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
                 Container(
                   height: 24,
                   width: MediaQuery.of(context).size.width / 3.5,
-                  child: Center(child: Text('Hello! James', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 16, color: AppTheme.dark_blue),)),
+                  child: Center(child: Text('Hello! $_firstName', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 16, color: AppTheme.dark_blue),)),
                 ),
                 Spacer(),
                 Container(
@@ -131,7 +151,13 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
                     borderRadius: BorderRadius.circular(15),
                     color: AppTheme.grey.withOpacity(0.1),
                   ),
-                  child: Center(child: Text('All Cards', style: TextStyle(fontSize: 13, fontFamily: "Lato", fontWeight: FontWeight.w300, color: AppTheme.dark_blue),)),
+                  child: InkWell(
+                    onTap: ()async{
+                      prefs = await SharedPreferences.getInstance();
+                        prefs.setBool('isLoggedIn', false);
+                        replaceScreen(context, SignUpScreen());
+                    },
+                      child: Center(child: Text('All Cards', style: TextStyle(fontSize: 13, fontFamily: "Lato", fontWeight: FontWeight.w300, color: AppTheme.dark_blue),))),
                 ),
               ],
             ),
@@ -140,12 +166,43 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
               height: 190,
               width: double.maxFinite,
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage( 'assets/card.png',),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft,
+                    colors: [AppTheme.gradientBlue1, AppTheme.gradientBlue2],
+                  )
               ),
+              child: Stack(children: [
+                Align(
+                    child: Padding(padding: const EdgeInsets.only(bottom: 38.0, left: 30),
+                      child: Text("4343 6768 7684 3322", style: TextStyle(fontFamily: "Poppins", fontSize: 16, fontWeight: FontWeight.w600, color: AppTheme.white),),),
+                  alignment: Alignment.centerLeft,
+                ),
+                Align(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 70.0, left: 30),
+                    child: Text("$_firstName $_lastName", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14, fontFamily: "poppins", color: AppTheme.white),),),
+                  alignment: Alignment.bottomLeft,
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Container(height: 100, width: 100,
+                      child: Image.asset("assets/mascard.png")),
+                ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30.0, bottom: 40),
+                    child: Text("Expiry date", style: TextStyle(fontFamily: "Poppins", fontSize: 8, fontWeight: FontWeight.w400, color: AppTheme.white),),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30.0, bottom: 20),
+                    child: Text("12/2021", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10, fontFamily: "Poppins", color: AppTheme.white),),
+                  ),
+                )
+              ],),
             ),
             SizedBox(height: 17,),
             Container(
@@ -272,5 +329,11 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    initUserData();
+    super.initState();
   }
 }

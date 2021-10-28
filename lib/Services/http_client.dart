@@ -21,4 +21,18 @@ class HttpService{
    return response;
  }
 
+ //GetUserDetail
+ Future<Response> userDetails(String token) async {
+   var url = Uri.https(baseURL, getUserDetails);
+   final response = await get(url, headers: {"Content-Type": "application/json", "Accept": "application/json", "Authorization" : "Bearer $token"},);
+   return response;
+ }
+
+ //OtpVerification
+ Future<Response> validateOTP(String email, String otp, ) async {
+   var url = Uri.https(baseURL, otpValidation);
+   var body = {"email": email, "otp" : otp};
+   final response = await post(url, headers: {"Content-Type": "application/json", "Accept": "application/json"},body: jsonEncode(body));
+   return response;
+ }
 }
