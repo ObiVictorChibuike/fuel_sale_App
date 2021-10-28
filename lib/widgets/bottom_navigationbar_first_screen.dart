@@ -71,19 +71,12 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
           child: ListView.builder(itemCount: thisWeek.length,itemBuilder: (context, int index) =>
               GestureDetector(
                 onTap: (){
-                  //if (text != thisWeek[index]) {
                     setState(() {
                       textColor = AppTheme.dark_blue;
                       text = thisWeek[index];
                       Navigator.of(context).pop();
                       selectedIndex = index;
                     });
-                  // }else{
-                  //   setState(() {
-                  //     textColor = Colors.blue;
-                  //   });
-                  // }
-
                 },
                 child: Container(
                   height: 55,
@@ -172,14 +165,11 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
                   )
               ),
               child: Stack(children: [
-                Align(
-                    child: Padding(padding: const EdgeInsets.only(bottom: 38.0, left: 30),
+                Align(child: Padding(padding: const EdgeInsets.only(bottom: 38.0, left: 30),
                       child: Text("4343 6768 7684 3322", style: TextStyle(fontFamily: "Poppins", fontSize: 16, fontWeight: FontWeight.w600, color: AppTheme.white),),),
                   alignment: Alignment.centerLeft,
                 ),
-                Align(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 70.0, left: 30),
+                Align(child: Padding(padding: const EdgeInsets.only(bottom: 70.0, left: 30),
                     child: Text("$_firstName $_lastName", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14, fontFamily: "poppins", color: AppTheme.white),),),
                   alignment: Alignment.bottomLeft,
                 ),
@@ -190,18 +180,13 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
                 ),
                 Align(
                   alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30.0, bottom: 40),
-                    child: Text("Expiry date", style: TextStyle(fontFamily: "Poppins", fontSize: 8, fontWeight: FontWeight.w400, color: AppTheme.white),),
-                  ),
+                  child: Padding(padding: const EdgeInsets.only(left: 30.0, bottom: 40),
+                    child: Text("Expiry date", style: TextStyle(fontFamily: "Poppins", fontSize: 8, fontWeight: FontWeight.w400, color: AppTheme.white),),),
                 ),
                 Align(
                   alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30.0, bottom: 20),
-                    child: Text("12/2021", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10, fontFamily: "Poppins", color: AppTheme.white),),
-                  ),
-                )
+                  child: Padding(padding: const EdgeInsets.only(left: 30.0, bottom: 20),
+                    child: Text("12/2021", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10, fontFamily: "Poppins", color: AppTheme.white),),),)
               ],),
             ),
             SizedBox(height: 17,),
