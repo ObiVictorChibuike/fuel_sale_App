@@ -20,6 +20,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
 
@@ -42,6 +43,14 @@ class _LoginScreenState extends State<LoginScreen> {
       _formKey.currentState!.save();
       login(context);
     }
+  }
+
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
   }
 
   void login(BuildContext context) async{
@@ -105,10 +114,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                               else if (!_emailValidator.hasMatch(value)){
                                 return 'Please, provide a valid email';
-                              }
-                              else {
-                                return null;
-                              }
+                              } else {
+                                return null;}
                             },
                             labelText: 'Email',
                             focusedBorderColor: AppTheme.white,

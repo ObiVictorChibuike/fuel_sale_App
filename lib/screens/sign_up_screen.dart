@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/Services/http_client.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
-import 'package:fuel_sale_app/repository/cached_data.dart';
 import 'package:fuel_sale_app/screens/email_verification.dart';
 import 'package:fuel_sale_app/screens/login.dart';
 import 'package:fuel_sale_app/utils/alert_dialog.dart';
@@ -12,7 +11,7 @@ import 'package:fuel_sale_app/utils/custom_alert_bar.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/custom_dropdown_field.dart';
 import 'package:fuel_sale_app/widgets/custom_formfield.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mask_input_formatter/mask_input_formatter.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -37,6 +36,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _password = TextEditingController();
   TextEditingController _confirmPassword = TextEditingController();
 
+  MaskInputFormatter myDOBFormatter =  MaskInputFormatter(mask: '####-##-##');
+
   final _passwordValidator = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
   final _emailValidator = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   final _phoneValidator = RegExp(r'(^(?:[+0]9)?[0-9]{11,14}$)');
@@ -57,6 +58,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
+
+  @override
+  void dispose() {
+    _firstName.dispose();
+    _lastName.dispose();
+    _dob.dispose();
+    _email.dispose();
+    _phoneNumber.dispose();
+    _password.dispose();
+    _confirmPassword.dispose();
+    super.dispose();
+  }
+
   void signUP(BuildContext context) async{
     CustomProgressDialog().showCustomAlertDialog(context, "Please wait...");
     await HttpService().userSignUp(_firstName.text.trim(), _lastName.text.trim(), _phoneNumber.text.trim(), _email.text.trim(), sexInitialValue.toString(), _dob.text.trim(), _password.text.trim(), _confirmPassword.text.trim()).then((value) {
@@ -65,7 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         CustomProgressDialog().popCustomProgressDialogDialog(context);
         //final response = signUpResponseFromJson(value.body);
         //RepositoryService().saveUserdata(response);
-        changeScreen(context, EmailVerificationScreen(userEmail: _email.text.trim(),));
+        replaceScreen(context, EmailVerificationScreen(userEmail: _email.text.trim(),));
       }
       else {
         print(value.statusCode);
@@ -233,7 +247,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 }).toList(),
                               ),
                               Spacer(),
-                              CustomFormatterFormField(
+                              CustomFormField(
+                                inputFormatters: [myDOBFormatter],
                                 keyboardType: TextInputType.number,
                                 width: MediaQuery.of(context).size.width / 3,
                                 controller: _dob,
@@ -256,9 +271,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             validator: (value){
                               if (value!.isEmpty){
                                 return 'Password cannot be empty';
-                              } else if (!_passwordValidator.hasMatch(value)) {
-                                return 'Password is weak';
-                              } else {
+                              }else {
                                 return null;
                               }
                             },

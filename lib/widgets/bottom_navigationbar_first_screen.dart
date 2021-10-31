@@ -20,6 +20,28 @@ class BottomNavigationBarFirstScreen extends StatefulWidget {
 class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirstScreen> {
 
   var _firstName, _lastName, _userEmail, _userPhoneNumber, _userDOB, _sex, _token;
+  // int? _decrementController;
+  // int? _cardDetailId;
+  // int? _incrementController;
+
+
+  // void getId(){
+  //     if (_decrementController! <= _cardDetailId! &&  _cardDetailId! < _incrementController!){
+  //       setState(() {
+  //         _cardDetailId!++;
+  //         _decrementController!++;
+  //       });
+  //     }
+  // }
+  //
+  // resetID(){
+  //   setState(() {
+  //     _cardDetailId!--;
+  //     _decrementController!--;
+  //   });
+  // }
+
+
 
   void initUserData() async {
     final SharedPreferences userdata = await SharedPreferences.getInstance();
@@ -31,9 +53,12 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
       _userDOB = (userdata.getString("userDOB"));
       _token = (userdata.getString("token"));
       _sex = (userdata.getString("userSex"));
+      // _decrementController = (userdata.setInt("decrementController", 0));
+      // _cardDetailId = (userdata.setInt("cardDetailID", 0));
+      // _incrementController = (userdata.setInt("incrementController", 1));
+      // print(_cardDetailId);
     });
   }
-
 
   String? text;
   int? selectedIndex = 0;
@@ -255,7 +280,7 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
             SizedBox(height: 26,),
             Row(
               children: [
-                CustomButton( buttonWidth: MediaQuery.of(context).size.width / 4, decorationColor: AppTheme.white, buttonHeight: 32, onPressed: (){_buildDialog(context );}, buttonText: text ?? 'This week', buttonTextColor: textColor!, labelFontSize: 13,),
+                CustomButton( buttonWidth: MediaQuery.of(context).size.width / 4, decorationColor: AppTheme.white, buttonHeight: 32, onPressed: (){_buildDialog(context);}, buttonText: text ?? 'This week', buttonTextColor: textColor!, labelFontSize: 13,),
                 Spacer(),
                 CustomButton(labelFontSize: 13, buttonWidth: MediaQuery.of(context).size.width / 4, decorationColor: AppTheme.white, buttonHeight: 32, buttonText: 'Export as PDF', buttonTextColor: AppTheme.dark_blue, onPressed: (){},),
               ],

@@ -7,3 +7,4 @@ const postRegister = "/api/register";
 const postLogin = "api/login";
 const getUserDetails = "/api/user";
 const otpValidation = "/api/validateotp";
+const addCreditCard = "/api/card";

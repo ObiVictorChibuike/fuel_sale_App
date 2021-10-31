@@ -32,7 +32,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         final response = signUpResponseFromOtpValidationFromJson(value.body);
         RepositoryService().saveUserdata(response);
         CustomProgressDialog().popCustomProgressDialogDialog(context);
-        changeScreen(context, VerificationSuccess());
+        replaceScreen(context, VerificationSuccess());
       }else{
         var errorMsg = result["message"];
         alertBar(context, errorMsg, AppTheme.red);

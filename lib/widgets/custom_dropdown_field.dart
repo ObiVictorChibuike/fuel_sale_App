@@ -13,7 +13,8 @@ class CustomDropDownButton extends StatefulWidget {
   final double? width;
   final double? height;
   final double? elevation;
-  CustomDropDownButton({Key? key, this.hint, @required this.items, this.value, this.icon, this.onChanged, this.iconDisabledColor, this.underline, this.width, this.height, this.elevation}) : super(key: key);
+  final Color? borderColor;
+  CustomDropDownButton({Key? key, this.hint, @required this.items, this.value, this.icon, this.onChanged, this.iconDisabledColor, this.underline, this.width, this.height, this.elevation, this.borderColor}) : super(key: key);
 
   @override
   _CustomDropDownButtonState createState() => _CustomDropDownButtonState();
@@ -40,7 +41,7 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
             // ],
           color: AppTheme.white,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppTheme.white)
+          border: Border.all(color: widget.borderColor ?? AppTheme.white)
         ),
         child: DropdownButton<dynamic>(
           hint: widget.hint,
