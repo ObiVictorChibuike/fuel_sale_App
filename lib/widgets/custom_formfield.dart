@@ -21,8 +21,10 @@ class CustomFormField extends StatelessWidget {
   final Color? backgroundColor;
   final double? width;
   final double? elevation;
+  final bool? filled;
+  final void Function(String?)? onSaved;
   final List<TextInputFormatter>? inputFormatters;
-  const CustomFormField({Key? key, this.labelText, this.textColor, this.focusedBorderColor, this.enabledBorderColor, @required this.validator, this.cursorColor, this.prefixIcon, this.suffixIcon, this.keyboardType, this.textInputAction, this.cursorHeight, this.controller, this.height, this.backgroundColor, this.width, this.elevation, this.inputFormatters}) : super(key: key);
+  const CustomFormField({Key? key, this.labelText, this.textColor, this.focusedBorderColor, this.enabledBorderColor, @required this.validator, this.cursorColor, this.prefixIcon, this.suffixIcon, this.keyboardType, this.textInputAction, this.cursorHeight, this.controller, this.height, this.backgroundColor, this.width, this.elevation, this.inputFormatters, this.filled, this.onSaved}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +40,15 @@ class CustomFormField extends StatelessWidget {
         width: width ?? double.maxFinite,
         height: height ?? 66,
         child: TextFormField(
+          onSaved: onSaved,
           inputFormatters: inputFormatters,
           controller: controller,
-          textCapitalization: TextCapitalization.words,
+          textCapitalization: TextCapitalization.sentences,
           cursorHeight: cursorHeight ?? 22.0,
           textInputAction: TextInputAction.next,
           keyboardType: keyboardType,
           decoration: InputDecoration(
+            filled: filled,
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(color: enabledBorderColor ?? AppTheme.black, width: 0.7)),
@@ -108,7 +112,7 @@ class _CustomPasswordFormFieldState extends State<CustomPasswordFormField> {
         child: TextFormField(
           inputFormatters: widget.inputFormatters,
           controller: widget.controller,
-          textCapitalization: TextCapitalization.words,
+          textCapitalization: TextCapitalization.sentences,
           obscureText: isObscured,
           cursorHeight: widget.cursorHeight ?? 22.0,
           textInputAction: TextInputAction.done,
@@ -182,7 +186,7 @@ class _CustomCV2PasswordFormFieldState extends State<CustomCV2PasswordFormField>
         width: widget.width ?? double.maxFinite,
         child: TextFormField(
           controller: widget.controller,
-          textCapitalization: TextCapitalization.words,
+          textCapitalization: TextCapitalization.sentences,
           obscureText: true,
           cursorHeight: widget.cursorHeight ?? 22.0,
           textInputAction: TextInputAction.next,
@@ -250,7 +254,7 @@ class CustomReadOnlyFormField extends StatelessWidget {
           initialValue: initialValue,
           readOnly: true,
           controller: controller,
-          textCapitalization: TextCapitalization.words,
+          textCapitalization: TextCapitalization.sentences,
           cursorHeight: cursorHeight ?? 22.0,
           textInputAction: TextInputAction.next,
           keyboardType: keyboardType,

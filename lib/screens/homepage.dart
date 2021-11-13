@@ -5,6 +5,7 @@ import 'package:fuel_sale_app/widgets/bottom_navigationbar_second_screen.dart';
 import 'package:fuel_sale_app/widgets/bottom_navigationbar_first_screen.dart';
 import 'package:fuel_sale_app/widgets/bottom_navigationbar_fourth_screen.dart';
 import 'package:fuel_sale_app/widgets/bottom_navigationbar_third_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -16,12 +17,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var _token;
+
+  void initUserData() async {
+    final SharedPreferences userdata = await SharedPreferences.getInstance();
+    setState(() {
+      _token = (userdata.getString("token"));
+    });
+  }
+
+
+  @override
+  void initState() {
+    initUserData();
+    super.initState();
+  }
   int _currentIndex = 0;
   _getWidget() {
     if (_currentIndex == 0) {
-      return BottomNavigationBarFirstScreen();
+      return BottomNavigationBarFirstScreen( token: _token,);
     } else if (_currentIndex == 1) {
-      return BottomNavigationBarSecondScreen();
+      return BottomNavigationBarSecondScreen(token: _token,);
     }
     if (_currentIndex == 2) {
       return BottomNavigationBarThirdScreen(isDelivery: widget.isDelivery);

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/Services/http_client.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
+import 'package:fuel_sale_app/model/sign_up_model.dart';
 import 'package:fuel_sale_app/screens/email_verification.dart';
 import 'package:fuel_sale_app/screens/login.dart';
 import 'package:fuel_sale_app/utils/alert_dialog.dart';
@@ -43,6 +44,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _phoneValidator = RegExp(r'(^(?:[+0]9)?[0-9]{11,14}$)');
 
   void checkSignUpConnectivity(BuildContext context) async{
+    FocusScope.of(context).unfocus();
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (!(connectivityResult == ConnectivityResult.none)) {
       signUpNow(context);
@@ -77,7 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       var result = jsonDecode(value.body);
       if (value.statusCode == 200 || value.statusCode == 201) {
         CustomProgressDialog().popCustomProgressDialogDialog(context);
-        //final response = signUpResponseFromJson(value.body);
+        final response = signUpResponseFromJson(value.body);
         //RepositoryService().saveUserdata(response);
         replaceScreen(context, EmailVerificationScreen(userEmail: _email.text.trim(),));
       }
@@ -159,6 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: Column(
                         children: [
                           CustomFormField(
+                            keyboardType: TextInputType.text,
                             controller: _firstName,
                             validator: (value){
                               if (value!.isEmpty){
@@ -173,6 +176,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           SizedBox(height: 16,),
                           CustomFormField(
+                            keyboardType: TextInputType.text,
                             controller: _lastName,
                             validator: (value){
                               if (value!.isEmpty){
@@ -187,6 +191,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           SizedBox(height: 16,),
                           CustomFormField(
+                            keyboardType: TextInputType.text,
                             controller: _email,
                             validator: (value){
                               if (value!.isEmpty){
@@ -203,6 +208,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           SizedBox(height: 16,),
                           CustomFormField(
+                            keyboardType: TextInputType.number,
                             controller: _phoneNumber,
                             validator: (value){
                               if (value!.isEmpty){
@@ -267,11 +273,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           SizedBox(height: 16,),
                           CustomPasswordFormField(
+                            keyboardType: TextInputType.visiblePassword,
                             controller: _password,
                             validator: (value){
                               if (value!.isEmpty){
-                                return 'Password cannot be empty';
-                              }else {
+                                return 'Password form cannot be empty';
+                              } else if (!_passwordValidator.hasMatch(value)){
+                                return 'Please, provide a valid email';
+                              } else {
                                 return null;
                               }
                             },
@@ -281,6 +290,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           SizedBox(height: 16,),
                           CustomPasswordFormField(
+                            keyboardType: TextInputType.visiblePassword,
                             controller: _confirmPassword,
                             validator: (value){
                               if (value!.isEmpty) {

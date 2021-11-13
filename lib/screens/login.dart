@@ -31,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailValidator = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
   void checkLoginNowConnectivity(BuildContext context) async{
+    FocusScope.of(context).unfocus();
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (!(connectivityResult == ConnectivityResult.none)) {
       loginNow(context);
@@ -107,10 +108,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Column(
                         children: [
                           CustomFormField(
+                            keyboardType: TextInputType.text,
                             controller: _email,
                             validator: (value){
                               if (value!.isEmpty){
-                                return 'email form cannot be empty';
+                                return 'Email form cannot be empty';
                               }
                               else if (!_emailValidator.hasMatch(value)){
                                 return 'Please, provide a valid email';
@@ -123,6 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           SizedBox(height: 22,),
                           CustomPasswordFormField(
+                            keyboardType: TextInputType.visiblePassword,
                             controller: _password,
                             validator: (value){
                               if (value!.isEmpty){

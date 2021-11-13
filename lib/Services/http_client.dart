@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:fuel_sale_app/constant/endpoints.dart';
+import 'package:fuel_sale_app/model/get_all_card_for_user_model.dart';
+import 'package:fuel_sale_app/model/vendor_response_model.dart';
 import 'package:http/http.dart';
 
 
@@ -13,6 +15,7 @@ class HttpService{
    return response;
  }
 
+
  //SignUp
  Future <Response> userSignUp (String firstName, String lastName, String phoneNumber, String email, String sex, String dob, String password, String confirmPassword) async {
    var url = Uri.https(baseURL, postRegister);
@@ -21,12 +24,14 @@ class HttpService{
    return response;
  }
 
+
  //GetUserDetail
  Future<Response> userDetails(String token) async {
    var url = Uri.https(baseURL, getUserDetails);
    final response = await get(url, headers: {"Content-Type": "application/json", "Accept": "application/json", "Authorization" : "Bearer $token"},);
    return response;
  }
+
 
  //OtpVerification
  Future<Response> validateOTP(String email, String otp, ) async {
@@ -36,12 +41,36 @@ class HttpService{
    return response;
  }
 
- //OtpVerification
- Future<Response> addCard (String cardType, String cardName, String cardNumber, String ccv, String expiryDate, String pin, String vendorId, String token) async {
+
+ //addCard
+ Future<Response> addCard ( String cardNumber, String token) async {
    var url = Uri.https(baseURL, addCreditCard);
-   var body = {"cardtype": cardType, "cardName": cardName, "cardNumber": cardNumber, "ccv":ccv, "expiryDate": expiryDate, "pin":pin, "vendorId":vendorId};
+   var body = {"cardNumber": cardNumber};
    final response = await post(url, headers: {"Content-Type": "application/json", "Accept": "application/json", "Authorization" : "Bearer $token"},body: jsonEncode(body));
    return response;
+ }
+
+
+ //GetAllCardSForAUser
+ Future <List<GetAllCardForAUserResponseModel>>? userAllCardDetailsForUser(String token) async {
+   var url = Uri.https(baseURL, getAllCardForAUser);
+   final response = await get(url, headers: {"Content-Type": "application/json", "Accept": "application/json", "Authorization" : "Bearer $token"},);
+   if(response.statusCode == 200 || response.statusCode == 201){
+     return getAllCardForAUserResponseModelFromJson(response.body);
+   } else{
+     throw Exception("Fail to load data");
+   }
+ }
+
+ //GetAllVendorAvailable
+ Future <GetAllVendorModelResponse> getAllVendor(String token) async {
+   var url = Uri.https(baseURL, getAllVendors);
+   final response = await get(url, headers: {"Content-Type": "application/json", "Accept": "application/json", "Authorization" : "Bearer $token"},);
+   if(response.statusCode == 200 || response.statusCode == 201) {
+     return GetAllVendorModelResponse.fromJson(jsonDecode(response.body));
+   } else {
+     throw Exception("Fail to load data");
+   }
  }
 
 }
