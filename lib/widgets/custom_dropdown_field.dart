@@ -43,16 +43,21 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: widget.borderColor ?? AppTheme.white)
         ),
-        child: DropdownButton<dynamic>(
-          hint: widget.hint,
-          items: widget.items,
-          value: widget.value,
-          icon: widget.icon,
-          elevation: 16,
-          onChanged: widget.onChanged,
-          iconSize: 24,
-          iconDisabledColor: widget.iconDisabledColor,
-          underline: widget.underline,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: DropdownButton<dynamic>(
+            isExpanded: true,
+            hint: widget.hint,
+            items: widget.items,
+            value: widget.value,
+            icon: widget.icon,
+            elevation: 16,
+            onChanged: widget.onChanged,
+            iconSize: 24,
+            iconDisabledColor: widget.iconDisabledColor,
+            underline: widget.underline,
+            style: TextStyle(fontSize: 15, color: AppTheme.black),
+          ),
         ),
       ),
     );

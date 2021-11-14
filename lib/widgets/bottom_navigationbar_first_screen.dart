@@ -19,7 +19,7 @@ class BottomNavigationBarFirstScreen extends StatefulWidget {
 
 class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirstScreen> {
 
-  var _firstName, _lastName, _token;
+  var _firstName, _lastName;
   bool isCardAdded = false;
 
   void initUserData() async {
@@ -27,7 +27,6 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
     setState(() {
       _firstName = (userdata.getString("firstName"));
       _lastName = (userdata.getString("lastName"));
-      //_token = (userdata.getString("token"));
     });
   }
 

@@ -39,7 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   MaskInputFormatter myDOBFormatter =  MaskInputFormatter(mask: '####-##-##');
 
-  final _passwordValidator = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+  //final _passwordValidator = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
   final _emailValidator = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   final _phoneValidator = RegExp(r'(^(?:[+0]9)?[0-9]{11,14}$)');
 
@@ -212,10 +212,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             controller: _phoneNumber,
                             validator: (value){
                               if (value!.isEmpty){
-                                return 'Phone number form cannot be empty';
-                              } else if (!_phoneValidator.hasMatch(value)){
+                                return 'Phone number form cannot be empty';}
+                              else if (!_phoneValidator.hasMatch(value)){
                                 return "Please, provide a valid phone numb";
-                              }else {
+                              } else {
                                 return null;
                               }
                             },
@@ -262,8 +262,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   if (value!.isEmpty){
                                     return 'DOB form cannot be empty';
                                   }else {
-                                    return null;
-                                  }
+                                    return null;}
                                 },
                                 labelText: "1990-02-29",
                                 focusedBorderColor: AppTheme.white,
@@ -278,9 +277,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             validator: (value){
                               if (value!.isEmpty){
                                 return 'Password form cannot be empty';
-                              } else if (!_passwordValidator.hasMatch(value)){
-                                return 'Please, provide a valid email';
-                              } else {
+                              }
+                              // else if (!_passwordValidator.hasMatch(value)){
+                              //   return 'Please, provide a valid email';
+                              // }
+                              else {
                                 return null;
                               }
                             },

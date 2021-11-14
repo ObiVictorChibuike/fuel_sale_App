@@ -63,11 +63,12 @@ class HttpService{
  }
 
  //GetAllVendorAvailable
- Future <GetAllVendorModelResponse> getAllVendor(String token) async {
+ Future <List<GetAllVendorModelResponse>>? getAllVendor(String token) async {
    var url = Uri.https(baseURL, getAllVendors);
    final response = await get(url, headers: {"Content-Type": "application/json", "Accept": "application/json", "Authorization" : "Bearer $token"},);
    if(response.statusCode == 200 || response.statusCode == 201) {
-     return GetAllVendorModelResponse.fromJson(jsonDecode(response.body));
+     print(response.body);
+     return getAllVendorModelResponseFromJson(response.body);
    } else {
      throw Exception("Fail to load data");
    }

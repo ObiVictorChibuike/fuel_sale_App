@@ -9,8 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class HomePage extends StatefulWidget {
-  final bool? isDelivery;
-  const HomePage({Key? key, this.isDelivery}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -40,7 +39,7 @@ class _HomePageState extends State<HomePage> {
       return BottomNavigationBarSecondScreen(token: _token,);
     }
     if (_currentIndex == 2) {
-      return BottomNavigationBarThirdScreen(isDelivery: widget.isDelivery);
+      return BottomNavigationBarThirdScreen();
     }
     if (_currentIndex == 3) {
       return BottomNavigationBarFourthScreen();

@@ -5,6 +5,7 @@ import 'package:fuel_sale_app/model/previous_order_dummy_model.dart';
 import 'package:fuel_sale_app/screens/place_your_order.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/custom_formfield.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class PreviousOrder extends StatefulWidget {
   const PreviousOrder({Key? key}) : super(key: key);
 
@@ -13,6 +14,22 @@ class PreviousOrder extends StatefulWidget {
 }
 
 class _PreviousOrderState extends State<PreviousOrder> {
+
+  var _token;
+
+  void initUserData() async {
+    final SharedPreferences userdata = await SharedPreferences.getInstance();
+    setState(() {
+      _token = (userdata.getString("token"));
+    });
+  }
+
+
+  @override
+  void initState() {
+    initUserData();
+    super.initState();
+  }
 
   _buildDialog (BuildContext context, String title, String address, String product, String quantity) => showDialog(context: context, builder: (BuildContext context){
     return Padding(
@@ -78,7 +95,7 @@ class _PreviousOrderState extends State<PreviousOrder> {
                             textColor: AppTheme.white,
                             buttonText: 'Proceed',
                             onPressed: (){
-                              changeScreen(context, PlaceYourOrder(title: title, address: address, product: product, quantity: quantity,));
+                              changeScreen(context, PlaceYourOrder(title: title, address: address, product: product, quantity: quantity, token: _token,));
                             }
                         ),
                       ),

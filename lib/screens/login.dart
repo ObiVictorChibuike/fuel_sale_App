@@ -114,9 +114,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (value!.isEmpty){
                                 return 'Email form cannot be empty';
                               }
-                              else if (!_emailValidator.hasMatch(value)){
-                                return 'Please, provide a valid email';
-                              } else {
+                              // else if (!_emailValidator.hasMatch(value)){
+                              //   return 'Please, provide a valid email';
+                              // }
+                              else {
                                 return null;}
                             },
                             labelText: 'Email',

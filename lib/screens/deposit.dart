@@ -1,8 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fuel_sale_app/Services/http_client.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
-import 'package:fuel_sale_app/model/vendor_response_model.dart';
 import 'package:fuel_sale_app/screens/confirm_deposit.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/custom_dropdown_field.dart';
@@ -16,21 +15,9 @@ class Deposit extends StatefulWidget {
 }
 
 class _DepositState extends State<Deposit> {
-
-
-  @override
-  void initState() {
-   setState(() {
-     data = HttpService().getAllVendor(widget.token) as List;
-   });
-    super.initState();
-  }
-
-  late List data;
-
-
   String dropdownInitialValue = 'GT Bank';
   final List<String> banks = ['GT Bank', 'Access Bank', 'First Bank', 'Sterling Bank', 'Eco Bank', 'Kuda Bank', 'Union Bank', 'UBA Bank'];
+
 
   Widget depositToCard({void Function()? onTap}){
     return SingleChildScrollView(
@@ -44,9 +31,7 @@ class _DepositState extends State<Deposit> {
             Text('Select Bank', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 12, color: AppTheme.dark_blue),),
             SizedBox(height: 3,),
             CustomDropDownButton(
-              width: MediaQuery.of(context).size.width,
-              height: 53,
-              elevation: 1,
+              width: MediaQuery.of(context).size.width, height: 53, elevation: 1,
               hint: Text('Select Bank', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
                 underline: Container(),
                 value: dropdownInitialValue,
@@ -56,17 +41,14 @@ class _DepositState extends State<Deposit> {
                   });
                 },
                 icon: Padding(
-                  padding: const EdgeInsets.only(left: 200.0),
+                  padding: const EdgeInsets.only(left: 10.0),
                   child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width / 3
-                      ),
-                      child: Icon(Icons.arrow_drop_down_outlined)),
-                ),
-                items: data.map ((item) {
+                      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 3),
+                      child: Icon(Icons.arrow_drop_down_outlined)),),
+                items: banks.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
-                      value: item,
-                      child: Text('\t\t ${item[""].toString()}'),
+                      value: value,
+                      child: Text(value.toString(), style: TextStyle(fontSize: 16, fontFamily: "Lato", fontWeight: FontWeight.w200),),
                   );
                 }).toList()
             ),

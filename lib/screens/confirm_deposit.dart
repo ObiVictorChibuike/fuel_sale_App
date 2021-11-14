@@ -4,7 +4,9 @@ import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 class ConfirmDeposit extends StatelessWidget {
-  const ConfirmDeposit({Key? key}) : super(key: key);
+  final String? longitude;
+  final String? latitude;
+  const ConfirmDeposit({Key? key, this.longitude, this.latitude}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

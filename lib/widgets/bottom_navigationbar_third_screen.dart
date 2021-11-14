@@ -8,8 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'custom_button.dart';
 
 class BottomNavigationBarThirdScreen extends StatefulWidget {
-  late final bool? isDelivery;
-  BottomNavigationBarThirdScreen({Key? key, this.isDelivery}) : super(key: key);
+  BottomNavigationBarThirdScreen({Key? key}) : super(key: key);
 
   @override
   _BottomNavigationBarThirdScreenState createState() => _BottomNavigationBarThirdScreenState();
@@ -272,11 +271,9 @@ class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThir
           appBar: AppBar(
             backgroundColor: AppTheme.backGround,
             elevation: 0.0,
-            leading: widget.isDelivery == true ? IconButton(onPressed: (){Navigator.of(context).pop(); setState(() {
-              widget.isDelivery = false;
-            });}, icon: Icon(Icons.arrow_back_ios, color: AppTheme.dark_blue,)): Icon(Icons.menu, color: AppTheme.dark_blue,)
+            leading:IconButton(onPressed: (){Navigator.of(context).pop();}, icon: Icon(Icons.arrow_back_ios, color: AppTheme.dark_blue,)),
           ),
-          body: widget.isDelivery == true ? isDeliveryTrueUI() : isDeliveryFalseUI(),
+          body: isDeliveryFalseUI(),
         )
     );
   }
