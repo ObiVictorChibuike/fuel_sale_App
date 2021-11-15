@@ -45,14 +45,16 @@ class _BottomNavigationBarFourthScreenState extends State<BottomNavigationBarFou
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Row(
-                      children: [
-                        IconButton(onPressed: (){
-                          Navigator.of(context).pop();
-                        }, icon: Icon(Icons.arrow_back_ios,color: AppTheme.white,)),
-                        SizedBox(width: 70,),
-                        Container(child: Text('Notifications', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Lato", color: AppTheme.white),)),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Row(
+                        children: [
+                          IconButton(onPressed: (){
+                          }, icon: Icon(Icons.arrow_back_ios,color: AppTheme.white,)),
+                          SizedBox(width: 85,),
+                          Container(child: Text('Notifications', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Lato", color: AppTheme.white),)),
+                        ],
+                      ),
                     ),
                   ],
                 )

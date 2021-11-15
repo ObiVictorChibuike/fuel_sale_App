@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fuel_sale_app/Services/http_client.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/model/dummy_card_details.dart';
 import 'package:fuel_sale_app/model/dummy_record_model.dart';
+import 'package:fuel_sale_app/model/get_all_transaction_response_model.dart';
 import 'package:fuel_sale_app/screens/card_details.dart';
 import 'package:fuel_sale_app/screens/deposit.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
@@ -253,10 +255,10 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
                       width: double.maxFinite,
                       child: Center(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 90.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 100.0),
                           child: CustomButton(decorationColor: AppTheme.dark_blue, onPressed: (){
                             changeScreen(context, Deposit(token: widget.token,));
-                            }, buttonHeight: 31, buttonText: 'Deposit', labelFontSize: 10,),),),),
+                            }, buttonHeight: 40, buttonText: 'Deposit', labelFontSize: 15,),),),),
                   ],
                 ),
               ),
@@ -276,43 +278,59 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
                   child: Column(
                     children: [
                       ButtonFilter(),
-                      ...List.generate(Record.records.length, (index) => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: AppTheme.grey.withOpacity(0.1),
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(height: 9,),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(Record.records[index].title.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 14, color: Record.records[index].titleColor),),
-                                    SizedBox(height: 3,),
-                                    Row(
+                      FutureBuilder <List<GetAllTransactionModelResponse>>(
+                        future: HttpService().getAllTransactions(widget.token),
+                          builder: (context, AsyncSnapshot<List<GetAllTransactionModelResponse>> snapshot){
+                          if(!snapshot.hasData){
+                            return SizedBox();
+                          } else {
+                            return Column(children: [
+                              ...List.generate(snapshot.data!.length, (index) {
+                                final data = snapshot.data![index];
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: AppTheme.grey.withOpacity(0.1),
+                                    ),
+                                    child: Row(
                                       children: [
-                                        Text(Record.records[index].date.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 11, color: AppTheme.grey),),
-                                        Text(Record.records[index].time.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 11, color: AppTheme.grey),),
+                                        SizedBox(height: 9,),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(data.vendorId.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 14, color: Record.records[index].titleColor),),
+                                              SizedBox(height: 3,),
+                                              Row(
+                                                children: [
+                                                  Text(Record.records[index].date.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 11, color: AppTheme.grey),),
+                                                  Text(data.createdAt.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 11, color: AppTheme.grey),),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(data.transAmount.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 14, color: Record.records[index].amountColor),),
+                                        ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                              Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(Record.records[index].amount.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 14, color: Record.records[index].amountColor),),
+                                  ),
+                                );
+                              }
                               ),
                             ],
-                          ),
-                        ),
-                      ),
+                            );
+                          }
+
+                          }
                       ),
                     ],
                   ),

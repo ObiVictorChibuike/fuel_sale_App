@@ -4,6 +4,7 @@ import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/screens/help.dart';
 import 'package:fuel_sale_app/screens/legal.dart';
 import 'package:fuel_sale_app/screens/settings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class BottomNavigationBarFifthScreen extends StatefulWidget {
   const BottomNavigationBarFifthScreen({Key? key}) : super(key: key);
 
@@ -12,6 +13,24 @@ class BottomNavigationBarFifthScreen extends StatefulWidget {
 }
 
 class _BottomNavigationBarFifthScreenState extends State<BottomNavigationBarFifthScreen> {
+
+  var _firstName, _lastName, _email;
+
+  void initUserData() async {
+    final SharedPreferences userdata = await SharedPreferences.getInstance();
+    setState(() {
+      _firstName = (userdata.getString("firstName"));
+      _lastName = (userdata.getString("lastName"));
+      _email = (userdata.getString("userEmail"));
+    });
+  }
+
+
+  @override
+  void initState() {
+    initUserData();
+    super.initState();
+  }
 
   _showModalBottomSheet() {
     showModalBottomSheet(
@@ -125,11 +144,11 @@ class _BottomNavigationBarFifthScreenState extends State<BottomNavigationBarFift
                   ),
                 ),
                 SizedBox(height: 15,),
-                Text('James Chuks', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 22, fontFamily: 'Lato', color: AppTheme.dark_blue),),
+                Text("$_firstName $_lastName", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 22, fontFamily: 'Lato', color: AppTheme.dark_blue),),
                 SizedBox(height: 3,),
-                Text('@Jchuks', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 18, fontFamily: 'Lato', color: AppTheme.dark_blue),),
+                Text("${_firstName.toString().substring(0,1)}${_lastName.toString().substring(0)}", style: TextStyle(fontWeight: FontWeight.w300, fontSize: 18, fontFamily: 'Lato', color: AppTheme.dark_blue),),
                 SizedBox(height: 35,),
-                Text('JChuks20@gmail.com', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16, fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),),
+                Text('$_email', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16, fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),),
                 SizedBox(height: 3,),
                 Text('070 343 054 66', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16, fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),),
                 SizedBox(height: 15,),

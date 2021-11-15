@@ -4,92 +4,128 @@ import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/model/vendor_response_model.dart';
 import 'package:fuel_sale_app/screens/homepage.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
-import 'package:fuel_sale_app/widgets/custom_formfield.dart';
 
 class ReviewOrder extends StatefulWidget {
-  final String? product, quantity, paymentMethod;
+  final String? product, quantity, paymentMethod, location;
   final GetAllVendorModelResponse? title;
-  const ReviewOrder({Key? key, this.title, this.product, this.quantity, this.paymentMethod}) : super(key: key);
+  const ReviewOrder({Key? key, this.title, this.product, this.quantity, this.paymentMethod, this.location}) : super(key: key);
 
   @override
   _ReviewOrderState createState() => _ReviewOrderState();
 }
 
 class _ReviewOrderState extends State<ReviewOrder> {
-  bool? isDelivery = false;
-
-
 
   Widget reviewOrder(){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 34.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 50,),
-          Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             elevation: 2,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),),
               height: MediaQuery.of(context).size.height / 5.5, width: MediaQuery.of(context).size.width,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 15),
                 child: Column(
                   children: [
                     SizedBox(height: 15,),
                     Row(mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("Delivery Details", style: TextStyle(fontSize: 23, fontWeight: FontWeight.w400, fontFamily: "Lato"),),
-                      ],
-                    ),
+                      children: [Text("Delivery Details", style: TextStyle(fontSize: 23, fontWeight: FontWeight.w400, fontFamily: "Lato"),),],),
                     SizedBox(height: 10,),
                     Row(
                       children: [
-                        Icon(Icons.timer, size: 30, color: AppTheme.dark_blue,),
+                       Container(decoration: BoxDecoration(shape: BoxShape.circle),child: Image.asset("assets/timer.png"),),
                         SizedBox(width: 5,),
                         Column(crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("9 AM - 10 AM", style: TextStyle(fontFamily: "Lato", fontWeight: FontWeight.w200, fontSize: 13, color: AppTheme.dark_blue),),
-                            Text("10-06-2021", style: TextStyle(fontFamily: "Lato", fontWeight: FontWeight.w200, fontSize: 13, color: AppTheme.dark_blue),),
-                          ],
-                        )
-                      ],
-                    )
+                            Text("10-06-2021", style: TextStyle(fontFamily: "Lato", fontWeight: FontWeight.w200, fontSize: 13, color: AppTheme.dark_blue),),],)],),
+                    SizedBox(height: 14,),
+                    Row(
+                      children: [
+                        Container(decoration: BoxDecoration(shape: BoxShape.circle), child: Image.asset("assets/location.png"),),
+                        SizedBox(width: 5,),
+                        Column(crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Primary Address", style: TextStyle(fontFamily: "Lato", fontWeight: FontWeight.w200, fontSize: 13, color: AppTheme.dark_blue),),
+                            Text(widget.location!, style: TextStyle(fontFamily: "Lato", fontWeight: FontWeight.w200, fontSize: 13, color: AppTheme.dark_blue),),],)],
+                    ),
                   ],
                 ),
               ),
             ),
           ),
-          SizedBox(height: 49,),
-          CustomReadOnlyFormField(
-            initialValue: widget.product!,
-            backgroundColor: AppTheme.white,
-            enabledBorderColor: AppTheme.white,
-            focusedBorderColor: AppTheme.white,
-            height: 50,
-            textColor: AppTheme.grey.withOpacity(0.4),
+          SizedBox(height: 20,),
+          Card(elevation: 2,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            child: Container(height: MediaQuery.of(context).size.height / 6.5, width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(color: AppTheme.white, borderRadius: BorderRadius.circular(12),),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Column(
+                   children: [SizedBox(height: 15,),
+                   Row(mainAxisAlignment: MainAxisAlignment.start,
+                     children: [Text("Card Details", style: TextStyle(fontSize: 23, fontWeight: FontWeight.w400, fontFamily: "Lato"),),],),
+                     Row(children: [
+                         Container(height: 60, width: 60, decoration: BoxDecoration(shape: BoxShape.circle,),child: Image.asset('assets/logo.png',)),
+                         SizedBox(width: 20,),
+                         Column(crossAxisAlignment: CrossAxisAlignment.center,
+                           children: [
+                             SizedBox(height: 10,),
+                             Text("**** **** **** 4826 Mastercard", style: TextStyle(fontSize: 13, fontFamily: 'Lato', fontWeight: FontWeight.w600, color: AppTheme.dark_blue),),
+                             SizedBox(height: 20,),
+                             Text('N487,000.12', style: TextStyle(fontSize: 17, fontFamily: 'Lato', fontWeight: FontWeight.w600, color: AppTheme.dark_blue),),
+                           ],
+                         ),
+                       ],
+                     ),
+                   ],
+                 ),
+              ),
+            ),
           ),
-          SizedBox(height: 49,),
-          CustomReadOnlyFormField(
-            initialValue: widget.quantity!,
-            backgroundColor: AppTheme.white,
-            enabledBorderColor: AppTheme.white,
-            focusedBorderColor: AppTheme.white,
-            height: 50,
-            textColor: AppTheme.grey.withOpacity(0.4),
-          ),
-          SizedBox(height: 49,),
-          CustomReadOnlyFormField(
-            suffixIcon: Icon(Icons.arrow_drop_down_outlined, color: AppTheme.grey.withOpacity(0.4),),
-            initialValue: widget.paymentMethod! == 'Pay with card' ? '634xxxxxx343' : 'Bank',
-            backgroundColor: AppTheme.white,
-            enabledBorderColor: AppTheme.white,
-            focusedBorderColor: AppTheme.white,
-            height: 50,
-            textColor: AppTheme.grey.withOpacity(0.4),
-          ),
+           SizedBox(height: 20,),
+           Card(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+             child: Container(height: MediaQuery.of(context).size.height / 4, width: double.maxFinite,
+               decoration: BoxDecoration(color: AppTheme.white, borderRadius: BorderRadius.circular(12),),
+               child: Padding(
+                 padding: const EdgeInsets.symmetric(horizontal: 27.0,vertical: 18),
+                 child: Column(
+                   children: [
+                     Row(mainAxisAlignment: MainAxisAlignment.start,
+                       children: [Text("Order Summary", style: TextStyle(fontSize: 23, fontWeight: FontWeight.w400, fontFamily: "Lato"),),],),
+                     SizedBox(height: 20,),
+                     Row(mainAxisAlignment: MainAxisAlignment.start,
+                       children: [
+                         Text(widget.title!.businessName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, fontFamily: "Lato", color: AppTheme.dark_blue),),],),
+                     SizedBox(height: 10,),
+                     Column(children: [
+                        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                          Text(widget.product!, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
+                          Text(widget.quantity!, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
+                          Text("N 3,000", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
+                        ],),
+                      SizedBox(height: 10,),
+                      Row(children: [
+                         Text("Delivery Fee", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
+                         Spacer(),
+                         Text("N 300", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
+                       ],),],
+                     ),
+                     Spacer(),
+                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text("Total", style: TextStyle(fontFamily: "Lato", fontWeight: FontWeight.w500, fontSize: 23, color: AppTheme.dark_blue),)],),
+                     SizedBox(height: 13,),
+                     Text("N 3,300", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
+                   ],
+                 ),
+               ),
+             ),
+           ),
           SizedBox(height: 61,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 70.0),
@@ -100,7 +136,7 @@ class _ReviewOrderState extends State<ReviewOrder> {
                 buttonText: 'Checkout',
                 buttonHeight: 45,
                 onPressed: (){
-                  changeScreen(context, HomePage());
+                  replaceScreen(context, HomePage());
                 }
             ),
           ),

@@ -56,10 +56,10 @@ class _AddCardState extends State<AddCard> {
   }
 
   void signUpNow(){
-    if (_formKey.currentState!.validate()){
-      _formKey.currentState!.save();
+    //if (_formKey.currentState!.validate()){
+     // _formKey.currentState!.save();
       addCardNow();
-    }
+    //}
   }
 
   addCardNow() async {
@@ -87,69 +87,6 @@ class _AddCardState extends State<AddCard> {
         padding: const EdgeInsets.symmetric(horizontal: 34.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start,
           children: [SizedBox(height: 80,),
-            // Text('Vendors', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 12, color: AppTheme.dark_blue),),
-            // SizedBox(height: 3,),
-            // CustomDropDownButton(
-            //   borderColor: AppTheme.grey.withOpacity(0.2),
-            //   elevation: 0.0,
-            //   width: MediaQuery.of(context).size.width, height: 50,
-            //   hint: Text('Gender', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
-            //   underline: Container(),
-            //   value: vendorInitialValue,
-            //   onChanged: (newValue){setState(() {vendorInitialValue = newValue;});},
-            //   icon: Padding(
-            //     padding: const EdgeInsets.only(left: 150.0),
-            //     child: ConstrainedBox(constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width /4), child: Icon(Icons.arrow_drop_down_outlined)),),
-            //   items: vendor.map<DropdownMenuItem<String>>((String value) {
-            //     return DropdownMenuItem<String>(
-            //       value: value,
-            //       child: Text('\t\t ${value.toString()}'),
-            //     );
-            //   }).toList(),
-            // ),
-            // SizedBox(height: 20,),
-            // Text('Card Name', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 12, color: AppTheme.dark_blue),),
-            // CustomDropDownButton(
-            //   borderColor: AppTheme.grey.withOpacity(0.2),
-            //   elevation: 0.0,
-            //   width: MediaQuery.of(context).size.width, height: 50,
-            //   hint: Text('Gender', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
-            //   underline: Container(),
-            //   value: cardInitialValue,
-            //   onChanged: (newValue){setState(() {cardInitialValue = newValue;});},
-            //   icon: Padding(
-            //     padding: const EdgeInsets.only(left: 150.0),
-            //     child: ConstrainedBox(constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width /4), child: Icon(Icons.arrow_drop_down_outlined)),),
-            //   items: card.map<DropdownMenuItem<String>>((String value) {
-            //     return DropdownMenuItem<String>(
-            //       value: value,
-            //       child: Text('\t\t ${value.toString()}'),
-            //     );
-            //   }).toList(),
-            // ),
-            // SizedBox(height: 20,),
-            // Text('Preferred Display Name', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 12, color: AppTheme.dark_blue),),
-            // SizedBox(height: 3,),
-            // CustomFormField(
-            //   elevation: 0.0,
-            //   controller: _cardTypeController,
-            //   backgroundColor: AppTheme.white,
-            //   textInputAction: TextInputAction.next,
-            //   keyboardType: TextInputType.name,
-            //   enabledBorderColor: AppTheme.grey.withOpacity(0.4),
-            //   focusedBorderColor: AppTheme.grey.withOpacity(0.4),
-            //   height: 46,
-            //   labelText: 'James Chukwu',
-            //   textColor: AppTheme.grey.withOpacity(0.4),
-            //   validator: (value){
-            //     if (value!.isEmpty) {
-            //       return "Please, Platinum Card form cannot be empty";
-            //     } else {
-            //       return null;
-            //     }
-            //   },
-            // ),
-            // SizedBox(height: 20,),
             Text('Card Number', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 12, color: AppTheme.dark_blue),),
             SizedBox(height: 3,),
             CustomFormField(
@@ -158,11 +95,11 @@ class _AddCardState extends State<AddCard> {
                 print('Num controller has = ${_cardNumberController.text}');
                 _paymentCard.number = CardUtils.getCleanedNumber(value!);
               },
-              validator: CardUtils.validateCardNum,
+              //validator: CardUtils.validateCardNum,
               keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly, new LengthLimitingTextInputFormatter(19),
-                new CardNumberInputFormatter()],
+              // inputFormatters: [
+              //   FilteringTextInputFormatter.digitsOnly, new LengthLimitingTextInputFormatter(19),
+              //   new CardNumberInputFormatter()],
               filled: true,
               elevation: 0.0,
               controller: _cardNumberController,
@@ -184,89 +121,6 @@ class _AddCardState extends State<AddCard> {
                     child: CardUtils.getCardIcon(_paymentCard.type),),
               ),
             ),
-            // SizedBox(height: 20,),
-            // Row(
-            //   children: [
-            //     Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         Text('Expiry date', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 12, color: AppTheme.dark_blue),),
-            //         SizedBox(height: 3,),
-            //         CustomFormField(
-            //           inputFormatters: [myExpiryDateFormatter],
-            //           elevation: 0.0,
-            //           controller: _expiryDateController,
-            //           width: MediaQuery.of(context).size.width/ 3,
-            //           backgroundColor: AppTheme.white,
-            //           textInputAction: TextInputAction.next,
-            //           keyboardType: TextInputType.phone,
-            //           enabledBorderColor: AppTheme.grey.withOpacity(0.4),
-            //           focusedBorderColor: AppTheme.grey.withOpacity(0.4),
-            //           height: 46,
-            //           labelText: 'YYYY/MM//DD',
-            //           textColor: AppTheme.grey.withOpacity(0.4),
-            //           validator: (value){
-            //             if (value!.isEmpty) {
-            //               return "Please, Expiry date form cannot be empty";
-            //             } else {
-            //               return null;
-            //             }
-            //           },
-            //         ),
-            //       ],
-            //     ),
-            //     Spacer(),
-            //     Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         Text('CV2', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 12, color: AppTheme.dark_blue),),
-            //         SizedBox(height: 3,),
-            //         CustomCV2PasswordFormField(
-            //           elevation: 0.0,
-            //           controller: _ccvController,
-            //           width: MediaQuery.of(context).size.width/ 3,
-            //           backgroundColor: AppTheme.white,
-            //           textInputAction: TextInputAction.next,
-            //           keyboardType: TextInputType.name,
-            //           enabledBorderColor: AppTheme.grey.withOpacity(0.4),
-            //           focusedBorderColor: AppTheme.grey.withOpacity(0.4),
-            //           height: 46,
-            //           labelText: '***',
-            //           textColor: AppTheme.grey.withOpacity(0.4),
-            //           validator: (value){
-            //             if (value!.isEmpty) {
-            //               return "Please, CV2 form cannot be empty";
-            //             } else {
-            //               return null;
-            //             }
-            //           },
-            //         ),
-            //       ],
-            //     ),
-            //   ],
-            // ),
-            // SizedBox(height: 20,),
-            // Text('Pin', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 12, color: AppTheme.dark_blue),),
-            // SizedBox(height: 3,),
-            // CustomPasswordFormField(
-            //   elevation: 0.0,
-            //   width: MediaQuery.of(context).size.width/ 3,
-            //   backgroundColor: AppTheme.white,
-            //   textInputAction: TextInputAction.next,
-            //   keyboardType: TextInputType.name,
-            //   enabledBorderColor: AppTheme.grey.withOpacity(0.4),
-            //   focusedBorderColor: AppTheme.grey.withOpacity(0.4),
-            //   height: 46,
-            //   controller: _pinController,
-            //   validator: (value){
-            //     if (value!.isEmpty) {
-            //       return "Please, pin form cannot be empty";
-            //     } else {
-            //       return null;
-            //     }
-            //   },
-            //   labelText: '****',
-            // ),
             SizedBox(height: 300,),
             CustomButton(
                 decorationColor: AppTheme.dark_blue,
@@ -317,7 +171,7 @@ class _AddCardState extends State<AddCard> {
   @override
   void dispose() {
     // Clean up the controller when the Widget is removed from the Widget tree
-    _cardNumberController.removeListener(_getCardTypeFrmNumber);
+    //_cardNumberController.removeListener(_getCardTypeFrmNumber);
     _cardNumberController.dispose();
     super.dispose();
   }
@@ -331,19 +185,19 @@ class _AddCardState extends State<AddCard> {
   }
 
   void _validateInputs() {
-    final FormState form = _formKey.currentState!;
-    if (!form.validate()) {
-      setState(() {
-        _autoValidateMode = AutovalidateMode.always;
+    //final FormState form = _formKey.currentState!;
+    //if (!form.validate()) {
+      //setState(() {
+        //_autoValidateMode = AutovalidateMode.always;
         // Start validating on every change.
-      });
-      _showInSnackBar('Please fix the errors in red before submitting.');
-    } else {
-      form.save();
+     // });
+      //_showInSnackBar('Please fix the errors in red before submitting.');
+    //} else {
+      //form.save();
       checkAddNowConnectivity();
       // Encrypt and send send payment details to payment gateway
       //_showInSnackBar('Payment card is valid');
-    }
+    //}
   }
   void _showInSnackBar(String value) {
     ScaffoldMessenger.of(context).showSnackBar(new SnackBar(

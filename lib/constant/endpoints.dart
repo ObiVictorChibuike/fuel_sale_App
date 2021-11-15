@@ -1,7 +1,5 @@
 
 //Apis
-// const testBaseURL = "reqres.in";
-// const testPostLogin = "/api/login";
 const baseURL = "eone.solemn.tech";
 const postRegister = "/api/register";
 const postLogin = "api/login";
@@ -10,3 +8,4 @@ const otpValidation = "/api/validateotp";
 const addCreditCard = "/api/card";
 const getAllCardForAUser = "/api/card";
 const getAllVendors = "/api/vendor";
+const getAllTransaction = "/api/trans";

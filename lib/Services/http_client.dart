@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:fuel_sale_app/constant/endpoints.dart';
 import 'package:fuel_sale_app/model/get_all_card_for_user_model.dart';
+import 'package:fuel_sale_app/model/get_all_transaction_response_model.dart';
 import 'package:fuel_sale_app/model/vendor_response_model.dart';
 import 'package:http/http.dart';
 
@@ -67,8 +68,18 @@ class HttpService{
    var url = Uri.https(baseURL, getAllVendors);
    final response = await get(url, headers: {"Content-Type": "application/json", "Accept": "application/json", "Authorization" : "Bearer $token"},);
    if(response.statusCode == 200 || response.statusCode == 201) {
-     print(response.body);
      return getAllVendorModelResponseFromJson(response.body);
+   } else {
+     throw Exception("Fail to load data");
+   }
+ }
+
+ Future <List<GetAllTransactionModelResponse>>? getAllTransactions(String token) async {
+   var url = Uri.https(baseURL, getAllTransaction);
+   final response = await get(url, headers: {"Content-Type": "application/json", "Accept": "application/json", "Authorization" : "Bearer $token"},);
+   if(response.statusCode == 200 || response.statusCode == 201) {
+     print(response.body);
+     return getAllTransactionModelResponseFromJson(response.body);
    } else {
      throw Exception("Fail to load data");
    }
