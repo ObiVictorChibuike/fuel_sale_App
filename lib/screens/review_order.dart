@@ -1,20 +1,56 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:fuel_sale_app/Services/http_client.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/model/vendor_response_model.dart';
 import 'package:fuel_sale_app/screens/homepage.dart';
+import 'package:fuel_sale_app/utils/alert_dialog.dart';
+import 'package:fuel_sale_app/utils/custom_alert_bar.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 
 class ReviewOrder extends StatefulWidget {
   final String? product, quantity, paymentMethod, location;
+  final double? longitude, latitude;
   final GetAllVendorModelResponse? title;
-  const ReviewOrder({Key? key, this.title, this.product, this.quantity, this.paymentMethod, this.location}) : super(key: key);
+  const ReviewOrder({Key? key, this.title, this.product, this.quantity, this.paymentMethod, this.location, this.longitude, this.latitude}) : super(key: key);
 
   @override
   _ReviewOrderState createState() => _ReviewOrderState();
 }
 
 class _ReviewOrderState extends State<ReviewOrder> {
+  int deliveryFee = 300;
+  int productPrice = 3000;
+  int total = 3300;
+
+  void checkPostTransactionConnectivity(String vendorId, cardId,riderId, addressId, unitprice, quantity,transAmount) async{
+    FocusScope.of(context).unfocus();
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (!(connectivityResult == ConnectivityResult.none)) {
+      makeTransaction(vendorId, cardId, riderId, addressId, unitprice, quantity, transAmount);
+    } else {
+      alertBar(context, "No Internet Connection", AppTheme.red);
+    }
+  }
+
+  void makeTransaction(String vendorId, cardId,riderId, addressId, unitprice, quantity,transAmount) async{
+    CustomProgressDialog().showCustomAlertDialog(context, "Please wait...");
+    await HttpService().makeTransaction(vendorId, cardId, riderId, addressId, unitprice, quantity, transAmount).then((value){
+      if(value.statusCode == 200 || value.statusCode == 201){
+        alertBar(context, "Transaction Successful", AppTheme.red);
+        CustomProgressDialog().popCustomProgressDialogDialog(context);
+        print(value.body);
+      }
+    }).catchError((error){
+      alertBar(context, "Transaction failed", AppTheme.red);
+      print(error);
+    }).timeout(Duration(seconds: 20), onTimeout: (){
+      CustomProgressDialog().popCustomProgressDialogDialog(context);
+      alertBar(context, "Network timeout! Try again.", AppTheme.red);
+      return null;
+    });
+  }
 
   Widget reviewOrder(){
     return Padding(
@@ -108,19 +144,19 @@ class _ReviewOrderState extends State<ReviewOrder> {
                         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                           Text(widget.product!, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
                           Text(widget.quantity!, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
-                          Text("N 3,000", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
+                          Text(productPrice.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
                         ],),
                       SizedBox(height: 10,),
                       Row(children: [
                          Text("Delivery Fee", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
                          Spacer(),
-                         Text("N 300", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
+                         Text(deliveryFee.toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
                        ],),],
                      ),
                      Spacer(),
                      Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text("Total", style: TextStyle(fontFamily: "Lato", fontWeight: FontWeight.w500, fontSize: 23, color: AppTheme.dark_blue),)],),
                      SizedBox(height: 13,),
-                     Text("N 3,300", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
+                     Text('N ${total.toString()}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200, fontFamily: "Lato", color: AppTheme.grey.withOpacity(0.5)),),
                    ],
                  ),
                ),
@@ -136,7 +172,7 @@ class _ReviewOrderState extends State<ReviewOrder> {
                 buttonText: 'Checkout',
                 buttonHeight: 45,
                 onPressed: (){
-                  replaceScreen(context, HomePage());
+                  checkPostTransactionConnectivity(widget.title!.businessName, "MasCard", "Rider", widget.location, "200", widget.quantity, total.toString());
                 }
             ),
           ),

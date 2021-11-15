@@ -9,3 +9,4 @@ const addCreditCard = "/api/card";
 const getAllCardForAUser = "/api/card";
 const getAllVendors = "/api/vendor";
 const getAllTransaction = "/api/trans";
+const postTransaction = "/api/trans";

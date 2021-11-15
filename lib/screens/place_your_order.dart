@@ -167,7 +167,7 @@ class _PlaceYourOrderState extends State<PlaceYourOrder> {
                 buttonText: 'Proceed',
                 buttonHeight: 45,
                 onPressed: (){
-                changeScreen(context, ReviewOrder(product: widget.product, quantity: widget.quantity,title: dropdownInitialValue, paymentMethod: cardId, location: location,));
+                changeScreen(context, ReviewOrder(product: widget.product, quantity: widget.quantity,title: dropdownInitialValue, paymentMethod: cardId, location: location, latitude: latitude, longitude: longitude,));
                 }
             ),
           ),

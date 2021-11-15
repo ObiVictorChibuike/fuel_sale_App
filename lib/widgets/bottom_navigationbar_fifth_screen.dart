@@ -135,9 +135,7 @@ class _BottomNavigationBarFifthScreenState extends State<BottomNavigationBarFift
                   height: 85,
                   width: 85,
                   decoration: BoxDecoration(
-                    border: Border.all(color: AppTheme.blue, width: 5.0),
-                    shape: BoxShape.circle,
-                  ),
+                    border: Border.all(color: AppTheme.blue, width: 5.0), shape: BoxShape.circle,),
                   child: CircleAvatar(
                     radius: 40.25,
                     backgroundImage: AssetImage('assets/userImage.png'),
