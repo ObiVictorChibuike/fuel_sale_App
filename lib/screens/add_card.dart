@@ -63,7 +63,7 @@ class _AddCardState extends State<AddCard> {
   }
 
   addCardNow() async {
-    CustomProgressDialog().showCustomAlertDialog(context, "Please wait...");
+    CustomProgressDialog().showDialog(context, "Loading...");
     await HttpService().addCard(_cardNumberController.text.trim(), _token).then((value) async{
       if (value.statusCode == 200 || value.statusCode == 201) {
         CustomProgressDialog().popCustomProgressDialogDialog(context);

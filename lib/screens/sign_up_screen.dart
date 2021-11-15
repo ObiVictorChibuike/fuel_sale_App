@@ -74,7 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void signUP(BuildContext context) async{
-    CustomProgressDialog().showCustomAlertDialog(context, "Please wait...");
+    CustomProgressDialog().showDialog(context, "Loading...");
     await HttpService().userSignUp(_firstName.text.trim(), _lastName.text.trim(), _phoneNumber.text.trim(), _email.text.trim(), sexInitialValue.toString(), _dob.text.trim(), _password.text.trim(), _confirmPassword.text.trim()).then((value) {
       var result = jsonDecode(value.body);
       if (value.statusCode == 200 || value.statusCode == 201) {

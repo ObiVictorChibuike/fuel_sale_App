@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login(BuildContext context) async{
-    CustomProgressDialog().showCustomAlertDialog(context, "Please wait...");
+    CustomProgressDialog().showDialog(context, "Loading...");
     await HttpService().userLogin(_email.text.trim(), _password.text.trim()).then((value) {
       var result = jsonDecode(value.body);
       if (value.statusCode == 200 || value.statusCode == 201) {

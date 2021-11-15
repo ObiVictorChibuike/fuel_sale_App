@@ -25,7 +25,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
   void authUser(String value) async{
     setState(() {value = _otp;});
-    CustomProgressDialog().showCustomAlertDialog(context, "Verifying...");
+    CustomProgressDialog().showDialog(context, "Verifying...");
     await HttpService().validateOTP(_userEmail, _otp.toString()).then((value) async {
       var result= jsonDecode(value.body);
       if (value.statusCode == 200 || value.statusCode == 201) {

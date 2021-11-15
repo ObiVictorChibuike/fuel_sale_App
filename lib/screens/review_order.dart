@@ -35,7 +35,7 @@ class _ReviewOrderState extends State<ReviewOrder> {
   }
 
   void makeTransaction(String vendorId, cardId,riderId, addressId, unitprice, quantity,transAmount) async{
-    CustomProgressDialog().showCustomAlertDialog(context, "Please wait...");
+    CustomProgressDialog().showDialog(context, "Loading...");
     await HttpService().makeTransaction(vendorId, cardId, riderId, addressId, unitprice, quantity, transAmount).then((value){
       if(value.statusCode == 200 || value.statusCode == 201){
         alertBar(context, "Transaction Successful", AppTheme.red);
