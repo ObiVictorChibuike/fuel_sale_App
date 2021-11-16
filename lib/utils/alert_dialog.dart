@@ -1,7 +1,5 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:ndialog/ndialog.dart';
 
 class CustomProgressDialog{
@@ -29,25 +27,3 @@ class CustomProgressDialog{
   }
 
 }
-
-// NDialog(
-// dialogStyle: DialogStyle(titleDivider: true),
-// title: Text("Hi, This is NDialog"),
-// content: Text("And here is your content, hoho... "),
-// actions: <Widget>[
-// TextButton(
-// child: Text("You"),
-// onPressed: () {},
-// ),
-// TextButton(
-// child: Text("Are"),
-// onPressed: () {},
-// ),
-// TextButton(
-// child: Text("Awesome"),
-// onPressed: () {},
-// )
-// ],
-// ).show(
-//     context,
-//     );

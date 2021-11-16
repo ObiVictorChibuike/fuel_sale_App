@@ -8,6 +8,7 @@ import 'package:fuel_sale_app/screens/review_order.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/custom_dropdown_field.dart';
 import 'package:fuel_sale_app/widgets/custom_formfield.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class PlaceYourOrder extends StatefulWidget {
   const PlaceYourOrder({Key? key, this.title, this.product, this.quantity, this.address, required this.token}) : super(key: key);
   final String? title, product, quantity, address;
@@ -24,6 +25,14 @@ class _PlaceYourOrderState extends State<PlaceYourOrder> {
       setState(() {data = value;});
     });
   }
+  var _token;
+
+  void initUserData() async {
+    final SharedPreferences userdata = await SharedPreferences.getInstance();
+    setState(() {
+      _token = (userdata.getString("token"));
+    });
+  }
 
   List <GetAllVendorModelResponse>? data;
   GetAllVendorModelResponse? dropdownInitialValue ;
@@ -38,6 +47,7 @@ class _PlaceYourOrderState extends State<PlaceYourOrder> {
   @override
   void initState() {
     getAllVendor();
+    initUserData();
     setState(() {
       _product = widget.product;
     });
@@ -167,7 +177,7 @@ class _PlaceYourOrderState extends State<PlaceYourOrder> {
                 buttonText: 'Proceed',
                 buttonHeight: 45,
                 onPressed: (){
-                changeScreen(context, ReviewOrder(product: widget.product, quantity: widget.quantity,title: dropdownInitialValue, paymentMethod: cardId, location: location, latitude: latitude, longitude: longitude,));
+                changeScreen(context, ReviewOrder(product: widget.product, quantity: widget.quantity,title: dropdownInitialValue, paymentMethod: cardId, location: location, latitude: latitude, longitude: longitude, token: widget.token,));
                 }
             ),
           ),

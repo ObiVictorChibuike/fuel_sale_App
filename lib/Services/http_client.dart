@@ -86,10 +86,10 @@ class HttpService{
  }
 
  //SignUp
- Future <Response> makeTransaction (String vendorId, String cardId, String riderId, String addressId, String unitprice, String quantity, String transAmount) async {
+ Future <Response> makeTransaction (String vendorId, String cardId, String riderId, String addressId, String unitprice, String quantity, String transAmount, String token) async {
    var url = Uri.https(baseURL, postRegister);
    var body = {"vendorId": vendorId, "cardId": cardId, "riderId": riderId, "addressId": addressId, "unitprice": unitprice, "quantity": quantity, "transAmount": transAmount};
-   final response = await post(url,headers: {"Content-Type": "application/json", "Accept": "application/json"}, body: jsonEncode(body));
+   final response = await post(url,headers: {"Content-Type": "application/json", "Accept": "application/json","Authorization" : "Bearer $token"}, body: jsonEncode(body));
    return response;
  }
 

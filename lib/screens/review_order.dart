@@ -1,19 +1,17 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/Services/http_client.dart';
-import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/model/vendor_response_model.dart';
-import 'package:fuel_sale_app/screens/homepage.dart';
 import 'package:fuel_sale_app/utils/alert_dialog.dart';
 import 'package:fuel_sale_app/utils/custom_alert_bar.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 
 class ReviewOrder extends StatefulWidget {
-  final String? product, quantity, paymentMethod, location;
+  final String? product, quantity, paymentMethod, location, token;
   final double? longitude, latitude;
   final GetAllVendorModelResponse? title;
-  const ReviewOrder({Key? key, this.title, this.product, this.quantity, this.paymentMethod, this.location, this.longitude, this.latitude}) : super(key: key);
+  const ReviewOrder({Key? key, this.title, this.product, this.quantity, this.paymentMethod, this.location, this.longitude, this.latitude, this.token}) : super(key: key);
 
   @override
   _ReviewOrderState createState() => _ReviewOrderState();
@@ -24,19 +22,19 @@ class _ReviewOrderState extends State<ReviewOrder> {
   int productPrice = 3000;
   int total = 3300;
 
-  void checkPostTransactionConnectivity(String vendorId, cardId,riderId, addressId, unitprice, quantity,transAmount) async{
+  void checkPostTransactionConnectivity(String vendorId, cardId,riderId, addressId, unitprice, quantity,transAmount, token) async{
     FocusScope.of(context).unfocus();
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (!(connectivityResult == ConnectivityResult.none)) {
-      makeTransaction(vendorId, cardId, riderId, addressId, unitprice, quantity, transAmount);
+      makeTransaction(vendorId, cardId, riderId, addressId, unitprice, quantity, transAmount, token);
     } else {
       alertBar(context, "No Internet Connection", AppTheme.red);
     }
   }
 
-  void makeTransaction(String vendorId, cardId,riderId, addressId, unitprice, quantity,transAmount) async{
+  void makeTransaction(String vendorId, cardId,riderId, addressId, unitprice, quantity,transAmount, token) async{
     CustomProgressDialog().showDialog(context, "Loading...");
-    await HttpService().makeTransaction(vendorId, cardId, riderId, addressId, unitprice, quantity, transAmount).then((value){
+    await HttpService().makeTransaction(vendorId, cardId, riderId, addressId, unitprice, quantity, transAmount, token).then((value){
       if(value.statusCode == 200 || value.statusCode == 201){
         alertBar(context, "Transaction Successful", AppTheme.red);
         CustomProgressDialog().popCustomProgressDialogDialog(context);
@@ -172,7 +170,7 @@ class _ReviewOrderState extends State<ReviewOrder> {
                 buttonText: 'Checkout',
                 buttonHeight: 45,
                 onPressed: (){
-                  checkPostTransactionConnectivity(widget.title!.businessName, "MasCard", "Rider", widget.location, "200", widget.quantity, total.toString());
+                  checkPostTransactionConnectivity(widget.title!.businessName, "MasCard", "Rider", widget.location, "200", widget.quantity, total.toString(), widget.token);
                 }
             ),
           ),

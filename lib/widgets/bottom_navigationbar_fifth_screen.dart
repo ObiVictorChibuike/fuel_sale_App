@@ -14,7 +14,7 @@ class BottomNavigationBarFifthScreen extends StatefulWidget {
 
 class _BottomNavigationBarFifthScreenState extends State<BottomNavigationBarFifthScreen> {
 
-  var _firstName, _lastName, _email;
+  var _firstName, _lastName, _email, _phoneNumber;
 
   void initUserData() async {
     final SharedPreferences userdata = await SharedPreferences.getInstance();
@@ -22,6 +22,7 @@ class _BottomNavigationBarFifthScreenState extends State<BottomNavigationBarFift
       _firstName = (userdata.getString("firstName"));
       _lastName = (userdata.getString("lastName"));
       _email = (userdata.getString("userEmail"));
+      _phoneNumber =(userdata.getString("userPhoneNumber"));
     });
   }
 
@@ -148,7 +149,7 @@ class _BottomNavigationBarFifthScreenState extends State<BottomNavigationBarFift
                 SizedBox(height: 35,),
                 Text('$_email', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16, fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),),
                 SizedBox(height: 3,),
-                Text('070 343 054 66', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16, fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),),
+                Text("$_phoneNumber", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16, fontFamily: 'Lato', color: AppTheme.grey.withOpacity(0.5)),),
                 SizedBox(height: 15,),
                 GestureDetector(
                   onTap: (){
