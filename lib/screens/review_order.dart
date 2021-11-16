@@ -1,8 +1,10 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/Services/http_client.dart';
+import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/model/vendor_response_model.dart';
+import 'package:fuel_sale_app/screens/homepage.dart';
 import 'package:fuel_sale_app/utils/alert_dialog.dart';
 import 'package:fuel_sale_app/utils/custom_alert_bar.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
@@ -38,10 +40,13 @@ class _ReviewOrderState extends State<ReviewOrder> {
       if(value.statusCode == 200 || value.statusCode == 201){
         alertBar(context, "Transaction Successful", AppTheme.red);
         CustomProgressDialog().popCustomProgressDialogDialog(context);
+        replaceScreen(context, HomePage());
         print(value.body);
+      } else{
+        CustomProgressDialog().popCustomProgressDialogDialog(context);
+        alertBar(context, "Transaction failed", AppTheme.red);
       }
     }).catchError((error){
-      alertBar(context, "Transaction failed", AppTheme.red);
       print(error);
     }).timeout(Duration(seconds: 20), onTimeout: (){
       CustomProgressDialog().popCustomProgressDialogDialog(context);
