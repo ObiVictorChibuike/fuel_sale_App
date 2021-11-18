@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
@@ -20,7 +19,10 @@ class AccountSettings extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
-                  colors: <Color>[AppTheme.gradientBlue1, AppTheme.gradientBlue2],
+                  colors: <Color>[
+                    AppTheme.gradientBlue1,
+                    AppTheme.gradientBlue2
+                  ],
                 ),
               ),
               child: Column(
@@ -28,20 +30,35 @@ class AccountSettings extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      IconButton(onPressed: (){
-                        Navigator.of(context).pop();
-                      }, icon: Icon(Icons.arrow_back_ios,color: AppTheme.white,)),
-                      SizedBox(width: 100,),
+                      IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: AppTheme.white,
+                          )),
+                      SizedBox(
+                        width: 100,
+                      ),
                       Container(
-                          child: Text('Account', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Lato", color: AppTheme.white),)),
+                          child: Text(
+                        'Account',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                            fontFamily: "Nunito",
+                            color: AppTheme.white),
+                      )),
                     ],
                   ),
                 ],
-              )
-          ),
+              )),
         ),
         body: Padding(
-          padding: const EdgeInsets.only(top: 58.0, bottom: 80,left: 31, right: 31),
+          padding:
+              const EdgeInsets.only(top: 58.0, bottom: 80, left: 31, right: 31),
           child: Card(
             elevation: 5,
             child: Container(
@@ -50,7 +67,9 @@ class AccountSettings extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 39,),
+                    SizedBox(
+                      height: 39,
+                    ),
                     Container(
                       height: 85,
                       width: 85,
@@ -63,54 +82,61 @@ class AccountSettings extends StatelessWidget {
                         backgroundImage: AssetImage('assets/userImage.png'),
                       ),
                     ),
-                    SizedBox(height: 27,),
+                    SizedBox(
+                      height: 27,
+                    ),
                     CustomReadOnlyFormField(
-                        shadowColor: AppTheme.backGround,
+                      shadowColor: AppTheme.backGround,
                       focusedBorderColor: AppTheme.grey.withOpacity(0.5),
                       enabledBorderColor: AppTheme.grey.withOpacity(0.5),
                       backgroundColor: AppTheme.white,
                       height: 50,
                       initialValue: 'James Chukwu',
                     ),
-                    SizedBox(height: 27,),
+                    SizedBox(
+                      height: 27,
+                    ),
                     CustomReadOnlyFormField(
                       shadowColor: AppTheme.backGround,
-                        focusedBorderColor: AppTheme.grey.withOpacity(0.5),
-                        enabledBorderColor: AppTheme.grey.withOpacity(0.5),
-                        backgroundColor: AppTheme.white,
-                        height: 50,
-                        initialValue: 'JayVictor999@gmail.com',
+                      focusedBorderColor: AppTheme.grey.withOpacity(0.5),
+                      enabledBorderColor: AppTheme.grey.withOpacity(0.5),
+                      backgroundColor: AppTheme.white,
+                      height: 50,
+                      initialValue: 'JayVictor999@gmail.com',
                     ),
-                    SizedBox(height: 27,),
+                    SizedBox(
+                      height: 27,
+                    ),
                     CustomReadOnlyFormField(
-                        shadowColor: AppTheme.backGround,
-                        focusedBorderColor: AppTheme.grey.withOpacity(0.5),
-                        enabledBorderColor: AppTheme.grey.withOpacity(0.5),
-                        backgroundColor: AppTheme.white,
-                        height: 50,
-                        initialValue: '07045367876',
+                      shadowColor: AppTheme.backGround,
+                      focusedBorderColor: AppTheme.grey.withOpacity(0.5),
+                      enabledBorderColor: AppTheme.grey.withOpacity(0.5),
+                      backgroundColor: AppTheme.white,
+                      height: 50,
+                      initialValue: '07045367876',
                     ),
-                    SizedBox(height: 27,),
+                    SizedBox(
+                      height: 27,
+                    ),
                     CustomReadOnlyFormField(
-                        shadowColor: AppTheme.backGround,
-                        focusedBorderColor: AppTheme.grey.withOpacity(0.5),
-                        enabledBorderColor: AppTheme.grey.withOpacity(0.5),
-                        backgroundColor: AppTheme.white,
-                        height: 50,
-                        initialValue: 'German,English',
+                      shadowColor: AppTheme.backGround,
+                      focusedBorderColor: AppTheme.grey.withOpacity(0.5),
+                      enabledBorderColor: AppTheme.grey.withOpacity(0.5),
+                      backgroundColor: AppTheme.white,
+                      height: 50,
+                      initialValue: 'German,English',
                     ),
-                    SizedBox(height: 27,),
+                    SizedBox(
+                      height: 27,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: CustomButton(
-                        decorationColor: AppTheme.dark_blue,
-                        buttonHeight: 36,
-                        buttonText: 'Save Settings',
+                          decorationColor: AppTheme.dark_blue,
+                          buttonHeight: 36,
+                          buttonText: 'Save Settings',
                           textColor: AppTheme.white,
-                          onPressed: (){
-
-                          }
-                      ),
+                          onPressed: () {}),
                     ),
                   ],
                 ),

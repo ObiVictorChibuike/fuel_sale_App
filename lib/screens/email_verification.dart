@@ -17,34 +17,36 @@ class EmailVerificationScreen extends StatefulWidget {
   const EmailVerificationScreen({Key? key, this.userEmail}) : super(key: key);
 
   @override
-  _EmailVerificationScreenState createState() => _EmailVerificationScreenState();
+  _EmailVerificationScreenState createState() =>
+      _EmailVerificationScreenState();
 }
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   var _otp, _userEmail;
 
-  void authUser(String value) async{
-    setState(() {value = _otp;});
+  void authUser(String value) async {
+    setState(() {
+      value = _otp;
+    });
     CustomProgressDialog().showDialog(context, "Verifying...");
-    await HttpService().validateOTP(_userEmail, _otp.toString()).then((value) async {
-      var result= jsonDecode(value.body);
+    await HttpService()
+        .validateOTP(_userEmail, _otp.toString())
+        .then((value) async {
+      var result = jsonDecode(value.body);
       if (value.statusCode == 200 || value.statusCode == 201) {
         final response = signUpResponseFromOtpValidationFromJson(value.body);
         RepositoryService().saveUserdata(response);
         CustomProgressDialog().popCustomProgressDialogDialog(context);
         replaceScreen(context, VerificationSuccess());
-      }else{
+      } else {
         var errorMsg = result["message"];
         alertBar(context, errorMsg, AppTheme.red);
-      }}
-    ).timeout(Duration(seconds: 20), onTimeout: (){
+      }
+    }).timeout(Duration(seconds: 20), onTimeout: () {
       alertBar(context, "Network Timeout", AppTheme.red);
       return null;
     });
   }
-
-
-
 
   @override
   void initState() {
@@ -54,7 +56,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     super.initState();
   }
 
-  Widget emailVerification(){
+  Widget emailVerification() {
     final String assetName = 'assets/ios_back_arrow.svg';
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -62,21 +64,65 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 60,),
+          SizedBox(
+            height: 60,
+          ),
           InkWell(
-            onTap: (){Navigator.of(context).pop();},
-            child: SvgPicture.asset(assetName, color: AppTheme.white, height: 30,),),
-          SizedBox(height: 40,),
-          Text('Email Verification', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 22, color: AppTheme.white),),
-          SizedBox(height: 3,),
-          Text('We sent verification code to', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 16, color: AppTheme.white),),
-          Text('your email: $_userEmail.', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 16, color: AppTheme.white),),
-          SizedBox(height: 67,),
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: SvgPicture.asset(
+              assetName,
+              color: AppTheme.white,
+              height: 30,
+            ),
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          Text(
+            'Email Verification',
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Nunito',
+                fontSize: 22,
+                color: AppTheme.white),
+          ),
+          SizedBox(
+            height: 3,
+          ),
+          Text(
+            'We sent verification code to',
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Nunito',
+                fontSize: 16,
+                color: AppTheme.white),
+          ),
+          Text(
+            'your email: $_userEmail.',
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Nunito',
+                fontSize: 16,
+                color: AppTheme.white),
+          ),
+          SizedBox(
+            height: 67,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 75.0),
             child: Container(
               width: double.maxFinite,
-              child: Center(child: Text('Resend Code', style: TextStyle(fontSize: 16, fontFamily: 'Lato', fontWeight: FontWeight.w600, color: AppTheme.blue),)),
+              child: Center(
+                  child: Text(
+                'Resend Code',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.blue),
+              )),
               height: 40,
               decoration: BoxDecoration(
                 border: Border.all(color: AppTheme.blue),
@@ -84,7 +130,9 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               ),
             ),
           ),
-          SizedBox(height: 80,),
+          SizedBox(
+            height: 80,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40.0),
             child: optWidget(context),
@@ -94,36 +142,36 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     );
   }
 
-  Widget optWidget(BuildContext context){
+  Widget optWidget(BuildContext context) {
     return PinCodeTextField(
       onCompleted: (String value) {
         authUser(value);
       },
       textStyle: TextStyle(color: AppTheme.white),
-        pinTheme: PinTheme(
-          inactiveFillColor: AppTheme.blue,
-          activeColor: AppTheme.blue,
-          errorBorderColor: AppTheme.white,
-          selectedColor: AppTheme.blue,
-          selectedFillColor: AppTheme.white,
-          inactiveColor: AppTheme.white,
-          shape: PinCodeFieldShape.underline,
-          borderRadius: BorderRadius.circular(10),
-          fieldHeight: 40,
-          fieldWidth: 40,
-          activeFillColor: Colors.white,
-        ),
-        keyboardType: TextInputType.phone,
-        animationType: AnimationType.fade,
-        animationDuration: Duration(milliseconds: 300),
-        textCapitalization: TextCapitalization.words,
-        errorAnimationDuration: 500,
-        cursorHeight: 25,
-        cursorColor: AppTheme.blue,
-        textInputAction: TextInputAction.next,
-        obscureText: true,
-        appContext: context,
-        length: 4,
+      pinTheme: PinTheme(
+        inactiveFillColor: AppTheme.blue,
+        activeColor: AppTheme.blue,
+        errorBorderColor: AppTheme.white,
+        selectedColor: AppTheme.blue,
+        selectedFillColor: AppTheme.white,
+        inactiveColor: AppTheme.white,
+        shape: PinCodeFieldShape.underline,
+        borderRadius: BorderRadius.circular(10),
+        fieldHeight: 40,
+        fieldWidth: 40,
+        activeFillColor: Colors.white,
+      ),
+      keyboardType: TextInputType.phone,
+      animationType: AnimationType.fade,
+      animationDuration: Duration(milliseconds: 300),
+      textCapitalization: TextCapitalization.words,
+      errorAnimationDuration: 500,
+      cursorHeight: 25,
+      cursorColor: AppTheme.blue,
+      textInputAction: TextInputAction.next,
+      obscureText: true,
+      appContext: context,
+      length: 4,
       onChanged: (String value) {
         setState(() {
           _otp = value;
@@ -131,28 +179,26 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      top: false,
+        top: false,
         bottom: false,
         child: Scaffold(
-          body: Stack(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/landing_page.png'),
-                      fit: BoxFit.cover,
-                    )
-                ),
-                child: emailVerification(),
-              ),
-            ],
-          )
-        )
-    );
+            body: Stack(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: AssetImage('assets/landing_page.png'),
+                fit: BoxFit.cover,
+              )),
+              child: emailVerification(),
+            ),
+          ],
+        )));
   }
 }

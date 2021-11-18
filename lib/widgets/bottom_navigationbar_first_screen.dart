@@ -13,14 +13,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class BottomNavigationBarFirstScreen extends StatefulWidget {
   final String token;
-  const BottomNavigationBarFirstScreen({Key? key, required this.token}) : super(key: key);
+  const BottomNavigationBarFirstScreen({Key? key, required this.token})
+      : super(key: key);
 
   @override
-  _BottomNavigationBarFirstScreenState createState() => _BottomNavigationBarFirstScreenState();
+  _BottomNavigationBarFirstScreenState createState() =>
+      _BottomNavigationBarFirstScreenState();
 }
 
-class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirstScreen> {
-
+class _BottomNavigationBarFirstScreenState
+    extends State<BottomNavigationBarFirstScreen> {
   var _firstName, _lastName;
   bool isCardAdded = false;
 
@@ -53,67 +55,85 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
     'Year'
   ];
 
-  _buildDialog(BuildContext context) => showDialog(context: context, builder: (BuildContext context){
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 38.0),
-      child: Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Container(
-          height: MediaQuery.of(context).size.height / 3,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
+  _buildDialog(BuildContext context) => showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 38.0),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Container(
+              height: MediaQuery.of(context).size.height / 3,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: ListView.builder(
+                  itemCount: thisWeek.length,
+                  itemBuilder: (context, int index) => GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            textColor = AppTheme.dark_blue;
+                            text = thisWeek[index];
+                            Navigator.of(context).pop();
+                            selectedIndex = index;
+                          });
+                        },
+                        child: Container(
+                          height: 55,
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    thisWeek[index],
+                                    style: TextStyle(
+                                        fontFamily: 'Nunito',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                        color: indexColor!),
+                                  ),
+                                  selectedIndex == index
+                                      ? Icon(
+                                          Icons.check,
+                                          color: AppTheme.dark_blue,
+                                          size: 18,
+                                        )
+                                      : Container(),
+                                ],
+                              ),
+                              Divider(),
+                            ],
+                          ),
+                        ),
+                      )),
+            ),
           ),
-          child: ListView.builder(itemCount: thisWeek.length,itemBuilder: (context, int index) =>
-              GestureDetector(
-                onTap: (){
-                    setState(() {
-                      textColor = AppTheme.dark_blue;
-                      text = thisWeek[index];
-                      Navigator.of(context).pop();
-                      selectedIndex = index;
-                    });
-                },
-                child: Container(
-                  height: 55,
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    children: [
-                      SizedBox(height: 15,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          selectedIndex == index ? Icon(Icons.check, color: AppTheme.dark_blue, size: 18,) : Container(),
-                          Text(thisWeek[index], style: TextStyle(fontFamily: 'Lato', fontWeight: FontWeight.w700, fontSize: 16, color: indexColor!),),
-                        ],
-                      ),
-                      Divider(),
-                    ],
-                  ),
-                ),
-              )
-          ),
-        ),
-      ),
-    );}
-  );
+        );
+      });
 
   static List<CardDetail> cardData = [
     CardDetail(
-      title: 'Total Card Balance',
-      content: 'N5,400,000.50',
+      title: 'Card Balance',
+      content: 'NGN5,400,000.50',
     ),
     CardDetail(
-      title: 'Loyalty Point Balance',
-      content: '300p',
+      title: 'Point Balance',
+      content: '300P',
     ),
     CardDetail(
-      title: 'Total Expenses',
-      content: 'N5,400,000.50',
+      title: 'Expenses',
+      content: 'NGN5,400,000.50',
     ),
     CardDetail(
-      title: 'Loyalty Point Balance',
+      title: 'Credit',
       content: 'N8,990,223.50',
     ),
   ];
@@ -131,13 +151,23 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
           physics: BouncingScrollPhysics(),
           child: Column(
             children: [
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Row(
                 children: [
                   Container(
                     height: 24,
                     width: MediaQuery.of(context).size.width / 3.5,
-                    child: Center(child: Text('Hello! $_firstName', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 16, color: AppTheme.dark_blue),)),
+                    child: Center(
+                        child: Text(
+                      'Hello! $_firstName',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Nunito',
+                          fontSize: 16,
+                          color: AppTheme.dark_blue),
+                    )),
                   ),
                   Spacer(),
                   Container(
@@ -148,23 +178,32 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
                       color: AppTheme.grey.withOpacity(0.1),
                     ),
                     child: InkWell(
-                      onTap: (){
-
-                      },
-                      // onTap: () async {
-                      //   prefs = await SharedPreferences.getInstance();
-                      //     prefs.setBool('isLoggedIn', false);
-                      //     replaceScreen(context, SignUpScreen());
-                      // },
-                        child: Center(child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Row(
-                            children: [
-                              Text('All Cards', style: TextStyle(fontSize: 13, fontFamily: "Lato", fontWeight: FontWeight.w300, color: AppTheme.dark_blue),),
-                              Spacer(),
-                              isCardAdded == false ? SizedBox() : Icon(Icons.arrow_drop_down_outlined),
-                            ],
+                        onTap: () {},
+                        // onTap: () async {
+                        //   prefs = await SharedPreferences.getInstance();
+                        //     prefs.setBool('isLoggedIn', false);
+                        //     replaceScreen(context, SignUpScreen());
+                        // },
+                        child: Center(
+                            child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 9.0),
+                          child:
+                              // Row(
+                              // children: [
+                              Text(
+                            'All Cards',
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontFamily: "Nunito",
+                                fontWeight: FontWeight.w300,
+                                color: AppTheme.dark_blue),
                           ),
+                          // Spacer(),
+                          // isCardAdded == false
+                          //     ? SizedBox()
+                          //     : Icon(Icons.arrow_drop_down_outlined),
+                          // ],
+                          // ),
                         ))),
                   ),
                 ],
@@ -175,99 +214,212 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
                 width: double.maxFinite,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft,
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
                       colors: [AppTheme.gradientBlue1, AppTheme.gradientBlue2],
+                    )),
+                child: Stack(
+                  children: [
+                    Align(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 38.0, left: 30),
+                        child: Text(
+                          "4343 6768 7684 3322",
+                          style: TextStyle(
+                              fontFamily: "Nunito",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.white),
+                        ),
+                      ),
+                      alignment: Alignment.centerLeft,
+                    ),
+                    Align(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 70.0, left: 30),
+                        child: Text(
+                          "$_firstName $_lastName",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              fontFamily: "Nunito",
+                              color: AppTheme.white),
+                        ),
+                      ),
+                      alignment: Alignment.bottomLeft,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                          height: 100,
+                          width: 100,
+                          child: Image.asset("assets/mascard.png")),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 30.0, bottom: 40),
+                        child: Text(
+                          "Expiry date",
+                          style: TextStyle(
+                              fontFamily: "Nunito",
+                              fontSize: 8,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.white),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 30.0, bottom: 20),
+                        child: Text(
+                          "12/2021",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 10,
+                              fontFamily: "Nunito",
+                              color: AppTheme.white),
+                        ),
+                      ),
                     )
+                  ],
                 ),
-                child: Stack(children: [
-                  Align(child: Padding(padding: const EdgeInsets.only(bottom: 38.0, left: 30),
-                        child: Text("4343 6768 7684 3322", style: TextStyle(fontFamily: "Poppins", fontSize: 16, fontWeight: FontWeight.w600, color: AppTheme.white),),),
-                    alignment: Alignment.centerLeft,
-                  ),
-                  Align(child: Padding(padding: const EdgeInsets.only(bottom: 70.0, left: 30),
-                      child: Text("$_firstName $_lastName", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14, fontFamily: "poppins", color: AppTheme.white),),),
-                    alignment: Alignment.bottomLeft,
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(height: 100, width: 100,
-                        child: Image.asset("assets/mascard.png")),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Padding(padding: const EdgeInsets.only(left: 30.0, bottom: 40),
-                      child: Text("Expiry date", style: TextStyle(fontFamily: "Poppins", fontSize: 8, fontWeight: FontWeight.w400, color: AppTheme.white),),),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Padding(padding: const EdgeInsets.only(left: 30.0, bottom: 20),
-                      child: Text("12/2021", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10, fontFamily: "Poppins", color: AppTheme.white),),),)
-                ],),
               ),
-              SizedBox(height: 17,),
+              SizedBox(
+                height: 17,
+              ),
               Container(
                 width: double.maxFinite,
                 height: 184,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: AppTheme.white
-                ),
+                    color: AppTheme.grey.withOpacity(0.1)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Container(
-                      width: double.maxFinite,
-                      height: 74,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(height: 17,),
-                          Text('07 Sept - 14 Sept', style: TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Lato', fontSize: 13, color: AppTheme.grey.withOpacity(0.5)),),
-                        ],
-                      ),
-                    ),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         changeScreen(context, CardDetails());
                       },
                       child: Container(
-                        height: 56,
+                        height: 95,
                         width: double.maxFinite,
-                        color: AppTheme.grey.withOpacity(0.1),
+                        color: AppTheme.grey.withOpacity(0.02),
                         child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: cardData.length,
-                            itemBuilder: (BuildContext context, int index)=>
+                            scrollDirection: Axis.horizontal,
+                            itemCount: cardData.length,
+                            itemBuilder: (BuildContext context, int index) =>
                                 Column(
                                   children: [
-                                    SizedBox(height: 10,),
-                                    Row(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [Padding(padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                          child: Text(cardData[index].content!, style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 14, color: AppTheme.grey.withOpacity(0.5)), ),),],),
-                                    SizedBox(height: 3,),
-                                    Row(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [Padding(padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                          child: Text(cardData[index].title!, style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Lato', fontSize: 12.16, color: AppTheme.dark_blue), ),),],),
-                                  ],)),),
+                                    SizedBox(
+                                      height: 24,
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0),
+                                          child: Text(
+                                            cardData[index].content!,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: 'Nunito',
+                                                fontSize: 18,
+                                                color: AppTheme.grey
+                                                    .withOpacity(0.5)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0),
+                                          child: Text(
+                                            cardData[index].title!,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: 'Nunito',
+                                                fontSize: 14.16,
+                                                color: AppTheme.dark_blue),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
                     ),
                     Container(
                       height: 54,
                       width: double.maxFinite,
                       child: Center(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 100.0),
-                          child: CustomButton(decorationColor: AppTheme.dark_blue, onPressed: (){
-                            changeScreen(context, Deposit(token: widget.token,));
-                            }, buttonHeight: 40, buttonText: 'Deposit', labelFontSize: 15,),),),),
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width / 10),
+                          child: CustomButton(
+                            decorationColor: AppTheme.dark_blue,
+                            onPressed: () {
+                              changeScreen(
+                                  context,
+                                  Deposit(
+                                    token: widget.token,
+                                  ));
+                            },
+                            buttonHeight: 42,
+                            buttonText: 'Deposit',
+                            labelFontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(height: 26,),
+              SizedBox(
+                height: 26,
+              ),
               Row(
                 children: [
-                  CustomButton( buttonWidth: MediaQuery.of(context).size.width / 4, decorationColor: AppTheme.white, buttonHeight: 32, onPressed: (){_buildDialog(context);}, buttonText: text ?? 'This week', buttonTextColor: textColor!, labelFontSize: 13,),
+                  CustomButton(
+                    buttonWidth: MediaQuery.of(context).size.width / 4,
+                    decorationColor: AppTheme.white,
+                    buttonHeight: 32,
+                    onPressed: () {
+                      _buildDialog(context);
+                    },
+                    buttonText: text ?? 'This week',
+                    buttonTextColor: textColor!,
+                    labelFontSize: 13,
+                  ),
                   Spacer(),
-                  CustomButton(labelFontSize: 13, buttonWidth: MediaQuery.of(context).size.width / 4, decorationColor: AppTheme.white, buttonHeight: 32, buttonText: 'Export as PDF', buttonTextColor: AppTheme.dark_blue, onPressed: (){},),
+                  CustomButton(
+                    labelFontSize: 13,
+                    buttonWidth: MediaQuery.of(context).size.width / 4,
+                    decorationColor: AppTheme.white,
+                    buttonHeight: 32,
+                    buttonText: 'Export as PDF',
+                    buttonTextColor: AppTheme.dark_blue,
+                    onPressed: () {},
+                  ),
                 ],
               ),
               Padding(
@@ -278,60 +430,113 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
                   child: Column(
                     children: [
                       ButtonFilter(),
-                      FutureBuilder <List<GetAllTransactionModelResponse>>(
-                        future: HttpService().getAllTransactions(widget.token),
-                          builder: (context, AsyncSnapshot<List<GetAllTransactionModelResponse>> snapshot){
-                          if(!snapshot.hasData){
-                            return SizedBox();
-                          } else {
-                            return Column(children: [
-                              ...List.generate(snapshot.data!.length, (index) {
-                                final data = snapshot.data![index];
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: AppTheme.grey.withOpacity(0.1),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        SizedBox(height: 9,),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(data.vendorId.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 14, color: Record.records[index].titleColor),),
-                                              SizedBox(height: 3,),
-                                              Row(
+                      FutureBuilder<List<GetAllTransactionModelResponse>>(
+                          future:
+                              HttpService().getAllTransactions(widget.token),
+                          builder: (context,
+                              AsyncSnapshot<
+                                      List<GetAllTransactionModelResponse>>
+                                  snapshot) {
+                            if (!snapshot.hasData) {
+                              return SizedBox();
+                            } else {
+                              return Column(
+                                children: [
+                                  ...List.generate(snapshot.data!.length,
+                                      (index) {
+                                    final data = snapshot.data![index];
+                                    return Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: AppTheme.grey.withOpacity(0.1),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              height: 9,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(Record.records[index].date.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 11, color: AppTheme.grey),),
-                                                  Text(data.createdAt.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 11, color: AppTheme.grey),),
+                                                  Text(
+                                                    data.vendorId.toString(),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                        fontFamily: 'Nunito',
+                                                        fontSize: 14,
+                                                        color: Record
+                                                            .records[index]
+                                                            .titleColor),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 3,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        Record
+                                                            .records[index].date
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                            fontFamily:
+                                                                'Nunito',
+                                                            fontSize: 11,
+                                                            color:
+                                                                AppTheme.grey),
+                                                      ),
+                                                      Text(
+                                                        data.createdAt
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                            fontFamily:
+                                                                'Nunito',
+                                                            fontSize: 11,
+                                                            color:
+                                                                AppTheme.grey),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            Spacer(),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                data.transAmount.toString(),
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w300,
+                                                    fontFamily: 'Nunito',
+                                                    fontSize: 14,
+                                                    color: Record.records[index]
+                                                        .amountColor),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Spacer(),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(data.transAmount.toString(), style: TextStyle(fontWeight: FontWeight.w300,fontFamily: 'Lato', fontSize: 14, color: Record.records[index].amountColor),),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }
-                              ),
-                            ],
-                            );
-                          }
-
-                          }
-                      ),
+                                      ),
+                                    );
+                                  }),
+                                ],
+                              );
+                            }
+                          }),
                     ],
                   ),
                 ),

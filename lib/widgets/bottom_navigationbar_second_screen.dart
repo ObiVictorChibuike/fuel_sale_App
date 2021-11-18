@@ -9,19 +9,21 @@ import 'package:fuel_sale_app/widgets/custom_button.dart';
 
 class BottomNavigationBarSecondScreen extends StatefulWidget {
   final String token;
-  const BottomNavigationBarSecondScreen({Key? key, required this.token}) : super(key: key);
+  const BottomNavigationBarSecondScreen({Key? key, required this.token})
+      : super(key: key);
 
   @override
-  _BottomNavigationBarSecondScreenState createState() => _BottomNavigationBarSecondScreenState();
+  _BottomNavigationBarSecondScreenState createState() =>
+      _BottomNavigationBarSecondScreenState();
 }
 
-class _BottomNavigationBarSecondScreenState extends State<BottomNavigationBarSecondScreen> {
-
-
-  Widget allCardForAUser(){
-    return FutureBuilder <List<GetAllCardForAUserResponseModel>> (
-      future: HttpService().userAllCardDetailsForUser(widget.token),
-        builder: (context, AsyncSnapshot<List<GetAllCardForAUserResponseModel>> snapshot ){
+class _BottomNavigationBarSecondScreenState
+    extends State<BottomNavigationBarSecondScreen> {
+  Widget allCardForAUser() {
+    return FutureBuilder<List<GetAllCardForAUserResponseModel>>(
+        future: HttpService().userAllCardDetailsForUser(widget.token),
+        builder: (context,
+            AsyncSnapshot<List<GetAllCardForAUserResponseModel>> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
               shrinkWrap: true,
@@ -39,15 +41,35 @@ class _BottomNavigationBarSecondScreenState extends State<BottomNavigationBarSec
                     ),
                     child: Row(
                       children: [
-                        Image.asset('assets/logo.png',),
-                        SizedBox(width: 20,),
+                        Image.asset(
+                          'assets/logo.png',
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(height: 22,),
-                            Text(data.cardNumber.toString(), style: TextStyle(fontSize: 13, fontFamily: 'Lato', fontWeight: FontWeight.w600, color: AppTheme.dark_blue),),
+                            SizedBox(
+                              height: 22,
+                            ),
+                            Text(
+                              data.cardNumber.toString(),
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontFamily: 'Nunito',
+                                  fontWeight: FontWeight.w600,
+                                  color: AppTheme.dark_blue),
+                            ),
                             Spacer(),
-                            Text('N487,000.12', style: TextStyle(fontSize: 17, fontFamily: 'Lato', fontWeight: FontWeight.w600, color: AppTheme.dark_blue),),
+                            Text(
+                              'N487,000.12',
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontFamily: 'Nunito',
+                                  fontWeight: FontWeight.w600,
+                                  color: AppTheme.dark_blue),
+                            ),
                             SizedBox(height: 22),
                           ],
                         ),
@@ -59,16 +81,19 @@ class _BottomNavigationBarSecondScreenState extends State<BottomNavigationBarSec
             );
           } else {
             return Expanded(
-              child: Container(
-                child: Center(
-                  child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
-                     child: Center(child: CupertinoActivityIndicator(radius: 20,),),
-                  
-              ))));
+                child: Container(
+                    child: Center(
+                        child: ConstrainedBox(
+              constraints:
+                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+              child: Center(
+                child: CupertinoActivityIndicator(
+                  radius: 20,
+                ),
+              ),
+            ))));
           }
-        }
-    );
+        });
   }
 
   @override
@@ -80,28 +105,33 @@ class _BottomNavigationBarSecondScreenState extends State<BottomNavigationBarSec
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/landing_page.png'),
-              fit: BoxFit.cover,
-            )
-        ),
+          image: AssetImage('assets/landing_page.png'),
+          fit: BoxFit.cover,
+        )),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
             children: [
-              SizedBox(height: 147,),
+              SizedBox(
+                height: 147,
+              ),
               allCardForAUser(),
-              SizedBox(height: 15,),
+              SizedBox(
+                height: 15,
+              ),
               CustomButton(
-                  onPressed: (){
-                    changeScreen(context, AddCard());
-                  },
+                onPressed: () {
+                  changeScreen(context, AddCard());
+                },
                 buttonHeight: 96,
                 decorationColor: AppTheme.blue,
                 buttonText: 'ADD NEW CARD',
                 borderColor: AppTheme.blue,
                 buttonRadius: 12,
               ),
-              SizedBox(height: 80,)
+              SizedBox(
+                height: 80,
+              )
             ],
           ),
         ),

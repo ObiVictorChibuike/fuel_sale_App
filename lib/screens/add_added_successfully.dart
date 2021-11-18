@@ -5,6 +5,7 @@ import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
 
 import 'homepage.dart';
+
 class CardAddedSuccessfully extends StatefulWidget {
   const CardAddedSuccessfully({Key? key}) : super(key: key);
 
@@ -15,9 +16,10 @@ class CardAddedSuccessfully extends StatefulWidget {
 class _CardAddedSuccessfullyState extends State<CardAddedSuccessfully> {
   @override
   void initState() {
-    Timer(Duration(seconds: 5), ()=>replaceScreen(context, HomePage()));
+    Timer(Duration(seconds: 5), () => replaceScreen(context, HomePage()));
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -49,10 +51,28 @@ class _CardAddedSuccessfullyState extends State<CardAddedSuccessfully> {
                   ),
                 ),
               ),
-              SizedBox(height: 37,),
-              Text('Card added', style: TextStyle(fontSize: 32, fontFamily: 'Nunito', fontWeight: FontWeight.w700, color: AppTheme.dark_blue),),
-              SizedBox(height: 15,),
-              Text('You can begin transaction with this card', style: TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Lato', fontSize: 14, color: AppTheme.dark_blue),)
+              SizedBox(
+                height: 37,
+              ),
+              Text(
+                'Card added',
+                style: TextStyle(
+                    fontSize: 32,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w700,
+                    color: AppTheme.dark_blue),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                'You can begin transaction with this card',
+                style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Nunito',
+                    fontSize: 14,
+                    color: AppTheme.dark_blue),
+              )
             ],
           ),
         ),
