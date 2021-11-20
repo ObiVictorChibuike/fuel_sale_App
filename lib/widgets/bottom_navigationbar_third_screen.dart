@@ -124,51 +124,53 @@ class _BottomNavigationBarThirdScreenState
               color: AppTheme.dark_blue,
               borderRadius: BorderRadius.circular(5),
             ),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 26.0, top: 10, bottom: 11, right: 0.0),
-                  child: Text(
-                    'Order',
-                    style: TextStyle(
-                        color: AppTheme.white,
-                        fontSize: 18,
-                        fontFamily: 'Nunito'),
+            child: Expanded(
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 26.0, top: 10, bottom: 11, right: 0.0),
+                    child: Text(
+                      'Order',
+                      style: TextStyle(
+                          color: AppTheme.white,
+                          fontSize: 18,
+                          fontFamily: 'Nunito'),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 112,
-                ),
-                Container(
-                  height: 31,
-                  width: 0.5,
-                  color: AppTheme.blue,
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Chip(
-                  labelStyle: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15,
-                      color: AppTheme.white),
-                  backgroundColor: AppTheme.dark_blue.withOpacity(0.5),
-                  label: Text('Now'),
-                  avatar: Icon(
-                    Icons.access_time,
-                    color: AppTheme.white,
+                  SizedBox(
+                    width: 112,
                   ),
-                  deleteIcon: Icon(
-                    Icons.arrow_drop_down_outlined,
+                  Container(
+                    height: 31,
+                    width: 0.5,
+                    color: AppTheme.blue,
                   ),
-                  deleteIconColor: AppTheme.white,
-                  onDeleted: () {
-                    _buildDialog(context);
-                  },
-                )
-              ],
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Chip(
+                    labelStyle: TextStyle(
+                        fontFamily: 'Nunito',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                        color: AppTheme.white),
+                    backgroundColor: AppTheme.dark_blue.withOpacity(0.5),
+                    label: Text('Now'),
+                    avatar: Icon(
+                      Icons.access_time,
+                      color: AppTheme.white,
+                    ),
+                    deleteIcon: Icon(
+                      Icons.arrow_drop_down_outlined,
+                    ),
+                    deleteIconColor: AppTheme.white,
+                    onDeleted: () {
+                      _buildDialog(context);
+                    },
+                  )
+                ],
+              ),
             ),
           ),
           SizedBox(
@@ -182,9 +184,7 @@ class _BottomNavigationBarThirdScreenState
                 decoration: BoxDecoration(
                   color: AppTheme.white,
                   borderRadius: BorderRadius.circular(5),
-                ),
-                width: double.maxFinite,
-                height: 45,
+                ), width: double.maxFinite, height: 45,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [

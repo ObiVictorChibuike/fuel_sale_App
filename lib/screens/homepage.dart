@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/widgets/bottom_navigationbar_fifth_screen.dart';
 import 'package:fuel_sale_app/widgets/bottom_navigationbar_second_screen.dart';
@@ -19,9 +20,7 @@ class _HomePageState extends State<HomePage> {
 
   void initUserData() async {
     final SharedPreferences userdata = await SharedPreferences.getInstance();
-    setState(() {
-      _token = (userdata.getString("token"));
-    });
+    setState(() {_token = (userdata.getString("token"));});
   }
 
   @override
@@ -33,13 +32,9 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   _getWidget() {
     if (_currentIndex == 0) {
-      return BottomNavigationBarFirstScreen(
-        token: _token,
-      );
+      return BottomNavigationBarFirstScreen(token: _token,);
     } else if (_currentIndex == 1) {
-      return BottomNavigationBarSecondScreen(
-        token: _token,
-      );
+      return BottomNavigationBarSecondScreen(token: _token,);
     }
     if (_currentIndex == 2) {
       return BottomNavigationBarThirdScreen();
@@ -51,6 +46,18 @@ class _HomePageState extends State<HomePage> {
       return BottomNavigationBarFifthScreen();
     }
   }
+  DateTime? currentBackPressTime;
+
+  Future<bool> onWillPop() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      Fluttertoast.showToast(msg: "Click again to exit");
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +66,10 @@ class _HomePageState extends State<HomePage> {
       bottom: false,
       child: Scaffold(
         backgroundColor: AppTheme.backGround,
-        body: _getWidget(),
+        body: WillPopScope(
+          onWillPop: () => onWillPop(),
+          child: _getWidget(),
+        ),
         bottomNavigationBar: BottomNavigationBar(
             backgroundColor: AppTheme.grey.withOpacity(0.3),
             elevation: 5,

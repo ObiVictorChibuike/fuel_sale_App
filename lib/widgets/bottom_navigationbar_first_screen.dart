@@ -141,42 +141,17 @@ class _BottomNavigationBarFirstScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: false,
-      appBar: AppBar(
-        backgroundColor: AppTheme.backGround,
-        elevation: 0,
-      ),
+      appBar: AppBar(automaticallyImplyLeading: false, backgroundColor: AppTheme.white, elevation: 0,),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 19.0),
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Container(
-                    height: 24,
-                    width: MediaQuery.of(context).size.width / 3.5,
-                    child: Center(
-                        child: Text(
-                      'Hello! $_firstName',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Nunito',
-                          fontSize: 16,
-                          color: AppTheme.dark_blue),
-                    )),
-                  ),
+        child: SingleChildScrollView(physics: BouncingScrollPhysics(),
+          child: Column(children: [
+              SizedBox(height: 20,),
+              Row(children: [
+                  Container(height: 24,
+                    child: Center(child: Text('Hello! $_firstName', style: TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Nunito', fontSize: 16, color: AppTheme.dark_blue),)),),
                   Spacer(),
-                  Container(
-                    height: 22,
-                    width: MediaQuery.of(context).size.width / 4,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: AppTheme.grey.withOpacity(0.1),
-                    ),
+                  Container(height: 22, width: MediaQuery.of(context).size.width / 4, decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppTheme.grey.withOpacity(0.1),),
                     child: InkWell(
                         onTap: () {},
                         // onTap: () async {
@@ -184,20 +159,8 @@ class _BottomNavigationBarFirstScreenState
                         //     prefs.setBool('isLoggedIn', false);
                         //     replaceScreen(context, SignUpScreen());
                         // },
-                        child: Center(
-                            child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 9.0),
-                          child:
-                              // Row(
-                              // children: [
-                              Text(
-                            'All Cards',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: "Nunito",
-                                fontWeight: FontWeight.w300,
-                                color: AppTheme.dark_blue),
-                          ),
+                        child: Center(child: Padding(padding: const EdgeInsets.symmetric(horizontal: 9.0),
+                              child: Text('All Cards', style: TextStyle(fontSize: 13, fontFamily: "Nunito", fontWeight: FontWeight.w300, color: AppTheme.dark_blue),),
                           // Spacer(),
                           // isCardAdded == false
                           //     ? SizedBox()
@@ -209,81 +172,26 @@ class _BottomNavigationBarFirstScreenState
                 ],
               ),
               SizedBox(height: 17),
-              Container(
-                height: 190,
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [AppTheme.gradientBlue1, AppTheme.gradientBlue2],
-                    )),
+              Container(height: 190, width: double.maxFinite,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+                    gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [AppTheme.gradientBlue1, AppTheme.gradientBlue2],)),
                 child: Stack(
                   children: [
-                    Align(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 38.0, left: 30),
-                        child: Text(
-                          "4343 6768 7684 3322",
-                          style: TextStyle(
-                              fontFamily: "Nunito",
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: AppTheme.white),
-                        ),
-                      ),
-                      alignment: Alignment.centerLeft,
-                    ),
-                    Align(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 70.0, left: 30),
-                        child: Text(
-                          "$_firstName $_lastName",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              fontFamily: "Nunito",
-                              color: AppTheme.white),
-                        ),
-                      ),
-                      alignment: Alignment.bottomLeft,
-                    ),
+                    Align(child: Padding(padding: const EdgeInsets.only(bottom: 38.0, left: 30),
+                        child: Text("4343 6768 7684 3322",
+                          style: TextStyle(fontFamily: "Nunito", fontSize: 16, fontWeight: FontWeight.w600, color: AppTheme.white),),), alignment: Alignment.centerLeft,),
+                    Align(child: Padding(padding: const EdgeInsets.only(bottom: 70.0, left: 30),
+                        child: Text("$_firstName $_lastName",
+                          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14, fontFamily: "Nunito", color: AppTheme.white),),), alignment: Alignment.bottomLeft,),
                     Align(
                       alignment: Alignment.bottomRight,
-                      child: Container(
-                          height: 100,
-                          width: 100,
-                          child: Image.asset("assets/mascard.png")),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 30.0, bottom: 40),
-                        child: Text(
-                          "Expiry date",
-                          style: TextStyle(
-                              fontFamily: "Nunito",
-                              fontSize: 8,
-                              fontWeight: FontWeight.w600,
-                              color: AppTheme.white),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 30.0, bottom: 20),
-                        child: Text(
-                          "12/2021",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 10,
-                              fontFamily: "Nunito",
-                              color: AppTheme.white),
-                        ),
-                      ),
-                    )
+                      child: Container(height: 100, width: 100, child: Image.asset("assets/mascard.png")),),
+                    Align(alignment: Alignment.bottomLeft,
+                      child: Padding(padding: const EdgeInsets.only(left: 30.0, bottom: 40),
+                        child: Text("Expiry date", style: TextStyle(fontFamily: "Nunito", fontSize: 8, fontWeight: FontWeight.w600, color: AppTheme.white),),),),
+                    Align(alignment: Alignment.bottomLeft,
+                      child: Padding(padding: const EdgeInsets.only(left: 30.0, bottom: 20),
+                        child: Text("12/2021", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 10, fontFamily: "Nunito", color: AppTheme.white),),),)
                   ],
                 ),
               ),

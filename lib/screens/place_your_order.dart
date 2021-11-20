@@ -58,162 +58,157 @@ class _PlaceYourOrderState extends State<PlaceYourOrder> {
   Widget placeYourOrder(){
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 34.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 100,),
-          CustomDropDownButton(
-              elevation: 1,
-            height: 53,
-            width: MediaQuery.of(context).size.width,
-              hint: Text('Select Station', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
-              underline: Container(),
-              value: dropdownInitialValue,
-              onChanged: (value){
-                setState(() {
-                  dropdownInitialValue = value;
-                  longitude = dropdownInitialValue!.longitude;
-                  latitude = dropdownInitialValue!.latitude;
-                });
-              },
-              icon: Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width / 4
-                    ),
-                    child: Icon(Icons.arrow_drop_down_outlined)),
-              ),
-              items: data!.map<DropdownMenuItem<GetAllVendorModelResponse?>>((GetAllVendorModelResponse item) {
-                return DropdownMenuItem<GetAllVendorModelResponse?>(
-                  value: item,
-                  child: Text(item.businessName, style: TextStyle(fontSize: 16, fontFamily: "Lato", fontWeight: FontWeight.w200),),
-                );
-              }).toList()
-          ),
-          SizedBox(height: 40,),
-          CustomDropDownButton(
-              elevation: 1,
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 100,),
+            CustomDropDownButton(
+                elevation: 1,
               height: 53,
               width: MediaQuery.of(context).size.width,
-              hint: Text('Select Product', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
-              underline: Container(),
-              value: _product,
-              onChanged: (value){
-                setState(() {
-                  _product = value;
-                });
-              },
-              icon: Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width / 4
-                    ),
-                    child: Icon(Icons.arrow_drop_down_outlined)),
-              ),
-              items: product.map<DropdownMenuItem<String>>((String item) {
-                return DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(item.toString(), style: TextStyle(fontSize: 16, fontFamily: "Lato", fontWeight: FontWeight.w200),),
-                );
-              }).toList()
-          ),
-          SizedBox(height: 40,),
-          CustomReadOnlyFormField(
-            elevation: 1,
-            initialValue: widget.quantity!,
-            backgroundColor: AppTheme.white,
-            enabledBorderColor: AppTheme.white,
-            focusedBorderColor: AppTheme.white,
-            height: 53,
-            textColor: AppTheme.grey.withOpacity(0.4),
-          ),
-          SizedBox(height: 40,),
-          CustomReadOnlyFormField(
-            elevation: 1,
-            initialValue: cardId,
-            backgroundColor: AppTheme.white,
-            enabledBorderColor: AppTheme.white,
-            focusedBorderColor: AppTheme.white,
-            height: 53,
-            textColor: AppTheme.grey.withOpacity(0.4),
-          ),
-          SizedBox(height: 40,),
-          CustomDropDownButton(
-              elevation: 1,
-              height: 53,
-              width: MediaQuery.of(context).size.width,
-              hint: Text('Select Address', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
-              underline: Container(),
-              value: location,
-              onChanged: (value){
-                setState(() {
-                  location = value;
-                });
-              },
-              icon: Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width / 4
-                    ),
-                    child: Icon(Icons.arrow_drop_down_outlined)),
-              ),
-              items: locations.map<DropdownMenuItem<String>>((String item) {
-                return DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(item.toString(), style: TextStyle(fontSize: 16, fontFamily: "Lato", fontWeight: FontWeight.w200),),
-                );
-              }).toList()
-          ),
-          SizedBox(height: 40,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 70.0),
-            child: CustomButton(
-              labelFontSize: 15,
-                decorationColor: AppTheme.dark_blue,
-                buttonRadius: 30,
-                buttonText: 'Proceed',
-                buttonHeight: 45,
-                onPressed: (){
-                changeScreen(context, ReviewOrder(product: widget.product, quantity: widget.quantity,title: dropdownInitialValue, paymentMethod: cardId, location: location, latitude: latitude, longitude: longitude, token: widget.token,));
-                }
+                hint: Text('Select Station', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
+                underline: Container(),
+                value: dropdownInitialValue,
+                onChanged: (value){
+                  setState(() {
+                    dropdownInitialValue = value;
+                    longitude = dropdownInitialValue!.longitude;
+                    latitude = dropdownInitialValue!.latitude;
+                  });
+                },
+                icon: Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width / 4
+                      ),
+                      child: Icon(Icons.arrow_drop_down_outlined)),
+                ),
+                items: data!.map<DropdownMenuItem<GetAllVendorModelResponse?>>((GetAllVendorModelResponse item) {
+                  return DropdownMenuItem<GetAllVendorModelResponse?>(
+                    value: item,
+                    child: Text(item.businessName, style: TextStyle(fontSize: 16, fontFamily: "Lato", fontWeight: FontWeight.w200),),
+                  );
+                }).toList()
             ),
-          ),
-        ],
+            SizedBox(height: 40,),
+            CustomDropDownButton(
+                elevation: 1,
+                height: 53,
+                width: MediaQuery.of(context).size.width,
+                hint: Text('Select Product', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
+                underline: Container(),
+                value: _product,
+                onChanged: (value){
+                  setState(() {
+                    _product = value;
+                  });
+                },
+                icon: Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width / 4
+                      ),
+                      child: Icon(Icons.arrow_drop_down_outlined)),
+                ),
+                items: product.map<DropdownMenuItem<String>>((String item) {
+                  return DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(item.toString(), style: TextStyle(fontSize: 16, fontFamily: "Lato", fontWeight: FontWeight.w200),),
+                  );
+                }).toList()
+            ),
+            SizedBox(height: 40,),
+            CustomReadOnlyFormField(
+              elevation: 1,
+              initialValue: widget.quantity!,
+              backgroundColor: AppTheme.white,
+              enabledBorderColor: AppTheme.white,
+              focusedBorderColor: AppTheme.white,
+              height: 53,
+              textColor: AppTheme.grey.withOpacity(0.4),
+            ),
+            SizedBox(height: 40,),
+            CustomReadOnlyFormField(
+              elevation: 1,
+              initialValue: cardId,
+              backgroundColor: AppTheme.white,
+              enabledBorderColor: AppTheme.white,
+              focusedBorderColor: AppTheme.white,
+              height: 53,
+              textColor: AppTheme.grey.withOpacity(0.4),
+            ),
+            SizedBox(height: 40,),
+            CustomDropDownButton(
+                elevation: 1,
+                height: 53,
+                width: MediaQuery.of(context).size.width,
+                hint: Text('Select Address', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
+                underline: Container(),
+                value: location,
+                onChanged: (value){
+                  setState(() {
+                    location = value;
+                  });
+                },
+                icon: Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width / 4
+                      ),
+                      child: Icon(Icons.arrow_drop_down_outlined)),
+                ),
+                items: locations.map<DropdownMenuItem<String>>((String item) {
+                  return DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(item.toString(), style: TextStyle(fontSize: 16, fontFamily: "Lato", fontWeight: FontWeight.w200),),
+                  );
+                }).toList()
+            ),
+            SizedBox(height: 40,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 70.0),
+              child: CustomButton(
+                labelFontSize: 15,
+                  decorationColor: AppTheme.dark_blue,
+                  buttonRadius: 30,
+                  buttonText: 'Proceed',
+                  buttonHeight: 45,
+                  onPressed: (){
+                  changeScreen(context, ReviewOrder(product: widget.product, quantity: widget.quantity,title: dropdownInitialValue, paymentMethod: cardId, location: location, latitude: latitude, longitude: longitude, token: widget.token,));
+                  }
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-        bottom: false,
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
+    return SafeArea(top: false, bottom: false,
+        child: Scaffold(resizeToAvoidBottomInset: false,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(80.0),
             child: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: <Color>[AppTheme.gradientBlue1, AppTheme.gradientBlue2],
-                  ),
-                ),
+                decoration: const BoxDecoration(gradient: LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: <Color>[AppTheme.gradientBlue1, AppTheme.gradientBlue2],),),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Row(
+                      child: Row(mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(onPressed: (){
                             Navigator.of(context).pop();
                           }, icon: Icon(Icons.arrow_back_ios,color: AppTheme.white,)),
-                          SizedBox(width: 80,),
+                          Spacer(flex: 5,),
                           Container(child: Text('Place Your Order', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Lato", color: AppTheme.white),)),
+                          Spacer(flex: 7,),
                         ],
                       ),
                     ),

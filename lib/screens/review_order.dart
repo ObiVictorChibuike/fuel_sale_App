@@ -45,8 +45,7 @@ class _ReviewOrderState extends State<ReviewOrder> {
       } else{
         CustomProgressDialog().popCustomProgressDialogDialog(context);
         alertBar(context, "Transaction failed", AppTheme.red);
-      }
-    }).catchError((error){
+      }}).catchError((error){
       print(error);
     }).timeout(Duration(seconds: 20), onTimeout: (){
       CustomProgressDialog().popCustomProgressDialogDialog(context);
@@ -186,10 +185,8 @@ class _ReviewOrderState extends State<ReviewOrder> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-        bottom: false,
-        child: Scaffold(
+    return SafeArea(top: false, bottom: false,
+        child: Scaffold( resizeToAvoidBottomInset: false,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(80.0),
             child: Container(
@@ -211,8 +208,9 @@ class _ReviewOrderState extends State<ReviewOrder> {
                           IconButton(onPressed: (){
                             Navigator.of(context).pop();
                           }, icon: Icon(Icons.arrow_back_ios,color: AppTheme.white,)),
-                          SizedBox(width: 80,),
+                          Spacer(flex: 5,),
                           Container(child: Text('Review Order', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Lato", color: AppTheme.white),)),
+                          Spacer(flex: 7,),
                         ],
                       ),
                     ),

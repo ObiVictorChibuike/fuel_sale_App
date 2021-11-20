@@ -49,9 +49,8 @@ class _BottomNavigationBarFourthScreenState extends State<BottomNavigationBarFou
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Row(
                         children: [
-                          IconButton(onPressed: (){
-                          }, icon: Icon(Icons.arrow_back_ios,color: AppTheme.white,)),
-                          SizedBox(width: 85,),
+                          IconButton(onPressed: (){}, icon: Icon(Icons.arrow_back_ios,color: AppTheme.white,)),
+                          SizedBox(width: 85),
                           Container(child: Text('Notifications', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Lato", color: AppTheme.white),)),
                         ],
                       ),

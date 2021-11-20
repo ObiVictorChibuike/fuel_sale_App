@@ -1,4 +1,4 @@
-import 'package:fuel_sale_app/model/userDetailsModel.dart';
+import 'package:fuel_sale_app/model/sign_up_response_from_OTP.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RepositoryService{

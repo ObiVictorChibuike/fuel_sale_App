@@ -86,7 +86,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       else {
         print(value.statusCode);
         CustomProgressDialog().popCustomProgressDialogDialog(context);
-        var errorMsg = result["errors"]["email"][0];
+        var errorMsg = result["message"];
+        //["email"][0];
         alertBar(context, "$errorMsg Try changing the email and the phone number", AppTheme.red);
       }
     }).timeout(Duration(seconds: 20), onTimeout: (){
@@ -337,7 +338,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 100,),
+                          SizedBox(height: 300,),
                         ],
                       ),
                     ),

@@ -33,6 +33,7 @@ dependencies:
   ndialog: ^4.1.0
   mask_input_formatter: ^0.0.3
   connectivity: ^3.0.6
+  fluttertoast: ^8.0.8
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -28,28 +28,14 @@ class AccountSettings extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Row(
+                  Row(mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      IconButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: AppTheme.white,
-                          )),
-                      SizedBox(
-                        width: 100,
-                      ),
+                      IconButton(onPressed: () {Navigator.of(context).pop();},
+                          icon: Icon(Icons.arrow_back_ios, color: AppTheme.white,)),
+                      SizedBox(width: 100,),
                       Container(
-                          child: Text(
-                        'Account',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            fontFamily: "Nunito",
-                            color: AppTheme.white),
+                          child: Text('Account', textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Nunito", color: AppTheme.white),
                       )),
                     ],
                   ),

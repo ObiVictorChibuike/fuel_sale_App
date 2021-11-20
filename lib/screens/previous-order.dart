@@ -39,69 +39,68 @@ class _PreviousOrderState extends State<PreviousOrder> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Container(
-            height: MediaQuery.of(context).size.height / 2.6,
+            height: MediaQuery.of(context).size.height / 2.3, width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 18.0),
-                    child: Container(
-                      height: 30,
-                        child: Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, fontFamily: 'Lato', color: AppTheme.dark_blue),)),
-                  ),
-                 CustomReadOnlyFormField(
-                   initialValue: address,
-                   focusedBorderColor: Colors.transparent,
-                   enabledBorderColor: Colors.transparent,
-                   elevation: 0,
-                   height: 45,
-                     backgroundColor: AppTheme.grey.withOpacity(0.1),
-                     ),
-                  SizedBox(height: 15,),
-                  CustomReadOnlyFormField(
-                    initialValue: product,
-                    focusedBorderColor: Colors.transparent,
-                    enabledBorderColor: Colors.transparent,
-                    elevation: 0,
-                    height: 45,
-                    backgroundColor: AppTheme.grey.withOpacity(0.1),
-                  ),
-                  SizedBox(height: 15,),
-                  CustomReadOnlyFormField(
-                    initialValue: '$quantity',
-                    focusedBorderColor: Colors.transparent,
-                    enabledBorderColor: Colors.transparent,
-                    elevation: 0,
-                    height: 45,
-                    backgroundColor: AppTheme.grey.withOpacity(0.1),
-                  ),
-                  SizedBox(height: 5,),
-                  Container(
-                    height: 45,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                        child: CustomButton(
-                            borderColor: AppTheme.dark_blue,
-                            labelFontSize: 12,
-                            buttonWidth: MediaQuery.of(context).size.width,
-                            buttonHeight: 32,
-                            decorationColor: AppTheme.dark_blue,
-                            buttonRadius: 20,
-                            textColor: AppTheme.white,
-                            buttonText: 'Proceed',
-                            onPressed: (){
-                              changeScreen(context, PlaceYourOrder(title: title, address: address, product: product, quantity: quantity, token: _token,));
-                            }
+              child: SingleChildScrollView( physics: BouncingScrollPhysics(),
+                child: Column(
+                  children: [Padding(padding: const EdgeInsets.only(top: 18.0),
+                      child: Container(height: 30,
+                          child: Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, fontFamily: 'Lato', color: AppTheme.dark_blue),)),
+                    ),
+                   CustomReadOnlyFormField(
+                     initialValue: address,
+                     focusedBorderColor: Colors.transparent,
+                     enabledBorderColor: Colors.transparent,
+                     elevation: 0,
+                     height: 45,
+                       backgroundColor: AppTheme.grey.withOpacity(0.1),
+                       ),
+                    SizedBox(height: 15,),
+                    CustomReadOnlyFormField(
+                      initialValue: product,
+                      focusedBorderColor: Colors.transparent,
+                      enabledBorderColor: Colors.transparent,
+                      elevation: 0,
+                      height: 45,
+                      backgroundColor: AppTheme.grey.withOpacity(0.1),
+                    ),
+                    SizedBox(height: 15,),
+                    CustomReadOnlyFormField(
+                      initialValue: '$quantity',
+                      focusedBorderColor: Colors.transparent,
+                      enabledBorderColor: Colors.transparent,
+                      elevation: 0,
+                      height: 45,
+                      backgroundColor: AppTheme.grey.withOpacity(0.1),
+                    ),
+                    SizedBox(height: 5,),
+                    Container(
+                      height: 45,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                          child: CustomButton(
+                              borderColor: AppTheme.dark_blue,
+                              labelFontSize: 12,
+                              buttonWidth: MediaQuery.of(context).size.width,
+                              buttonHeight: 32,
+                              decorationColor: AppTheme.dark_blue,
+                              buttonRadius: 20,
+                              textColor: AppTheme.white,
+                              buttonText: 'Proceed',
+                              onPressed: (){
+                                changeScreen(context, PlaceYourOrder(title: title, address: address, product: product, quantity: quantity, token: _token,));
+                              }
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             )
         ),
@@ -329,26 +328,21 @@ class _PreviousOrderState extends State<PreviousOrder> {
   }
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-        bottom: false,
-        child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(80.0),
+    return SafeArea(top: false, bottom: false,
+        child: Scaffold( resizeToAvoidBottomInset: false,
+          appBar: PreferredSize(preferredSize: const Size.fromHeight(80.0),
             child: Container(
               decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: <Color>[AppTheme.gradientBlue1, AppTheme.gradientBlue2],
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                gradient: LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: <Color>[AppTheme.gradientBlue1, AppTheme.gradientBlue2],),),
+              child: Column(mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(child: Text('Select previous delivery', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Lato", color: AppTheme.white),)),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(child: Text('Select previous delivery', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Lato", color: AppTheme.white),)),
+                      ],
+                    ),
                   ),
                 ],
               )

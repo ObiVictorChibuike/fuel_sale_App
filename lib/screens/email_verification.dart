@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fuel_sale_app/Services/http_client.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
-import 'package:fuel_sale_app/model/userDetailsModel.dart';
+import 'package:fuel_sale_app/model/sign_up_response_from_OTP.dart';
 import 'package:fuel_sale_app/repository/cached_data.dart';
 import 'package:fuel_sale_app/screens/verification_successful.dart';
 import 'package:fuel_sale_app/utils/alert_dialog.dart';
@@ -145,6 +145,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   Widget optWidget(BuildContext context) {
     return PinCodeTextField(
       onCompleted: (String value) {
+        FocusScope.of(context).unfocus();
         authUser(value);
       },
       textStyle: TextStyle(color: AppTheme.white),
@@ -186,6 +187,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         top: false,
         bottom: false,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
             body: Stack(
           children: [
             Container(

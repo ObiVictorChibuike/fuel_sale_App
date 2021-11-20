@@ -8,8 +8,8 @@ import 'package:fuel_sale_app/screens/add_card.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 
 class BottomNavigationBarSecondScreen extends StatefulWidget {
-  final String token;
-  const BottomNavigationBarSecondScreen({Key? key, required this.token})
+  final String? token;
+  const BottomNavigationBarSecondScreen({Key? key, this.token})
       : super(key: key);
 
   @override
@@ -17,11 +17,11 @@ class BottomNavigationBarSecondScreen extends StatefulWidget {
       _BottomNavigationBarSecondScreenState();
 }
 
-class _BottomNavigationBarSecondScreenState
-    extends State<BottomNavigationBarSecondScreen> {
+class _BottomNavigationBarSecondScreenState extends State<BottomNavigationBarSecondScreen> {
+
   Widget allCardForAUser() {
     return FutureBuilder<List<GetAllCardForAUserResponseModel>>(
-        future: HttpService().userAllCardDetailsForUser(widget.token),
+        future: HttpService().userAllCardDetailsForUser(widget.token!),
         builder: (context,
             AsyncSnapshot<List<GetAllCardForAUserResponseModel>> snapshot) {
           if (snapshot.hasData) {

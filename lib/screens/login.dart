@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/Services/http_client.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
+import 'package:fuel_sale_app/model/get_user_details.dart';
+import 'package:fuel_sale_app/model/login_model.dart';
 import 'package:fuel_sale_app/screens/homepage.dart';
 import 'package:fuel_sale_app/screens/reset_password_otp.dart';
 import 'package:fuel_sale_app/screens/sign_up_screen.dart';
@@ -11,6 +13,7 @@ import 'package:fuel_sale_app/utils/alert_dialog.dart';
 import 'package:fuel_sale_app/utils/custom_alert_bar.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/custom_formfield.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -55,14 +58,30 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login(BuildContext context) async{
+    SharedPreferences signUpUserData = await SharedPreferences.getInstance();
     CustomProgressDialog().showDialog(context, "Loading...");
-    await HttpService().userLogin(_email.text.trim(), _password.text.trim()).then((value) {
+    await HttpService().userLogin(_email.text.trim(), _password.text.trim()).then((value) async {
       var result = jsonDecode(value.body);
       if (value.statusCode == 200 || value.statusCode == 201) {
-        CustomProgressDialog().popCustomProgressDialogDialog(context);
-        //final response = loginResponseFromJson(value.body);
-        changeScreen(context, HomePage());
-      }
+        final response = loginResponseFromJson(value.body);
+        signUpUserData.setString("token", response.token);
+        await HttpService().userDetails(response.token).then((value) {
+          if (value.statusCode == 200 || value.statusCode == 201){
+            final response = getUserDetailsModelResponseFromJson(value.body);
+            signUpUserData.setString("firstName", response.firstname);
+            signUpUserData.setString("lastName", response.lastname);
+            signUpUserData.setString("userEmail", response.email);
+            signUpUserData.setString("userPhoneNumber", response.tel);
+            signUpUserData.setString("userSex", response.sex);
+            signUpUserData.setString("userDOB", response.dob.toString());
+            signUpUserData.setBool('isLoggedIn', true);
+            CustomProgressDialog().popCustomProgressDialogDialog(context);
+            replaceScreen(context, HomePage());
+          }}).catchError((error){
+            print(error);
+            CustomProgressDialog().popCustomProgressDialogDialog(context);
+            alertBar(context, error.toString(), AppTheme.red);
+        });}
       else {
         CustomProgressDialog().popCustomProgressDialogDialog(context);
         var errorMsg = result["message"];
@@ -91,10 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/landing_page.png'), fit: BoxFit.cover,)),
-                ),
+                  decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/landing_page.png'), fit: BoxFit.cover,)),),
                 Align(alignment: Alignment.bottomCenter,
                   child: Container(
                     height: MediaQuery.of(context).size.height / 1.5,
@@ -146,38 +162,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(height: 30,),
                           CustomButton(
                             buttonRadius: 14,
-                            onPressed: () {
-                              checkLoginNowConnectivity(context);
-                            },
-                            buttonText: 'Log In',
-                            buttonHeight: 54,
-                            decorationColor: AppTheme.blue,
-                            borderColor: AppTheme.blue,
-                          ),
+                            onPressed: () {checkLoginNowConnectivity(context);},
+                            buttonText: 'Log In', buttonHeight: 54, decorationColor: AppTheme.blue, borderColor: AppTheme.blue,),
                           SizedBox(height: 22),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text('Forget password? ',style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17, fontFamily: 'Lato', color: AppTheme.grey)),
                               InkWell(
-                                onTap: () {
-                                  changeScreen(context, ResetPasswordOtp());
-                                },
-                                child: Text('Click here', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17, fontFamily: 'Lato', color: AppTheme.blue,)),
-                              ),
-                            ],
-                          ),
+                                onTap: () {changeScreen(context, ResetPasswordOtp());},
+                                child: Text('Click here', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17, fontFamily: 'Lato', color: AppTheme.blue,)),),
+                            ],),
                           Spacer(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Not registered yet? ',style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17, fontFamily: 'Lato', color: AppTheme.grey)),
+                          Row(mainAxisAlignment: MainAxisAlignment.center,
+                            children: [Text('Not registered yet? ',style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17, fontFamily: 'Lato', color: AppTheme.grey)),
                               InkWell(
-                                onTap: () {
-                                  changeScreen(context, SignUpScreen());
-                                },
-                                child: Text('Create Account',style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17, fontFamily: 'Lato', color: AppTheme.blue,)),
-                              ),
+                                onTap: () {changeScreen(context, SignUpScreen());},
+                                child: Text('Create Account',style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17, fontFamily: 'Lato', color: AppTheme.blue,)),),
                             ],
                           ),
                           SizedBox(height:  81,),
