@@ -22,8 +22,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-
-  final List<String> sex = ['Male','Female'];
+  final List<String> sex = ['Male', 'Female'];
   String sexInitialValue = "Male";
 
   final _formKey = GlobalKey<FormState>();
@@ -37,13 +36,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _password = TextEditingController();
   TextEditingController _confirmPassword = TextEditingController();
 
-  MaskInputFormatter myDOBFormatter =  MaskInputFormatter(mask: '####-##-##');
+  MaskInputFormatter myDOBFormatter = MaskInputFormatter(mask: '####-##-##');
 
   //final _passwordValidator = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-  final _emailValidator = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  final _emailValidator = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   final _phoneValidator = RegExp(r'(^(?:[+0]9)?[0-9]{11,14}$)');
 
-  void checkSignUpConnectivity(BuildContext context) async{
+  void checkSignUpConnectivity(BuildContext context) async {
     FocusScope.of(context).unfocus();
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (!(connectivityResult == ConnectivityResult.none)) {
@@ -53,13 +53,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  void signUpNow(BuildContext context){
-    if (_formKey.currentState!.validate()){
+  void signUpNow(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       signUP(context);
     }
   }
-
 
   @override
   void dispose() {
@@ -73,24 +72,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
-  void signUP(BuildContext context) async{
+  void signUP(BuildContext context) async {
     CustomProgressDialog().showDialog(context, "Loading...");
-    await HttpService().userSignUp(_firstName.text.trim(), _lastName.text.trim(), _phoneNumber.text.trim(), _email.text.trim(), sexInitialValue.toString(), _dob.text.trim(), _password.text.trim(), _confirmPassword.text.trim()).then((value) {
+    await HttpService()
+        .userSignUp(
+            _firstName.text.trim(),
+            _lastName.text.trim(),
+            _phoneNumber.text.trim(),
+            _email.text.trim(),
+            sexInitialValue.toString(),
+            _dob.text.trim(),
+            _password.text.trim(),
+            _confirmPassword.text.trim())
+        .then((value) {
       var result = jsonDecode(value.body);
       if (value.statusCode == 200 || value.statusCode == 201) {
         CustomProgressDialog().popCustomProgressDialogDialog(context);
         final response = signUpResponseFromJson(value.body);
         //RepositoryService().saveUserdata(response);
-        replaceScreen(context, EmailVerificationScreen(userEmail: _email.text.trim(),));
-      }
-      else {
+        replaceScreen(
+            context,
+            EmailVerificationScreen(
+              userEmail: _email.text.trim(),
+            ));
+      } else {
         print(value.statusCode);
         CustomProgressDialog().popCustomProgressDialogDialog(context);
         var errorMsg = result["message"];
         //["email"][0];
-        alertBar(context, "$errorMsg Try changing the email and the phone number", AppTheme.red);
+        alertBar(
+            context,
+            "$errorMsg Try changing the email and the phone number",
+            AppTheme.red);
       }
-    }).timeout(Duration(seconds: 20), onTimeout: (){
+    }).timeout(Duration(seconds: 20), onTimeout: () {
       CustomProgressDialog().popCustomProgressDialogDialog(context);
       alertBar(context, "Network timeout! Try again.", AppTheme.red);
       return null;
@@ -105,7 +120,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Scaffold(
         key: scaffoldKey,
         extendBodyBehindAppBar: false,
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         body: Stack(
           children: [
             Container(
@@ -113,30 +128,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/landing_page.png'),
-                    fit: BoxFit.cover,
-                  )
-              ),
+                image: AssetImage('assets/landing_page.png'),
+                fit: BoxFit.cover,
+              )),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 35.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 60,),
+                    SizedBox(
+                      height: 60,
+                    ),
                     Container(
                       height: MediaQuery.of(context).size.width / 10,
                       width: MediaQuery.of(context).size.width / 10,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: AssetImage('assets/logo.png')
-                          )
-                      ),
+                              image: AssetImage('assets/logo.png'))),
                     ),
-                    SizedBox(height: 70,),
-                    Text('Welcome', style: TextStyle(fontWeight: FontWeight.w700,fontSize: 24, fontFamily: 'Lato', color: AppTheme.white),),
-                    SizedBox(height: 18,),
-                    Text('Complete your registration', style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16, fontFamily: 'Lato', color: AppTheme.white),),
+                    SizedBox(
+                      height: 70,
+                    ),
+                    Text(
+                      'Welcome',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24,
+                          fontFamily: 'Nunito',
+                          color: AppTheme.white),
+                    ),
+                    SizedBox(
+                      height: 18,
+                    ),
+                    Text(
+                      'Complete your registration',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          fontFamily: 'Nunito',
+                          color: AppTheme.white),
+                    ),
                   ],
                 ),
               ),
@@ -151,12 +183,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40),
                       topRight: Radius.circular(40),
-                    )
-                ),
+                    )),
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 40.0,right: 37, top: 40),
+                    padding:
+                        const EdgeInsets.only(left: 40.0, right: 37, top: 40),
                     child: Form(
                       key: _formKey,
                       child: Column(
@@ -164,10 +196,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           CustomFormField(
                             keyboardType: TextInputType.text,
                             controller: _firstName,
-                            validator: (value){
-                              if (value!.isEmpty){
+                            validator: (value) {
+                              if (value!.isEmpty) {
                                 return 'First name form cannot be empty';
-                              }else {
+                              } else {
                                 return null;
                               }
                             },
@@ -175,14 +207,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             focusedBorderColor: AppTheme.white,
                             enabledBorderColor: AppTheme.white,
                           ),
-                          SizedBox(height: 16,),
+                          SizedBox(
+                            height: 16,
+                          ),
                           CustomFormField(
                             keyboardType: TextInputType.text,
                             controller: _lastName,
-                            validator: (value){
-                              if (value!.isEmpty){
+                            validator: (value) {
+                              if (value!.isEmpty) {
                                 return 'Last name form cannot be empty';
-                              }else {
+                              } else {
                                 return null;
                               }
                             },
@@ -190,14 +224,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             focusedBorderColor: AppTheme.white,
                             enabledBorderColor: AppTheme.white,
                           ),
-                          SizedBox(height: 16,),
+                          SizedBox(
+                            height: 16,
+                          ),
                           CustomFormField(
                             keyboardType: TextInputType.text,
                             controller: _email,
-                            validator: (value){
-                              if (value!.isEmpty){
+                            validator: (value) {
+                              if (value!.isEmpty) {
                                 return 'Email form cannot be empty';
-                              } else if (!_emailValidator.hasMatch(value)){
+                              } else if (!_emailValidator.hasMatch(value)) {
                                 return 'Please, provide a valid email';
                               } else {
                                 return null;
@@ -207,14 +243,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             focusedBorderColor: AppTheme.white,
                             enabledBorderColor: AppTheme.white,
                           ),
-                          SizedBox(height: 16,),
+                          SizedBox(
+                            height: 16,
+                          ),
                           CustomFormField(
                             keyboardType: TextInputType.number,
                             controller: _phoneNumber,
-                            validator: (value){
-                              if (value!.isEmpty){
-                                return 'Phone number form cannot be empty';}
-                              else if (!_phoneValidator.hasMatch(value)){
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Phone number form cannot be empty';
+                              } else if (!_phoneValidator.hasMatch(value)) {
                                 return "Please, provide a valid phone numb";
                               } else {
                                 return null;
@@ -224,16 +262,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             focusedBorderColor: AppTheme.white,
                             enabledBorderColor: AppTheme.white,
                           ),
-                          SizedBox(height: 16,),
+                          SizedBox(
+                            height: 16,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               CustomDropDownButton(
                                 height: 66,
-                                hint: Text('Gender', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
+                                hint: Text(
+                                  'Gender',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'Nunito',
+                                      fontSize: 15,
+                                      color: AppTheme.grey.withOpacity(0.5)),
+                                ),
                                 underline: Container(),
                                 value: sexInitialValue,
-                                onChanged: (newValue){
+                                onChanged: (newValue) {
                                   setState(() {
                                     sexInitialValue = newValue;
                                   });
@@ -242,11 +289,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   padding: const EdgeInsets.only(left: 30.0),
                                   child: ConstrainedBox(
                                       constraints: BoxConstraints(
-                                          maxWidth: MediaQuery.of(context).size.width / 4
-                                      ),
-                                      child: Icon(Icons.arrow_drop_down_outlined)),
+                                          maxWidth: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              4),
+                                      child:
+                                          Icon(Icons.arrow_drop_down_outlined)),
                                 ),
-                                items: sex.map<DropdownMenuItem<String>>((String value) {
+                                items: sex.map<DropdownMenuItem<String>>(
+                                    (String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text('\t\t ${value.toString()}'),
@@ -259,11 +310,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 keyboardType: TextInputType.number,
                                 width: MediaQuery.of(context).size.width / 3,
                                 controller: _dob,
-                                validator: (value){
-                                  if (value!.isEmpty){
+                                validator: (value) {
+                                  if (value!.isEmpty) {
                                     return 'DOB form cannot be empty';
-                                  }else {
-                                    return null;}
+                                  } else {
+                                    return null;
+                                  }
                                 },
                                 labelText: "1990-02-29",
                                 focusedBorderColor: AppTheme.white,
@@ -271,12 +323,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 16,),
+                          SizedBox(
+                            height: 16,
+                          ),
                           CustomPasswordFormField(
                             keyboardType: TextInputType.visiblePassword,
                             controller: _password,
-                            validator: (value){
-                              if (value!.isEmpty){
+                            validator: (value) {
+                              if (value!.isEmpty) {
                                 return 'Password form cannot be empty';
                               }
                               // else if (!_passwordValidator.hasMatch(value)){
@@ -290,15 +344,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             focusedBorderColor: AppTheme.white,
                             enabledBorderColor: AppTheme.white,
                           ),
-                          SizedBox(height: 16,),
+                          SizedBox(
+                            height: 16,
+                          ),
                           CustomPasswordFormField(
                             keyboardType: TextInputType.visiblePassword,
                             controller: _confirmPassword,
-                            validator: (value){
+                            validator: (value) {
                               if (value!.isEmpty) {
                                 return "Please confirm password";
-                              } else if (value !=
-                                  _password.text) {
+                              } else if (value != _password.text) {
                                 return "Password do not match";
                               } else {
                                 return null;
@@ -308,10 +363,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             focusedBorderColor: AppTheme.white,
                             enabledBorderColor: AppTheme.white,
                           ),
-                          SizedBox(height: 28,),
+                          SizedBox(
+                            height: 28,
+                          ),
                           CustomButton(
                             buttonRadius: 14,
-                            onPressed: (){
+                            onPressed: () {
                               checkSignUpConnectivity(context);
                             },
                             buttonText: 'Sign Up',
@@ -323,22 +380,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Already have an account?', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17, fontFamily: 'Lato', color: AppTheme.blue)),
+                              Text('Already have an account?',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 17,
+                                      fontFamily: 'Nunito',
+                                      color: AppTheme.blue)),
                               InkWell(
                                 onTap: () {
                                   changeScreen(context, LoginScreen());
                                 },
-                                child: Text(' Login in',
+                                child: Text(' Log in',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 17,
-                                      fontFamily: 'Lato',
+                                      fontFamily: 'Nunito',
                                       color: AppTheme.blue,
                                     )),
                               ),
                             ],
                           ),
-                          SizedBox(height: 300,),
+                          SizedBox(
+                            height: 90,
+                          ),
                         ],
                       ),
                     ),
