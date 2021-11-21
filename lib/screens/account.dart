@@ -2,9 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/custom_formfield.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AccountSettings extends StatelessWidget {
+class AccountSettings extends StatefulWidget {
   const AccountSettings({Key? key}) : super(key: key);
+
+  @override
+  _AccountSettingsState createState() => _AccountSettingsState();
+}
+
+class _AccountSettingsState extends State<AccountSettings> {
+  var _firstName, _lastName, _email, _phoneNumber;
+
+  void initUserData() async {
+    final SharedPreferences userdata = await SharedPreferences.getInstance();
+    setState(() {
+      _firstName = (userdata.getString("firstName"));
+      _lastName = (userdata.getString("lastName"));
+      _email = (userdata.getString("userEmail"));
+      _phoneNumber = (userdata.getString("userPhoneNumber"));
+    });
+  }
+
+
+  @override
+  void initState() {
+    initUserData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +55,17 @@ class AccountSettings extends StatelessWidget {
                 children: [
                   Row(mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      IconButton(onPressed: () {Navigator.of(context).pop();},
-                          icon: Icon(Icons.arrow_back_ios, color: AppTheme.white,)),
-                      SizedBox(width: 100,),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton(onPressed: () {Navigator.of(context).pop();},
+                            icon: Icon(Icons.arrow_back_ios, color: AppTheme.white,)),
+                      ),
+                      Spacer(flex: 5,),
                       Container(
                           child: Text('Account', textAlign: TextAlign.center,
                         style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Nunito", color: AppTheme.white),
                       )),
+                      Spacer(flex: 7,),
                     ],
                   ),
                 ],
@@ -72,12 +101,34 @@ class AccountSettings extends StatelessWidget {
                       height: 27,
                     ),
                     CustomReadOnlyFormField(
+                      controller: TextEditingController(text: "$_firstName $_lastName" ),
                       shadowColor: AppTheme.backGround,
                       focusedBorderColor: AppTheme.grey.withOpacity(0.5),
                       enabledBorderColor: AppTheme.grey.withOpacity(0.5),
                       backgroundColor: AppTheme.white,
-                      height: 50,
-                      initialValue: 'James Chukwu',
+                      height: 45,
+                    ),
+                    SizedBox(
+                      height: 27,
+                    ),
+                    CustomReadOnlyFormField(
+                      controller: TextEditingController(text: _email),
+                      shadowColor: AppTheme.backGround,
+                      focusedBorderColor: AppTheme.grey.withOpacity(0.5),
+                      enabledBorderColor: AppTheme.grey.withOpacity(0.5),
+                      backgroundColor: AppTheme.white,
+                      height: 45,
+                    ),
+                    SizedBox(
+                      height: 27,
+                    ),
+                    CustomReadOnlyFormField(
+                      controller: TextEditingController(text: _phoneNumber),
+                      shadowColor: AppTheme.backGround,
+                      focusedBorderColor: AppTheme.grey.withOpacity(0.5),
+                      enabledBorderColor: AppTheme.grey.withOpacity(0.5),
+                      backgroundColor: AppTheme.white,
+                      height: 45,
                     ),
                     SizedBox(
                       height: 27,
@@ -87,29 +138,7 @@ class AccountSettings extends StatelessWidget {
                       focusedBorderColor: AppTheme.grey.withOpacity(0.5),
                       enabledBorderColor: AppTheme.grey.withOpacity(0.5),
                       backgroundColor: AppTheme.white,
-                      height: 50,
-                      initialValue: 'JayVictor999@gmail.com',
-                    ),
-                    SizedBox(
-                      height: 27,
-                    ),
-                    CustomReadOnlyFormField(
-                      shadowColor: AppTheme.backGround,
-                      focusedBorderColor: AppTheme.grey.withOpacity(0.5),
-                      enabledBorderColor: AppTheme.grey.withOpacity(0.5),
-                      backgroundColor: AppTheme.white,
-                      height: 50,
-                      initialValue: '07045367876',
-                    ),
-                    SizedBox(
-                      height: 27,
-                    ),
-                    CustomReadOnlyFormField(
-                      shadowColor: AppTheme.backGround,
-                      focusedBorderColor: AppTheme.grey.withOpacity(0.5),
-                      enabledBorderColor: AppTheme.grey.withOpacity(0.5),
-                      backgroundColor: AppTheme.white,
-                      height: 50,
+                      height: 45,
                       initialValue: 'German,English',
                     ),
                     SizedBox(

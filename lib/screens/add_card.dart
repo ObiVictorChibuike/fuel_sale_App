@@ -1,6 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fuel_sale_app/Services/http_client.dart';
 import 'package:fuel_sale_app/Services/payment_card.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
@@ -11,6 +12,7 @@ import 'package:fuel_sale_app/utils/alert_dialog.dart';
 import 'package:fuel_sale_app/utils/custom_alert_bar.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/custom_formfield.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddCard extends StatefulWidget {
@@ -63,17 +65,17 @@ class _AddCardState extends State<AddCard> {
   }
 
   addCardNow() async {
-    CustomProgressDialog().showDialog(context, "Loading...");
+    context.loaderOverlay.show();
     await HttpService().addCard(_cardNumberController.text.trim(), _token).then((value) async{
       if (value.statusCode == 200 || value.statusCode == 201) {
-        CustomProgressDialog().popCustomProgressDialogDialog(context);
+        context.loaderOverlay.hide();
         replaceScreen(context, CardAddedSuccessfully());
       }}).catchError((error){
-      CustomProgressDialog().popCustomProgressDialogDialog(context);
+      context.loaderOverlay.hide();
       alertBar(context, error.toString(), AppTheme.red);
       print(error.code);
     }).timeout(Duration(seconds: 20), onTimeout: (){
-      CustomProgressDialog().popCustomProgressDialogDialog(context);
+      context.loaderOverlay.hide();
       alertBar(context, "Network timeout! Try again.", AppTheme.red);
       return null;
     });
@@ -153,17 +155,21 @@ class _AddCardState extends State<AddCard> {
               onPressed: (){Navigator.of(context).pop();},
             ),
           ),
-          body: Container(
-            height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                addCardWidget(),
-              ],
-            ),
-          )),
+          body: LoaderOverlay(
+            useDefaultLoading: false,
+            overlayWidget: Center(child: SpinKitCubeGrid(color: AppTheme.blue, size: 50.0,),),
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  addCardWidget(),
+                ],
+              ),
+            )),
+          ),
         )
     );
   }
