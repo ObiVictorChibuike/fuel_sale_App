@@ -20,14 +20,15 @@ class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThir
     print(picked);
   }
 
-  late DateTime selectedDate;
+  DateTime? selectedDate;
 
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate, // Refer step 1
+      initialDate: selectedDate!, // Refer step 1
       firstDate: DateTime(2000),
       lastDate: DateTime(2025),
+      initialEntryMode: DatePickerEntryMode.input,
     );
     if (picked != null && picked != selectedDate)
       setState(() {
@@ -57,7 +58,7 @@ class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThir
                         onTap: (){_selectDate(context);},
                         child: Center(
                             child: Text(
-                          selectedDate.toString(),
+                          "Fri, Sept 2021",
                           style: TextStyle(
                               fontSize: 18.5,
                               fontWeight: FontWeight.w400,
@@ -74,15 +75,18 @@ class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThir
                     Container(
                       height: 50,
                       width: MediaQuery.of(context).size.width,
-                      child: Center(
-                          child: Text(
-                        '09:00AM - 12:00AM',
-                        style: TextStyle(
-                            fontSize: 18.5,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Nunito',
-                            color: AppTheme.dark_blue),
-                      )),
+                      child: GestureDetector(
+                        onTap: (){_selectTime(context);},
+                        child: Center(
+                            child: Text(
+                          '09:00AM - 12:00AM',
+                          style: TextStyle(
+                              fontSize: 18.5,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: 'Nunito',
+                              color: AppTheme.dark_blue),
+                        )),
+                      ),
                     ),
                     Container(
                       height: 1,
@@ -103,7 +107,7 @@ class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThir
                               buttonRadius: 20,
                               textColor: AppTheme.white,
                               buttonText: 'Set delivery time',
-                              onPressed: () {_selectTime(context);}),
+                              onPressed: () {}),
                         ),
                       ),
                     )
