@@ -81,17 +81,17 @@ class _LoginScreenState extends State<LoginScreen> {
             replaceScreen(context, HomePage());
           }}).catchError((error){
             print(error);
-            context.loaderOverlay.show();
+            context.loaderOverlay.hide();
             alertBar(context, error.toString(), AppTheme.red);
         });}
       else {
-        context.loaderOverlay.show();
+        context.loaderOverlay.hide();
         var errorMsg = result["message"];
         alertBar(context, errorMsg, AppTheme.red);
       }
     })
     .timeout(Duration(seconds: 20), onTimeout: (){
-      context.loaderOverlay.show();
+      context.loaderOverlay.hide();
     alertBar(context, "Network timeout! Try again.", AppTheme.red);
     return null;
     });

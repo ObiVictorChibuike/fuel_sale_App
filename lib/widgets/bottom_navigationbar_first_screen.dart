@@ -9,6 +9,7 @@ import 'package:fuel_sale_app/screens/card_details.dart';
 import 'package:fuel_sale_app/screens/deposit.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/record_list_view.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BottomNavigationBarFirstScreen extends StatefulWidget {
@@ -25,6 +26,7 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
   var _firstName, _lastName;
   bool isCardAdded = false;
 
+
   void initUserData() async {
     final SharedPreferences userdata = await SharedPreferences.getInstance();
     setState(() {
@@ -32,6 +34,7 @@ class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirs
       _lastName = (userdata.getString("lastName"));
     });
   }
+
 
   String? text;
   int? selectedIndex = 0;

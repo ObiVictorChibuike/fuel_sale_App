@@ -6,6 +6,7 @@ import 'package:fuel_sale_app/widgets/bottom_navigationbar_second_screen.dart';
 import 'package:fuel_sale_app/widgets/bottom_navigationbar_first_screen.dart';
 import 'package:fuel_sale_app/widgets/bottom_navigationbar_fourth_screen.dart';
 import 'package:fuel_sale_app/widgets/bottom_navigationbar_third_screen.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,16 +17,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late Position position;
   var _token;
 
   void initUserData() async {
     final SharedPreferences userdata = await SharedPreferences.getInstance();
     setState(() {_token = (userdata.getString("token"));});
   }
+  void getLocation() async{
+    Position res = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high,);
+    setState(() {
+      position = res;
+    });
+  }
 
   @override
   void initState() {
     initUserData();
+    getLocation();
     super.initState();
   }
 
@@ -37,7 +46,7 @@ class _HomePageState extends State<HomePage> {
       return BottomNavigationBarSecondScreen(token: _token,);
     }
     if (_currentIndex == 2) {
-      return BottomNavigationBarThirdScreen();
+      return BottomNavigationBarThirdScreen(position: position, token: _token,);
     }
     if (_currentIndex == 3) {
       return BottomNavigationBarFourthScreen();
