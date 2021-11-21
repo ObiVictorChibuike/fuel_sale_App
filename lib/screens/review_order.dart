@@ -1,5 +1,6 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fuel_sale_app/Services/http_client.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
@@ -8,6 +9,7 @@ import 'package:fuel_sale_app/screens/homepage.dart';
 import 'package:fuel_sale_app/utils/alert_dialog.dart';
 import 'package:fuel_sale_app/utils/custom_alert_bar.dart';
 import 'package:fuel_sale_app/widgets/custom_button.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class ReviewOrder extends StatefulWidget {
   final String? product, quantity, paymentMethod, location, token;
@@ -35,20 +37,20 @@ class _ReviewOrderState extends State<ReviewOrder> {
   }
 
   void makeTransaction(String vendorId, cardId,riderId, addressId, unitprice, quantity,transAmount, token) async{
-    CustomProgressDialog().showDialog(context, "Loading...");
+    context.loaderOverlay.show();
     await HttpService().makeTransaction(vendorId, cardId, riderId, addressId, unitprice, quantity, transAmount, token).then((value){
       if(value.statusCode == 200 || value.statusCode == 201){
         alertBar(context, "Transaction Successful", AppTheme.red);
-        CustomProgressDialog().popCustomProgressDialogDialog(context);
+        context.loaderOverlay.hide();
         replaceScreen(context, HomePage());
         print(value.body);
       } else{
-        CustomProgressDialog().popCustomProgressDialogDialog(context);
+        context.loaderOverlay.show();
         alertBar(context, "Transaction failed", AppTheme.red);
       }}).catchError((error){
       print(error);
     }).timeout(Duration(seconds: 20), onTimeout: (){
-      CustomProgressDialog().popCustomProgressDialogDialog(context);
+      context.loaderOverlay.show();
       alertBar(context, "Network timeout! Try again.", AppTheme.red);
       return null;
     });
@@ -218,7 +220,10 @@ class _ReviewOrderState extends State<ReviewOrder> {
                 )
             ),
           ),
-          body: reviewOrder(),
+          body: LoaderOverlay(
+              useDefaultLoading: false,
+              overlayWidget: Center(child: SpinKitCubeGrid(color: AppTheme.blue, size: 50.0,),),
+              child: reviewOrder()),
         )
     );
   }

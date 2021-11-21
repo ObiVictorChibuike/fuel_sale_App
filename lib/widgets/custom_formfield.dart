@@ -241,11 +241,11 @@ class CustomReadOnlyFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(15))),
-      elevation: elevation ?? 3,
+          borderRadius: BorderRadius.all(Radius.circular(5))),
+      elevation: elevation ?? 2,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(5),
           color: backgroundColor ?? AppTheme.backGround,
         ),
         width: width ?? double.maxFinite,

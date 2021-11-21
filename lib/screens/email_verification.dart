@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fuel_sale_app/Services/http_client.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
@@ -9,6 +10,7 @@ import 'package:fuel_sale_app/repository/cached_data.dart';
 import 'package:fuel_sale_app/screens/verification_successful.dart';
 import 'package:fuel_sale_app/utils/alert_dialog.dart';
 import 'package:fuel_sale_app/utils/custom_alert_bar.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,15 +30,13 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     setState(() {
       value = _otp;
     });
-    CustomProgressDialog().showDialog(context, "Verifying...");
-    await HttpService()
-        .validateOTP(_userEmail, _otp.toString())
-        .then((value) async {
+    context.loaderOverlay.show();
+    await HttpService().validateOTP(_userEmail, _otp.toString()).then((value) async {
       var result = jsonDecode(value.body);
       if (value.statusCode == 200 || value.statusCode == 201) {
         final response = signUpResponseFromOtpValidationFromJson(value.body);
         RepositoryService().saveUserdata(response);
-        CustomProgressDialog().popCustomProgressDialogDialog(context);
+        context.loaderOverlay.hide();
         replaceScreen(context, VerificationSuccess());
       } else {
         var errorMsg = result["message"];
@@ -77,9 +77,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               height: 30,
             ),
           ),
-          SizedBox(
-            height: 40,
-          ),
+          SizedBox(height: 40,),
           Text(
             'Email Verification',
             style: TextStyle(
@@ -188,19 +186,23 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         bottom: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-            body: Stack(
+            body: LoaderOverlay(
+              useDefaultLoading: false,
+              overlayWidget: Center(child: SpinKitCubeGrid(color: AppTheme.blue, size: 50.0,),),
+              child: Stack(
           children: [
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                image: AssetImage('assets/landing_page.png'),
-                fit: BoxFit.cover,
-              )),
-              child: emailVerification(),
-            ),
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                  image: AssetImage('assets/landing_page.png'),
+                  fit: BoxFit.cover,
+                )),
+                child: emailVerification(),
+              ),
           ],
-        )));
+        ),
+            )));
   }
 }

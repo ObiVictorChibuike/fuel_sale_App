@@ -21,8 +21,7 @@ class BottomNavigationBarFirstScreen extends StatefulWidget {
       _BottomNavigationBarFirstScreenState();
 }
 
-class _BottomNavigationBarFirstScreenState
-    extends State<BottomNavigationBarFirstScreen> {
+class _BottomNavigationBarFirstScreenState extends State<BottomNavigationBarFirstScreen> {
   var _firstName, _lastName;
   bool isCardAdded = false;
 

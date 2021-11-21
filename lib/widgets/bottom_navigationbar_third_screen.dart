@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
-import 'package:fuel_sale_app/screens/homepage.dart';
 import 'package:fuel_sale_app/screens/previous-order.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'custom_button.dart';
 
 class BottomNavigationBarThirdScreen extends StatefulWidget {
@@ -16,8 +13,28 @@ class BottomNavigationBarThirdScreen extends StatefulWidget {
       _BottomNavigationBarThirdScreenState();
 }
 
-class _BottomNavigationBarThirdScreenState
-    extends State<BottomNavigationBarThirdScreen> {
+class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThirdScreen> {
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+    print(picked);
+  }
+
+  late DateTime selectedDate;
+
+  _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate, // Refer step 1
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
   _buildDialog(BuildContext context) => showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -28,34 +45,26 @@ class _BottomNavigationBarThirdScreenState
             //   borderRadius: BorderRadius.circular(15),
             // ),
             child: Container(
-                height: MediaQuery.of(context).size.height / 3.8,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
+                height: MediaQuery.of(context).size.height / 3.8, decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
                 child: Column(
                   children: [
+                    Container(height: 50, width: MediaQuery.of(context).size.width, color: AppTheme.grey.withOpacity(0.1)),
+                    Container(height: 1, width: MediaQuery.of(context).size.width, color: AppTheme.grey.withOpacity(0.3)),
                     Container(
                       height: 50,
                       width: MediaQuery.of(context).size.width,
-                      color: AppTheme.grey.withOpacity(0.1),
-                    ),
-                    Container(
-                      height: 1,
-                      width: MediaQuery.of(context).size.width,
-                      color: AppTheme.grey.withOpacity(0.3),
-                    ),
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                          child: Text(
-                        'Fri, Sept 2021',
-                        style: TextStyle(
-                            fontSize: 18.5,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Nunito',
-                            color: AppTheme.dark_blue),
-                      )),
+                      child: GestureDetector(
+                        onTap: (){_selectDate(context);},
+                        child: Center(
+                            child: Text(
+                          selectedDate.toString(),
+                          style: TextStyle(
+                              fontSize: 18.5,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: 'Nunito',
+                              color: AppTheme.dark_blue),
+                        )),
+                      ),
                     ),
                     Container(
                       height: 1,
@@ -94,7 +103,7 @@ class _BottomNavigationBarThirdScreenState
                               buttonRadius: 20,
                               textColor: AppTheme.white,
                               buttonText: 'Set delivery time',
-                              onPressed: () {}),
+                              onPressed: () {_selectTime(context);}),
                         ),
                       ),
                     )
@@ -103,6 +112,7 @@ class _BottomNavigationBarThirdScreenState
           ),
         );
       });
+  //getLocation(){}
 
   static final LatLng _kMapCenter =
       LatLng(19.018255973653343, 72.84793849278007);
@@ -212,6 +222,7 @@ class _BottomNavigationBarThirdScreenState
             width: double.maxFinite,
             height: 336,
             child: GoogleMap(
+              myLocationButtonEnabled: true,
               initialCameraPosition: _kInitialPosition,
             ),
           ),
@@ -391,6 +402,7 @@ class _BottomNavigationBarThirdScreenState
         top: false,
         bottom: false,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: isDeliveryFalseUI(),
         ));
   }
