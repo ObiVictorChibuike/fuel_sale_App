@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:fuel_sale_app/constant/app_navigation.dart';
 import 'package:fuel_sale_app/constant/color_palettes.dart';
+import 'package:fuel_sale_app/screens/place_your_order.dart';
 import 'package:fuel_sale_app/screens/previous-order.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'custom_button.dart';
 
 class BottomNavigationBarThirdScreen extends StatefulWidget {
-  BottomNavigationBarThirdScreen({Key? key}) : super(key: key);
+  final Position position;
+  final String token;
+  BottomNavigationBarThirdScreen({Key? key, required this.position, required this.token}) : super(key: key);
 
   @override
   _BottomNavigationBarThirdScreenState createState() =>
@@ -16,19 +20,44 @@ class BottomNavigationBarThirdScreen extends StatefulWidget {
 class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThirdScreen> {
 
   Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(context: context, initialTime: TimeOfDay.now());
-    print(picked);
+    final TimeOfDay? picked = await showTimePicker(
+        context: context,
+        initialTime: selectedTime,
+      initialEntryMode: TimePickerEntryMode.dial,
+      confirmText: "Confirm",
+      cancelText: "Cancel",
+      helpText: "Ok",
+    );
+    if(picked != null && picked != selectedTime)
+    {
+      setState(() {
+        selectedTime = picked;
+      });
+    }
   }
 
-  DateTime? selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
 
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate!, // Refer step 1
+      initialDate: selectedDate,
       firstDate: DateTime(2000),
-      lastDate: DateTime(2025),
-      initialEntryMode: DatePickerEntryMode.input,
+      lastDate: DateTime(2050),
+        initialDatePickerMode: DatePickerMode.year,
+        helpText: 'Select Date',
+        cancelText: 'Cancel',
+        confirmText: 'Ok',
+      errorFormatText: 'Enter valid date',
+      errorInvalidText: 'Enter date in valid range',
+      fieldHintText: 'Month/Date/Year',
     );
     if (picked != null && picked != selectedDate)
       setState(() {
@@ -36,63 +65,35 @@ class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThir
       });
   }
 
+
   _buildDialog(BuildContext context) => showDialog(
       context: context,
       builder: (BuildContext context) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 38.0),
           child: Dialog(
-            // shape: RoundedRectangleBorder(
-            //   borderRadius: BorderRadius.circular(15),
-            // ),
-            child: Container(
-                height: MediaQuery.of(context).size.height / 3.8, decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+            child: Container(height: MediaQuery.of(context).size.height / 3.8, decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
                 child: Column(
                   children: [
                     Container(height: 50, width: MediaQuery.of(context).size.width, color: AppTheme.grey.withOpacity(0.1)),
                     Container(height: 1, width: MediaQuery.of(context).size.width, color: AppTheme.grey.withOpacity(0.3)),
                     Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
+                      height: 50, width: MediaQuery.of(context).size.width,
                       child: GestureDetector(
-                        onTap: (){_selectDate(context);},
+                        onTap: ()=>_selectDate(context),
                         child: Center(
                             child: Text(
-                          "Fri, Sept 2021",
-                          style: TextStyle(
-                              fontSize: 18.5,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: 'Nunito',
-                              color: AppTheme.dark_blue),
-                        )),
-                      ),
-                    ),
+                          "${selectedDate.toLocal()}".split(" ")[0],
+                          style: TextStyle(fontSize: 18.5, fontWeight: FontWeight.w400, fontFamily: 'Nunito', color: AppTheme.dark_blue),)),),),
+                    Container(height: 1, width: MediaQuery.of(context).size.width, color: AppTheme.grey.withOpacity(0.3),),
                     Container(
-                      height: 1,
-                      width: MediaQuery.of(context).size.width,
-                      color: AppTheme.grey.withOpacity(0.3),
-                    ),
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
+                      height: 50, width: MediaQuery.of(context).size.width,
                       child: GestureDetector(
                         onTap: (){_selectTime(context);},
                         child: Center(
-                            child: Text(
-                          '09:00AM - 12:00AM',
-                          style: TextStyle(
-                              fontSize: 18.5,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: 'Nunito',
-                              color: AppTheme.dark_blue),
-                        )),
-                      ),
-                    ),
+                            child: Text("${selectedTime.hour}:${selectedTime.minute}", style: TextStyle(fontSize: 18.5, fontWeight: FontWeight.w400, fontFamily: 'Nunito', color: AppTheme.dark_blue),)),),),
                     Container(
-                      height: 1,
-                      width: MediaQuery.of(context).size.width,
-                      color: AppTheme.grey.withOpacity(0.3),
-                    ),
+                      height: 1, width: MediaQuery.of(context).size.width, color: AppTheme.grey.withOpacity(0.3),),
                     Container(
                       height: 50,
                       child: Center(
@@ -107,7 +108,9 @@ class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThir
                               buttonRadius: 20,
                               textColor: AppTheme.white,
                               buttonText: 'Set delivery time',
-                              onPressed: () {}),
+                              onPressed: () {
+                                changeScreen(context, PlaceYourOrder(token: widget.token));
+                              }),
                         ),
                       ),
                     )
@@ -116,75 +119,60 @@ class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThir
           ),
         );
       });
-  //getLocation(){}
 
-  static final LatLng _kMapCenter =
-      LatLng(19.018255973653343, 72.84793849278007);
-  static final CameraPosition _kInitialPosition =
-      CameraPosition(target: _kMapCenter, zoom: 11.0, tilt: 0, bearing: 0);
+
+
+  Set<Marker> _createMaker(LatLng _kMapCenter){
+    return <Marker>[
+      Marker(markerId: MarkerId("home"), position: _kMapCenter,
+        icon: BitmapDescriptor.defaultMarker,infoWindow: InfoWindow(title: "Home"),),
+    ].toSet();
+  }
+
+  // static final LatLng _kMapCenter =
+  //     LatLng(position!.longitude, 72.84793849278007);
+  // static final CameraPosition _kInitialPosition =
+  //     CameraPosition(target: _kMapCenter, zoom: 11.0, tilt: 0, bearing: 0);
 
   Widget isDeliveryFalseUI() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         children: [
-          SizedBox(
-            height: 80,
-          ),
+          SizedBox(height: 80,),
           Container(
-            width: double.maxFinite,
-            height: 45,
-            decoration: BoxDecoration(
-              color: AppTheme.dark_blue,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Expanded(
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 26.0, top: 10, bottom: 11, right: 0.0),
-                    child: Text(
-                      'Order',
-                      style: TextStyle(
-                          color: AppTheme.white,
-                          fontSize: 18,
-                          fontFamily: 'Nunito'),
-                    ),
+            width: double.maxFinite, height: 45,
+            decoration: BoxDecoration(color: AppTheme.dark_blue, borderRadius: BorderRadius.circular(5),),
+            child: Row(
+              children: [
+                Padding(padding: const EdgeInsets.only(left: 26.0, top: 10, bottom: 11, right: 0.0),
+                  child: Text('Order', style: TextStyle(color: AppTheme.white, fontSize: 18, fontFamily: 'Nunito'),),),
+                SizedBox(width: 112,),
+                Container(height: 31, width: 0.5, color: AppTheme.blue,),
+                SizedBox(
+                  width: 20,
+                ),
+                Chip(
+                  labelStyle: TextStyle(
+                      fontFamily: 'Nunito',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                      color: AppTheme.white),
+                  backgroundColor: AppTheme.dark_blue.withOpacity(0.5),
+                  label: Text('Now'),
+                  avatar: Icon(
+                    Icons.access_time,
+                    color: AppTheme.white,
                   ),
-                  SizedBox(
-                    width: 112,
+                  deleteIcon: Icon(
+                    Icons.arrow_drop_down_outlined,
                   ),
-                  Container(
-                    height: 31,
-                    width: 0.5,
-                    color: AppTheme.blue,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Chip(
-                    labelStyle: TextStyle(
-                        fontFamily: 'Nunito',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                        color: AppTheme.white),
-                    backgroundColor: AppTheme.dark_blue.withOpacity(0.5),
-                    label: Text('Now'),
-                    avatar: Icon(
-                      Icons.access_time,
-                      color: AppTheme.white,
-                    ),
-                    deleteIcon: Icon(
-                      Icons.arrow_drop_down_outlined,
-                    ),
-                    deleteIconColor: AppTheme.white,
-                    onDeleted: () {
-                      _buildDialog(context);
-                    },
-                  )
-                ],
-              ),
+                  deleteIconColor: AppTheme.white,
+                  onDeleted: () {
+                    _buildDialog(context);
+                  },
+                )
+              ],
             ),
           ),
           SizedBox(
@@ -226,8 +214,10 @@ class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThir
             width: double.maxFinite,
             height: 336,
             child: GoogleMap(
+              markers: _createMaker(LatLng(widget.position.longitude, widget.position.latitude)),
+              mapType: MapType.normal,
               myLocationButtonEnabled: true,
-              initialCameraPosition: _kInitialPosition,
+              initialCameraPosition: CameraPosition(target: LatLng(widget.position.longitude, widget.position.latitude), zoom: 11.0, tilt: 0, bearing: 0),
             ),
           ),
         ],
@@ -392,7 +382,7 @@ class _BottomNavigationBarThirdScreenState extends State<BottomNavigationBarThir
             width: double.maxFinite,
             height: 162,
             child: GoogleMap(
-              initialCameraPosition: _kInitialPosition,
+              initialCameraPosition: CameraPosition(target: LatLng(widget.position.longitude, widget.position.latitude), zoom: 11.0, tilt: 0, bearing: 0),
             ),
           ),
         ],
