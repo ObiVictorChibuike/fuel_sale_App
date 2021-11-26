@@ -22,10 +22,15 @@ class _HomePageState extends State<HomePage> {
 
   void initUserData() async {
     final SharedPreferences userdata = await SharedPreferences.getInstance();
-    setState(() {_token = (userdata.getString("token"));});
+    setState(() {
+      _token = (userdata.getString("token"));
+    });
   }
-  void getLocation() async{
-    Position res = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high,);
+
+  void getLocation() async {
+    Position res = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
     setState(() {
       position = res;
     });
@@ -41,12 +46,19 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   _getWidget() {
     if (_currentIndex == 0) {
-      return BottomNavigationBarFirstScreen(token: _token,);
+      return BottomNavigationBarFirstScreen(
+        token: _token,
+      );
     } else if (_currentIndex == 1) {
-      return BottomNavigationBarSecondScreen(token: _token,);
+      return BottomNavigationBarSecondScreen(
+        token: _token,
+      );
     }
     if (_currentIndex == 2) {
-      return BottomNavigationBarThirdScreen(position: position, token: _token,);
+      return BottomNavigationBarThirdScreen(
+        position: position,
+        token: _token,
+      );
     }
     if (_currentIndex == 3) {
       return BottomNavigationBarFourthScreen();
@@ -55,6 +67,7 @@ class _HomePageState extends State<HomePage> {
       return BottomNavigationBarFifthScreen();
     }
   }
+
   DateTime? currentBackPressTime;
 
   Future<bool> onWillPop() {
@@ -80,7 +93,7 @@ class _HomePageState extends State<HomePage> {
           child: _getWidget(),
         ),
         bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: AppTheme.grey.withOpacity(0.3),
+            backgroundColor: AppTheme.white,
             elevation: 5,
             type: BottomNavigationBarType.fixed,
             showSelectedLabels: false,

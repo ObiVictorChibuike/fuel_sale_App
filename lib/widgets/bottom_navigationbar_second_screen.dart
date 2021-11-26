@@ -11,14 +11,13 @@ class BottomNavigationBarSecondScreen extends StatefulWidget {
   final String? token;
   const BottomNavigationBarSecondScreen({Key? key, this.token})
       : super(key: key);
-
   @override
   _BottomNavigationBarSecondScreenState createState() =>
       _BottomNavigationBarSecondScreenState();
 }
 
-class _BottomNavigationBarSecondScreenState extends State<BottomNavigationBarSecondScreen> {
-
+class _BottomNavigationBarSecondScreenState
+    extends State<BottomNavigationBarSecondScreen> {
   Widget allCardForAUser() {
     return FutureBuilder<List<GetAllCardForAUserResponseModel>>(
         future: HttpService().userAllCardDetailsForUser(widget.token!),

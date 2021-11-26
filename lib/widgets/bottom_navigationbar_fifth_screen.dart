@@ -41,7 +41,7 @@ class _BottomNavigationBarFifthScreenState
       builder: (context) {
         return Container(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height / 2,
+            height: MediaQuery.of(context).size.height / 3,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30),
@@ -153,15 +153,6 @@ class _BottomNavigationBarFifthScreenState
         appBar: AppBar(
           backgroundColor: AppTheme.backGround,
           elevation: 0.0,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: AppTheme.dark_blue,
-            ),
-            onPressed: () {
-              //Navigator.of(context).pop();
-            },
-          ),
           actions: [
             IconButton(
                 onPressed: () {
@@ -185,9 +176,13 @@ class _BottomNavigationBarFifthScreenState
                 height: 85,
                 width: 85,
                 decoration: BoxDecoration(
-                  border: Border.all(color: AppTheme.blue, width: 5.0), shape: BoxShape.circle,),
+                  border: Border.all(color: AppTheme.blue, width: 5.0),
+                  shape: BoxShape.circle,
+                ),
                 child: CircleAvatar(
-                  radius: 40.25, backgroundImage: AssetImage('assets/userImage.png'),),
+                  radius: 40.25,
+                  backgroundImage: AssetImage('assets/userImage.png'),
+                ),
               ),
               SizedBox(
                 height: 15,
@@ -220,7 +215,7 @@ class _BottomNavigationBarFifthScreenState
                     fontWeight: FontWeight.w800,
                     fontSize: 16,
                     fontFamily: 'Nunito',
-                    color: AppTheme.grey.withOpacity(0.5)),
+                    color: AppTheme.dark_blue),
               ),
               SizedBox(
                 height: 3,
@@ -231,7 +226,7 @@ class _BottomNavigationBarFifthScreenState
                     fontWeight: FontWeight.w800,
                     fontSize: 16,
                     fontFamily: 'Nunito',
-                    color: AppTheme.grey.withOpacity(0.5)),
+                    color: AppTheme.dark_blue),
               ),
               SizedBox(
                 height: 15,
@@ -289,7 +284,7 @@ class _BottomNavigationBarFifthScreenState
                               fontWeight: FontWeight.w400,
                               fontSize: 15.5,
                               fontFamily: 'Nunito',
-                              color: AppTheme.grey.withOpacity(0.5)),
+                              color: AppTheme.dark_blue),
                         ),
                         SizedBox(
                           height: 20,
@@ -300,7 +295,7 @@ class _BottomNavigationBarFifthScreenState
                               fontWeight: FontWeight.w400,
                               fontSize: 15.5,
                               fontFamily: 'Nunito',
-                              color: AppTheme.grey.withOpacity(0.5)),
+                              color: AppTheme.dark_blue),
                         ),
                       ],
                     ),

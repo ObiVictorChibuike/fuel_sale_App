@@ -9,8 +9,16 @@ import 'package:fuel_sale_app/widgets/custom_button.dart';
 import 'package:fuel_sale_app/widgets/custom_dropdown_field.dart';
 import 'package:fuel_sale_app/widgets/custom_formfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class PlaceYourOrder extends StatefulWidget {
-  const PlaceYourOrder({Key? key, this.title, this.product, this.quantity, this.address, required this.token}) : super(key: key);
+  const PlaceYourOrder(
+      {Key? key,
+      this.title,
+      this.product,
+      this.quantity,
+      this.address,
+      required this.token})
+      : super(key: key);
   final String? title, product, quantity, address;
   final String token;
 
@@ -19,12 +27,14 @@ class PlaceYourOrder extends StatefulWidget {
 }
 
 class _PlaceYourOrderState extends State<PlaceYourOrder> {
-
-  getAllVendor() async{
+  getAllVendor() async {
     await HttpService().getAllVendor(widget.token)!.then((value) {
-      setState(() {data = value;});
+      setState(() {
+        data = value;
+      });
     });
   }
+
   var _token;
 
   void initUserData() async {
@@ -34,15 +44,21 @@ class _PlaceYourOrderState extends State<PlaceYourOrder> {
     });
   }
 
-  List <GetAllVendorModelResponse>? data;
-  GetAllVendorModelResponse? dropdownInitialValue ;
+  List<GetAllVendorModelResponse>? data;
+  GetAllVendorModelResponse? dropdownInitialValue;
 
   late double longitude;
   late double latitude;
   var _product;
   String cardId = "634xxxxxxx343 ";
   String location = "12th Street Ikeja, Lagos State";
-  final List<String> locations = ['12th Street Ikeja, Lagos State','1th Orlu Junction, Imo State','11th Street Ikeja, Abia State', '30 St Anthony, Lagos State',"15th Street Ikeja, Kaduna State"];
+  final List<String> locations = [
+    '12th Street Ikeja, Lagos State',
+    '1th Orlu Junction, Imo State',
+    '11th Street Ikeja, Abia State',
+    '30 St Anthony, Lagos State',
+    "15th Street Ikeja, Kaduna State"
+  ];
 
   @override
   void initState() {
@@ -53,9 +69,10 @@ class _PlaceYourOrderState extends State<PlaceYourOrder> {
     });
     super.initState();
   }
-  final List<String> product = ['Petrol','Diesel','Kerosene', 'Oil'];
 
-  Widget placeYourOrder(){
+  final List<String> product = ['Petrol', 'Diesel', 'Kerosene', 'Oil'];
+
+  Widget placeYourOrder() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 34.0),
       child: SingleChildScrollView(
@@ -63,45 +80,68 @@ class _PlaceYourOrderState extends State<PlaceYourOrder> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 100,),
+            SizedBox(
+              height: 100,
+            ),
             CustomDropDownButton(
                 elevation: 1,
-              height: 53,
-              width: MediaQuery.of(context).size.width,
-                hint: Text('Select Station', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
+                height: 53,
+                width: MediaQuery.of(context).size.width,
+                hint: Text(
+                  'Select Station',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Nunito',
+                      fontSize: 15,
+                      color: AppTheme.grey.withOpacity(0.5)),
+                ),
                 underline: Container(),
                 value: dropdownInitialValue,
-                onChanged: (value){
+                onChanged: (value) {
                   setState(() {
                     dropdownInitialValue = value;
-                    longitude = dropdownInitialValue!.longitude;
-                    latitude = dropdownInitialValue!.latitude;
+                    longitude = dropdownInitialValue?.longitude ?? 0;
+                    latitude = dropdownInitialValue?.latitude ?? 0;
                   });
                 },
                 icon: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: ConstrainedBox(
                       constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width / 4
-                      ),
+                          maxWidth: MediaQuery.of(context).size.width / 4),
                       child: Icon(Icons.arrow_drop_down_outlined)),
                 ),
-                items: data!.map<DropdownMenuItem<GetAllVendorModelResponse?>>((GetAllVendorModelResponse item) {
+                items: data?.map<DropdownMenuItem<GetAllVendorModelResponse?>>(
+                    (GetAllVendorModelResponse item) {
                   return DropdownMenuItem<GetAllVendorModelResponse?>(
                     value: item,
-                    child: Text(item.businessName, style: TextStyle(fontSize: 16, fontFamily: "Lato", fontWeight: FontWeight.w200),),
+                    child: Text(
+                      item.businessName,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: "Nunito",
+                          fontWeight: FontWeight.w200),
+                    ),
                   );
-                }).toList()
+                }).toList()),
+            SizedBox(
+              height: 40,
             ),
-            SizedBox(height: 40,),
             CustomDropDownButton(
                 elevation: 1,
                 height: 53,
                 width: MediaQuery.of(context).size.width,
-                hint: Text('Select Product', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
+                hint: Text(
+                  'Select Product',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Nunito',
+                      fontSize: 15,
+                      color: AppTheme.grey.withOpacity(0.5)),
+                ),
                 underline: Container(),
                 value: _product,
-                onChanged: (value){
+                onChanged: (value) {
                   setState(() {
                     _product = value;
                   });
@@ -110,28 +150,33 @@ class _PlaceYourOrderState extends State<PlaceYourOrder> {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: ConstrainedBox(
                       constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width / 4
-                      ),
+                          maxWidth: MediaQuery.of(context).size.width / 4),
                       child: Icon(Icons.arrow_drop_down_outlined)),
                 ),
                 items: product.map<DropdownMenuItem<String>>((String item) {
                   return DropdownMenuItem<String>(
                     value: item,
-                    child: Text(item.toString(), style: TextStyle(fontSize: 16, fontFamily: "Lato", fontWeight: FontWeight.w200),),
+                    child: Text(
+                      item.toString(),
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: "Nunito",
+                          fontWeight: FontWeight.w200),
+                    ),
                   );
-                }).toList()
+                }).toList()),
+            SizedBox(
+              height: 40,
             ),
-            SizedBox(height: 40,),
-            CustomReadOnlyFormField(
-              elevation: 1,
-              initialValue: widget.quantity!,
-              backgroundColor: AppTheme.white,
-              enabledBorderColor: AppTheme.white,
+            CustomFormField(
+              keyboardType: TextInputType.text,
+              labelText: 'Quantity',
               focusedBorderColor: AppTheme.white,
-              height: 53,
-              textColor: AppTheme.grey.withOpacity(0.4),
+              enabledBorderColor: AppTheme.white,
             ),
-            SizedBox(height: 40,),
+            SizedBox(
+              height: 40,
+            ),
             CustomReadOnlyFormField(
               elevation: 1,
               initialValue: cardId,
@@ -141,15 +186,24 @@ class _PlaceYourOrderState extends State<PlaceYourOrder> {
               height: 53,
               textColor: AppTheme.grey.withOpacity(0.4),
             ),
-            SizedBox(height: 40,),
+            SizedBox(
+              height: 40,
+            ),
             CustomDropDownButton(
                 elevation: 1,
                 height: 53,
                 width: MediaQuery.of(context).size.width,
-                hint: Text('Select Address', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 15, color: AppTheme.grey.withOpacity(0.5)),),
+                hint: Text(
+                  'Select Address',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Nunito',
+                      fontSize: 15,
+                      color: AppTheme.grey.withOpacity(0.5)),
+                ),
                 underline: Container(),
                 value: location,
-                onChanged: (value){
+                onChanged: (value) {
                   setState(() {
                     location = value;
                   });
@@ -158,66 +212,120 @@ class _PlaceYourOrderState extends State<PlaceYourOrder> {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: ConstrainedBox(
                       constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width / 4
-                      ),
+                          maxWidth: MediaQuery.of(context).size.width / 4),
                       child: Icon(Icons.arrow_drop_down_outlined)),
                 ),
                 items: locations.map<DropdownMenuItem<String>>((String item) {
                   return DropdownMenuItem<String>(
                     value: item,
-                    child: Text(item.toString(), style: TextStyle(fontSize: 16, fontFamily: "Lato", fontWeight: FontWeight.w200),),
+                    child: Text(
+                      item.toString(),
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: "Nunito",
+                          fontWeight: FontWeight.w200),
+                    ),
                   );
-                }).toList()
+                }).toList()),
+            SizedBox(
+              height: 40,
             ),
-            SizedBox(height: 40,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 70.0),
               child: CustomButton(
-                labelFontSize: 15,
+                  labelFontSize: 15,
                   decorationColor: AppTheme.dark_blue,
                   buttonRadius: 30,
                   buttonText: 'Proceed',
                   buttonHeight: 45,
-                  onPressed: (){
-                  changeScreen(context, ReviewOrder(product: widget.product, quantity: widget.quantity,title: dropdownInitialValue, paymentMethod: cardId, location: location, latitude: latitude, longitude: longitude, token: widget.token,));
-                  }
-              ),
+                  onPressed: () {
+                    changeScreen(
+                        context,
+                        ReviewOrder(
+                          product: widget.product,
+                          quantity: widget.quantity,
+                          title: dropdownInitialValue,
+                          paymentMethod: cardId,
+                          location: location,
+                          latitude: latitude,
+                          longitude: longitude,
+                          token: widget.token,
+                        ));
+                  }),
             ),
           ],
         ),
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(top: false, bottom: false,
-        child: Scaffold(resizeToAvoidBottomInset: false,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(80.0),
-            child: Container(
-                decoration: const BoxDecoration(gradient: LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: <Color>[AppTheme.gradientBlue1, AppTheme.gradientBlue2],),),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(onPressed: (){
-                            Navigator.of(context).pop();
-                          }, icon: Icon(Icons.arrow_back_ios,color: AppTheme.white,)),
-                          Spacer(flex: 5,),
-                          Container(child: Text('Place Your Order', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Lato", color: AppTheme.white),)),
-                          Spacer(flex: 7,),
-                        ],
-                      ),
+    return SafeArea(
+      top: false,
+      bottom: false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(80.0),
+          child: Container(
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: <Color>[AppTheme.white, AppTheme.notWhite],
+                  ),
+                  border: Border(
+                    bottom: BorderSide(width: 2, color: AppTheme.dark_blue),
+                  )),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              color: AppTheme.dark_blue,
+                            )),
+                        Spacer(
+                          flex: 5,
+                        ),
+                        Container(
+                            child: Text(
+                          'Place Your Order',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 22,
+                              fontFamily: "lato",
+                              color: AppTheme.dark_blue),
+                        )),
+                        Spacer(
+                          flex: 7,
+                        ),
+                      ],
                     ),
-                  ],
-                )
-            ),
-          ),
-          body: data == null ? Container(child: Center(child: CupertinoActivityIndicator(radius: 20,),),) : placeYourOrder(),
+                  ),
+                ],
+              )),
         ),
+        body: data == null
+            ? Container(
+                child: Center(
+                  child: CupertinoActivityIndicator(
+                    radius: 20,
+                  ),
+                ),
+              )
+            : placeYourOrder(),
+      ),
     );
   }
 }
