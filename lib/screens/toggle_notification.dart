@@ -23,42 +23,48 @@ class _ToggleNotificationState extends State<ToggleNotification> {
             preferredSize: const Size.fromHeight(80.0),
             child: Container(
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: <Color>[
-                      AppTheme.gradientBlue1,
-                      AppTheme.gradientBlue2
-                    ],
-                  ),
-                ),
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: <Color>[AppTheme.white, AppTheme.notWhite],
+                    ),
+                    border: Border(
+                      bottom: BorderSide(width: 2, color: AppTheme.dark_blue),
+                    )),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            icon: Icon(
-                              Icons.arrow_back_ios,
-                              color: AppTheme.white,
-                            )),
-                        SizedBox(
-                          width: 80,
-                        ),
-                        Container(
-                            child: Text(
-                          'Notifications',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20,
-                              fontFamily: "Lato",
-                              color: AppTheme.white),
-                        )),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              icon: Icon(
+                                Icons.arrow_back_ios,
+                                color: AppTheme.dark_blue,
+                              )),
+                          Spacer(
+                            flex: 5,
+                          ),
+                          Container(
+                              child: Text(
+                            'Notifications',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 22,
+                                fontFamily: "lato",
+                                color: AppTheme.dark_blue),
+                          )),
+                          Spacer(
+                            flex: 7,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 )),
@@ -196,7 +202,7 @@ class _ToggleNotificationState extends State<ToggleNotification> {
                         ],
                       ),
                       SizedBox(
-                        height: 203,
+                        height: 50,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30.0),

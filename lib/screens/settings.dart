@@ -18,48 +18,54 @@ class Settings extends StatelessWidget {
           preferredSize: const Size.fromHeight(80.0),
           child: Container(
               decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: <Color>[
-                    AppTheme.gradientBlue1,
-                    AppTheme.gradientBlue2
-                  ],
-                ),
-              ),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: <Color>[AppTheme.white, AppTheme.notWhite],
+                  ),
+                  border: Border(
+                    bottom: BorderSide(width: 2, color: AppTheme.dark_blue),
+                  )),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: AppTheme.white,
-                          )),
-                      SizedBox(
-                        width: 100,
-                      ),
-                      Container(
-                          child: Text(
-                        'Settings',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            fontFamily: "Nunito",
-                            color: AppTheme.white),
-                      )),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              color: AppTheme.dark_blue,
+                            )),
+                        Spacer(
+                          flex: 5,
+                        ),
+                        Container(
+                            child: Text(
+                          'Setting',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 22,
+                              fontFamily: "lato",
+                              color: AppTheme.dark_blue),
+                        )),
+                        Spacer(
+                          flex: 7,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               )),
         ),
         body: Padding(
-          padding: const EdgeInsets.only(left: 69.0),
+          padding: const EdgeInsets.only(left: 31.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -67,97 +73,98 @@ class Settings extends StatelessWidget {
                 height: 75,
               ),
               GestureDetector(
-                  onTap: () {
-                    changeScreen(context, AccountSettings());
-                  },
-                  child: Container(
-                      width: double.maxFinite,
-                      height: 40,
-                      child: Text(
-                        'Account',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          fontFamily: 'Nunito',
-                        ),
-                      ))),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                  onTap: () {
-                    changeScreen(context, ChangePasswordSetting());
-                  },
-                  child: Container(
-                      height: 40,
-                      width: double.maxFinite,
-                      child: Text(
-                        'Security',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          fontFamily: 'Nunito',
-                        ),
-                      ))),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                  onTap: () {
-                    changeScreen(context, ToggleNotification());
-                  },
-                  child: Container(
-                      width: double.maxFinite,
-                      height: 40,
-                      child: Text(
-                        'Notification',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          fontFamily: 'Nunito',
-                        ),
-                      ))),
-              Spacer(),
-              GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  changeScreen(context, AccountSettings());
+                },
                 child: Container(
-                  height: 50,
                   width: double.maxFinite,
                   child: Row(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          border:
-                              Border.all(color: AppTheme.grey.withOpacity(0.5)),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 3.0),
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            size: 20,
-                            color: AppTheme.grey.withOpacity(0.5),
-                          ),
-                        ),
+                      Icon(
+                        Icons.supervisor_account_outlined,
+                        size: 20,
+                        color: AppTheme.dark_blue,
                       ),
                       SizedBox(
-                        width: 20,
+                        width: 15,
                       ),
                       Text(
-                        'Log Out',
+                        'Account',
                         style: TextStyle(
-                            fontFamily: 'Nunito',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600),
-                      ),
+                          fontFamily: 'Nunito',
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: AppTheme.dark_blue,
+                        ),
+                      )
                     ],
                   ),
                 ),
               ),
               SizedBox(
-                height: 112,
-              )
+                height: 30,
+              ),
+              GestureDetector(
+                onTap: () {
+                  changeScreen(context, ChangePasswordSetting());
+                },
+                child: Container(
+                  width: double.maxFinite,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.security_outlined,
+                        size: 20,
+                        color: AppTheme.dark_blue,
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        'Security',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: AppTheme.dark_blue,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              GestureDetector(
+                onTap: () {
+                  changeScreen(context, ToggleNotification());
+                },
+                child: Container(
+                  width: double.maxFinite,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.notifications_none_outlined,
+                        size: 20,
+                        color: AppTheme.dark_blue,
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        'Notification',
+                        style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: AppTheme.dark_blue,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

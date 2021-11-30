@@ -55,9 +55,7 @@ class _BottomNavigationBarFourthScreenState
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
+                              onPressed: () {},
                               icon: Icon(
                                 Icons.arrow_back_ios,
                                 color: AppTheme.white.withOpacity(0.1),

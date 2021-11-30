@@ -4,6 +4,7 @@ import 'package:fuel_sale_app/constant/color_palettes.dart';
 import 'package:fuel_sale_app/screens/help.dart';
 import 'package:fuel_sale_app/screens/legal.dart';
 import 'package:fuel_sale_app/screens/settings.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BottomNavigationBarFifthScreen extends StatefulWidget {
@@ -16,7 +17,9 @@ class BottomNavigationBarFifthScreen extends StatefulWidget {
 
 class _BottomNavigationBarFifthScreenState
     extends State<BottomNavigationBarFifthScreen> {
-  var _firstName, _lastName, _email, _phoneNumber;
+  var _firstName, _lastName, _email, _phoneNumber, _dob, _sex;
+
+  final df = new DateFormat('yyyy-MM-dd');
 
   void initUserData() async {
     final SharedPreferences userdata = await SharedPreferences.getInstance();
@@ -24,6 +27,8 @@ class _BottomNavigationBarFifthScreenState
       _firstName = (userdata.getString("firstName"));
       _lastName = (userdata.getString("lastName"));
       _email = (userdata.getString("userEmail"));
+      _dob = (userdata.getString("userDOB"));
+      _sex = (userdata.getString("userSex"));
       _phoneNumber = (userdata.getString("userPhoneNumber"));
     });
   }
@@ -41,7 +46,7 @@ class _BottomNavigationBarFifthScreenState
       builder: (context) {
         return Container(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height / 3,
+            height: MediaQuery.of(context).size.height / 2.9,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30),
@@ -52,88 +57,131 @@ class _BottomNavigationBarFifthScreenState
             alignment: Alignment.centerLeft,
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 28.0, vertical: 40.0),
+                  const EdgeInsets.symmetric(horizontal: 18.0, vertical: 20.0),
               child: Column(
                 children: [
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       changeScreen(context, Legal());
                     },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.gavel,
-                          size: 30,
-                          color: AppTheme.grey.withOpacity(0.5),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          'Legal',
-                          style: TextStyle(
-                            fontFamily: 'Nunito',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
+                    child: Container(
+                      width: double.maxFinite,
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.gavel,
+                            size: 30,
+                            color: AppTheme.dark_blue,
                           ),
-                        )
-                      ],
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            'Legal',
+                            style: TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: AppTheme.dark_blue),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: 18,
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       changeScreen(context, Help());
                     },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.help_center_outlined,
-                          size: 30,
-                          color: AppTheme.grey.withOpacity(0.5),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          'Help',
-                          style: TextStyle(
-                            fontFamily: 'Nunito',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
+                    child: Container(
+                      width: double.maxFinite,
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.help_center_outlined,
+                            size: 30,
+                            color: AppTheme.dark_blue,
                           ),
-                        )
-                      ],
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            'Help',
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: AppTheme.dark_blue,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: 18,
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       changeScreen(context, Settings());
                     },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.settings_outlined,
-                          size: 30,
-                          color: AppTheme.grey.withOpacity(0.5),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Text(
-                          'Settings',
-                          style: TextStyle(
-                            fontFamily: 'Nunito',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
+                    child: Container(
+                      width: double.maxFinite,
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.settings_outlined,
+                            size: 30,
+                            color: AppTheme.dark_blue,
                           ),
-                        )
-                      ],
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            'Settings',
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: AppTheme.dark_blue,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 18,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      // changeScreen(context, Settings());
+                    },
+                    child: Container(
+                      width: double.maxFinite,
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.logout,
+                            size: 30,
+                            color: AppTheme.dark_blue,
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            'logout',
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: AppTheme.dark_blue,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -279,7 +327,7 @@ class _BottomNavigationBarFifthScreenState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Country',
+                          'Date Of Birth',
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 15.5,
@@ -290,7 +338,7 @@ class _BottomNavigationBarFifthScreenState
                           height: 20,
                         ),
                         Text(
-                          'Language',
+                          'Sex',
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 15.5,
@@ -309,7 +357,7 @@ class _BottomNavigationBarFifthScreenState
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'Nigeria',
+                          '${df.format(DateTime.parse(_dob))}',
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 15.5,
@@ -320,7 +368,7 @@ class _BottomNavigationBarFifthScreenState
                           height: 20,
                         ),
                         Text(
-                          'English,German',
+                          "$_sex",
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 15.5,

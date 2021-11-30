@@ -29,7 +29,6 @@ class _AddCardState extends State<AddCard> {
   var _autoValidateMode = AutovalidateMode.disabled;
   var _token;
 
-
   TextEditingController _cardNumberController = TextEditingController();
 
   void fetchToken() async {
@@ -39,7 +38,6 @@ class _AddCardState extends State<AddCard> {
     });
   }
 
-
   @override
   void initState() {
     fetchToken();
@@ -48,7 +46,7 @@ class _AddCardState extends State<AddCard> {
     super.initState();
   }
 
-  void checkAddNowConnectivity() async{
+  void checkAddNowConnectivity() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (!(connectivityResult == ConnectivityResult.none)) {
       signUpNow();
@@ -57,40 +55,56 @@ class _AddCardState extends State<AddCard> {
     }
   }
 
-  void signUpNow(){
+  void signUpNow() {
     //if (_formKey.currentState!.validate()){
-     // _formKey.currentState!.save();
-      addCardNow();
+    // _formKey.currentState!.save();
+    addCardNow();
     //}
   }
 
   addCardNow() async {
     context.loaderOverlay.show();
-    await HttpService().addCard(_cardNumberController.text.trim(), _token).then((value) async{
+    await HttpService()
+        .addCard(_cardNumberController.text.trim(), _token)
+        .then((value) async {
       if (value.statusCode == 200 || value.statusCode == 201) {
         context.loaderOverlay.hide();
         replaceScreen(context, CardAddedSuccessfully());
-      }}).catchError((error){
+      }
+    }).catchError((error) {
       context.loaderOverlay.hide();
       alertBar(context, error.toString(), AppTheme.red);
       print(error.code);
-    }).timeout(Duration(seconds: 20), onTimeout: (){
+    }).timeout(Duration(seconds: 20), onTimeout: () {
       context.loaderOverlay.hide();
       alertBar(context, "Network timeout! Try again.", AppTheme.red);
       return null;
     });
   }
 
-  Widget addCardWidget(){
+  Widget addCardWidget() {
     return Form(
       key: _formKey,
       autovalidateMode: _autoValidateMode,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 34.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-          children: [SizedBox(height: 80,),
-            Text('Card Number', style: TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Nunito', fontSize: 12, color: AppTheme.dark_blue),),
-            SizedBox(height: 3,),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 80,
+            ),
+            Text(
+              'Card Number',
+              style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'Nunito',
+                  fontSize: 12,
+                  color: AppTheme.dark_blue),
+            ),
+            SizedBox(
+              height: 3,
+            ),
             CustomFormField(
               onSaved: (String? value) {
                 print('onSaved = $value');
@@ -112,37 +126,39 @@ class _AddCardState extends State<AddCard> {
               height: 46,
               labelText: '4287 8874 9511 3263',
               textColor: AppTheme.grey.withOpacity(0.4),
-              suffixIcon:  Padding(
+              suffixIcon: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                    width: MediaQuery.of(context).size.width / 8,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        color: AppTheme.dark_blue.withOpacity(0.1)
-                    ),
-                    child: CardUtils.getCardIcon(_paymentCard.type),),
+                  width: MediaQuery.of(context).size.width / 8,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      color: AppTheme.dark_blue.withOpacity(0.1)),
+                  child: CardUtils.getCardIcon(_paymentCard.type),
+                ),
               ),
             ),
-            SizedBox(height: 300,),
+            SizedBox(
+              height: 300,
+            ),
             CustomButton(
                 decorationColor: AppTheme.dark_blue,
                 buttonRadius: 5,
                 buttonText: 'Add',
                 buttonHeight: 48,
-                onPressed: (){
+                onPressed: () {
                   FocusScope.of(context).unfocus();
                   _validateInputs();
-                }
-            ),
+                }),
           ],
         ),
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      top: false,
+        top: false,
         bottom: false,
         child: Scaffold(
           key: scaffoldKey,
@@ -151,27 +167,36 @@ class _AddCardState extends State<AddCard> {
             backgroundColor: AppTheme.backGround,
             elevation: 0.0,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios, color: AppTheme.dark_blue,),
-              onPressed: (){Navigator.of(context).pop();},
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: AppTheme.dark_blue,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
           ),
           body: LoaderOverlay(
             useDefaultLoading: false,
-            overlayWidget: Center(child: SpinKitCubeGrid(color: AppTheme.blue, size: 50.0,),),
+            overlayWidget: Center(
+              child: SpinKitCubeGrid(
+                color: AppTheme.blue,
+                size: 50.0,
+              ),
+            ),
             child: Container(
-              height: MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  addCardWidget(),
-                ],
-              ),
-            )),
+                  physics: BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      addCardWidget(),
+                    ],
+                  ),
+                )),
           ),
-        )
-    );
+        ));
   }
 
   @override
@@ -193,18 +218,19 @@ class _AddCardState extends State<AddCard> {
   void _validateInputs() {
     //final FormState form = _formKey.currentState!;
     //if (!form.validate()) {
-      //setState(() {
-        //_autoValidateMode = AutovalidateMode.always;
-        // Start validating on every change.
-     // });
-      //_showInSnackBar('Please fix the errors in red before submitting.');
+    //setState(() {
+    //_autoValidateMode = AutovalidateMode.always;
+    // Start validating on every change.
+    // });
+    //_showInSnackBar('Please fix the errors in red before submitting.');
     //} else {
-      //form.save();
-      checkAddNowConnectivity();
-      // Encrypt and send send payment details to payment gateway
-      //_showInSnackBar('Payment card is valid');
+    //form.save();
+    checkAddNowConnectivity();
+    // Encrypt and send send payment details to payment gateway
+    //_showInSnackBar('Payment card is valid');
     //}
   }
+
   void _showInSnackBar(String value) {
     ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
       content: new Text(value),
@@ -212,4 +238,3 @@ class _AddCardState extends State<AddCard> {
     ));
   }
 }
-
